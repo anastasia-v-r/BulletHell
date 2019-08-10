@@ -1,0 +1,13 @@
+## Cmake
+[Bb]uild/
+
+## Conan
+[Cc]onan/
+
+## .vs
+.vs/
+
+## .vscode
+.vscode/
+
+## Misc.
