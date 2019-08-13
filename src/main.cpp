@@ -1,7 +1,6 @@
-﻿#include <iostream>
-//#include <SFML/Graphics.hpp>
+﻿#include "game.h"
 
 int main() {
-	std::cout << "こんにちは！ \n";
-	system("pause");
+	Game game;
+	game.Start();
 }
