@@ -1,7 +1,8 @@
 #pragma once
+#include <SFML/Graphics.hpp>
 
 class SplashScreen
 {
 public:
-	void run(sf::RenderWindow& window);
+	void run(sf::RenderWindow&);
 };

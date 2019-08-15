@@ -3,5 +3,5 @@
 class MenuScreen
 {
 public:
-	void run(sf::RenderWindow& window);
+	void run(sf::RenderWindow&);
 };

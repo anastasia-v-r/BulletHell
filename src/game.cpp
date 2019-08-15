@@ -1,5 +1,5 @@
 #include "game.h"
-#include "SFML/Graphics.hpp"
+#include <SFML/Graphics.hpp>
 #include "gameStates/SplashScreen.h"
 #include "gameStates/MenuScreen.h"
 
@@ -46,10 +46,6 @@ void Game::runSplash() {
 void Game::runMenu() {
 	MenuScreen menuScreen;
 	menuScreen.run(_mainWindow);
-}
-
-Game::Game(){
-	_gameState = Uninitialized;
 }
 
 Game::~Game() {

@@ -13,21 +13,26 @@ set (CMAKE_CXX_STANDARD 17)
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
 
 # Conan
-if(EXISTS ${CMAKE_SOURCE_DIR}/conan/conanbuildinfo.cmake)
-    include(${CMAKE_SOURCE_DIR}/conan/conanbuildinfo.cmake)
+if(EXISTS ${PROJECT_SOURCE_DIR}/conan/conanbuildinfo.cmake)
+    include(${PROJECT_SOURCE_DIR}/conan/conanbuildinfo.cmake)
     conan_basic_setup()
 else()
-    if(EXISTS ${CMAKE_SOURCE_DIR}/conanfile.txt)
+    if(EXISTS ${PROJECT_SOURCE_DIR}/conanfile.txt)
         message( FATAL_ERROR
 " A conanfile.txt file exists in the source directory\n"
 " indicating conan is used for dependences but a conanbuildinfo.cmake\n"
 " file does not exist. Make sure to execute:\n\n"
-" conan install ${CMAKE_SOURCE_DIR} --build=missing -if ${CMAKE_BINARY_DIR}" )
+" conan install ${PROJECT_SOURCE_DIR} --build=missing -if ${CMAKE_BINARY_DIR}" )
     endif()
 endif()
 
-# .exe
-FILE(GLOB sources ${CMAKE_SOURCE_DIR}/src/*) # Append all src files to an env. var.
+# Progam Resource Management
+file(COPY ${PROJECT_SOURCE_DIR}/resources DESTINATION ${CMAKE_BINARY_DIR}/bin)
+
+# .exe, Append all src files to an env. var.
+FILE(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cpp
+	              ${PROJECT_SOURCE_DIR}/src/gameStates/*.cpp
+) 
 add_executable(BulletHell ${sources}) # Create executable
 set_target_properties(BulletHell PROPERTIES 
 	CXX_STANDARD_REQUIRED ON

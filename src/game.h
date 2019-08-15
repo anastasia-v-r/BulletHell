@@ -1,6 +1,6 @@
 #pragma once
-#include "SFML/Window.hpp"
-#include "SFML/Graphics.hpp"
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 
 
 class Game 
@@ -24,6 +24,9 @@ private:
 	void runMenu();
 
 public:
-	Game();
+	Game() {
+		_gameState = { Uninitialized };
+		_mainWindow.create(sf::VideoMode(1600, 900, 32), "BulletHell!", sf::Style::None);
+	};
 	~Game();
 };
