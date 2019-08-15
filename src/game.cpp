@@ -18,7 +18,7 @@ void Game::Start() {
 
 bool Game::IsExiting()
 {
-	if (_gameState == Game::Exiting)
+	if (_gameState == GameState::Exiting)
 		return true;
 	else
 		return false;
@@ -29,9 +29,9 @@ void Game::GameLoop() {
 	while (_mainWindow.pollEvent(evnt)) {
 		switch (_gameState)
 		{
-			case Game::Splash:
+			case GameState::Splash:
 				runSplash();
-			case Game::MainMenu:
+			case GameState::MainMenu:
 				runMenu();
 		}
 	}
@@ -40,12 +40,12 @@ void Game::GameLoop() {
 void Game::runSplash() {
 	SplashScreen splashScreen;
 	splashScreen.run(_mainWindow);
-	_gameState = Game::MainMenu;
+	_gameState = GameState::MainMenu;
 }
 
 void Game::runMenu() {
 	MenuScreen menuScreen;
-	menuScreen.run(_mainWindow);
+	menuScreen.run(_mainWindow, _gameState);
 }
 
 Game::~Game() {

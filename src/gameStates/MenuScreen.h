@@ -1,7 +1,8 @@
 #pragma once
+#include "../game.h"
 
 class MenuScreen
 {
 public:
-	void run(sf::RenderWindow&);
+	void run(sf::RenderWindow&, GameState&);
 };

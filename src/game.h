@@ -2,18 +2,19 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
+enum GameState {
+	Uninitialized, Splash, MainMenu,
+	Playing, Paused, Exiting
+};
 
 class Game 
 {
 
 public:
 	void Start();
-
+	
 private:
-	enum GameState {
-		Uninitialized, Splash, MainMenu, 
-		Playing, Paused, Exiting
-	};
+	
 	GameState _gameState;
 	sf::RenderWindow _mainWindow;
 
