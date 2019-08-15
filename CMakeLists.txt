@@ -28,10 +28,13 @@ endif()
 
 # Progam Resource Management
 file(COPY ${PROJECT_SOURCE_DIR}/resources DESTINATION ${CMAKE_BINARY_DIR}/bin)
+file(COPY ${PROJECT_SOURCE_DIR}/players DESTINATION ${CMAKE_BINARY_DIR}/bin)
 
 # .exe, Append all src files to an env. var.
 FILE(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cpp
 	              ${PROJECT_SOURCE_DIR}/src/gameStates/*.cpp
+	              ${PROJECT_SOURCE_DIR}/src/settings/*.cpp
+	              ${PROJECT_SOURCE_DIR}/src/player/*.cpp
 ) 
 add_executable(BulletHell ${sources}) # Create executable
 set_target_properties(BulletHell PROPERTIES 

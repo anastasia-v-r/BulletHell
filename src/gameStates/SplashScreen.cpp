@@ -1,4 +1,4 @@
-#include "SplashScreen.h"
+#include "SplashScreen.hpp"
 #include <SFML/Graphics.hpp>
 
 void SplashScreen::run(sf::RenderWindow& window) {

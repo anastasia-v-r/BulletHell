@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
+#include "player/player.hpp"
 
 enum GameState {
 	Uninitialized, Splash, MainMenu,
@@ -15,6 +16,7 @@ public:
 	
 private:
 	
+	Player player;
 	GameState _gameState;
 	sf::RenderWindow _mainWindow;
 

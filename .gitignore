@@ -4,6 +4,9 @@
 ## Conan
 [Cc]onan/
 
+## Player Data
+[Pp]layers/*
+
 ## .vs
 .vs/
 
