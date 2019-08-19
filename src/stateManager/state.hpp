@@ -1,14 +1,12 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-class State
+class State : public sf::Drawable
 {
 private:
 
 
 public:
 
-
-private:
-	virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
+	virtual void draw(sf::RenderTarget&, sf::RenderStates) = 0;
 };
