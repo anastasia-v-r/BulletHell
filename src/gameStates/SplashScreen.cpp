@@ -3,7 +3,7 @@
 
 void SplashScreen::run(sf::RenderWindow& window) {
 	sf::Texture splashImage;
-	if (splashImage.loadFromFile("resources/BulletHellSplash.png") != true) {
+	if (splashImage.loadFromFile("assets/splashScreen/BulletHellSplash.png") != true) {
 		return;
 	}
 	sf::Sprite splashSprite(splashImage);
