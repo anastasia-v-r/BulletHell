@@ -1,4 +1,5 @@
 #include "game.hpp"
+#include <iostream>
 #include <SFML/Graphics.hpp>
 #include "gameStates/SplashScreen.hpp"
 #include "gameStates/MenuScreen.hpp"
@@ -6,7 +7,9 @@
 void Game::Start() {
 	if (_gameState != Uninitialized)
 		return;
-	_mainWindow.create(sf::VideoMode(1921, 1080, 32), "BulletHell!", sf::Style::None);
+	auto mode = sf::VideoMode::getDesktopMode();
+	mode.height += 1;
+	_mainWindow.create(mode, "BulletHell!", sf::Style::None);
 	_gameState = Splash;
 
 	while (!IsExiting()) {
@@ -25,14 +28,16 @@ bool Game::IsExiting()
 }
 
 void Game::GameLoop() {
-	sf::Event evnt;
-	while (_mainWindow.pollEvent(evnt)) {
+	while (true) {
 		switch (_gameState)
 		{
 			case GameState::Splash:
 				runSplash();
 			case GameState::MainMenu:
 				runMenu();
+			case GameState::Exiting:
+				runCleanup();
+				break;
 		}
 	}
 }
@@ -46,6 +51,10 @@ void Game::runSplash() {
 void Game::runMenu() {
 	MenuScreen menuScreen;
 	menuScreen.run(_mainWindow, _gameState, player);
+}
+
+void Game::runCleanup() {
+	std::cout << "Exiting \n";
 }
 
 Game::~Game() {

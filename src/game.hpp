@@ -25,6 +25,7 @@ private:
 
 	void runSplash();
 	void runMenu();
+	void runCleanup();
 
 public:
 	Game() {
