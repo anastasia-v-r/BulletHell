@@ -1,13 +1,15 @@
 #include "MenuScreen.hpp"
-#include "../game.hpp"
 #include <SFML/Graphics.hpp>
-#include "../player/player.hpp"
-#include "../customObjects/menuButton.hpp"
+#include <game/game.hpp>
+#include <player/player.hpp>
+#include <customObjects/menuButton.hpp>
 
 void MenuScreen::run(sf::RenderWindow& window, GameState& state, Player& plr) {
 
 	enum selection {
 		Play,
+		Profile,
+		Settings,
 		Exit,
 		Nothing
 	};
@@ -47,50 +49,54 @@ void MenuScreen::run(sf::RenderWindow& window, GameState& state, Player& plr) {
 			switch (evnt.type)
 			{
 			case sf::Event::KeyPressed: {
-					switch (evnt.key.code)
-					{
-					case sf::Keyboard::Up:
-						if (hoveredSelection > 0) {
-						}
-					case sf::Keyboard::Down:
-						if (hoveredSelection < 1) {
-
-						}
-					case sf::Keyboard::Enter:
-						enteredSelection = hoveredSelection;
-					case sf::Keyboard::Escape:
-						enteredSelection = selection::Exit;
+				switch (evnt.key.code)
+				{
+				case sf::Keyboard::Up:
+					break;
+				case sf::Keyboard::Down:
+					if (hoveredSelection < 1) {
 					}
+					break;
+				case sf::Keyboard::Enter:
+					enteredSelection = hoveredSelection;
+					break;
+				case sf::Keyboard::Escape:
+					enteredSelection = selection::Exit;
+					break;
 				}
-			case sf::Event::MouseButtonPressed: {
-					sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-					sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-					for (auto& element : buttons) {
-						if (element.getBounds().contains(mousePosF)) {
-							if (element.getName() == "Play") {
-								enteredSelection = selection::Play;
-							}
-							else if (element.getName() == "Exit") {
-								enteredSelection = selection::Exit;
-							}
-						}
-					}
-				}
-			case sf::Event::MouseMoved: {
-					sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-					sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-					for (auto& element : buttons) {
-						if (element.getBounds().contains(mousePosF)) {
-							if (element.getName() == "Play") {
-								hoveredSelection = selection::Play;
-							}
-							else if (element.getName() == "Exit") {
-								hoveredSelection = selection::Exit;
-							}
-						}
-					}
-				}
+				break;
 			}
+			case sf::Event::MouseButtonPressed: {
+				sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+				sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+				for (auto& element : buttons) {
+					if (element.getBounds().contains(mousePosF)) {
+						if (element.getName() == "Play") {
+							enteredSelection = selection::Play;
+						}
+						else if (element.getName() == "Exit") {
+							enteredSelection = selection::Exit;
+						}
+					}
+				}
+				break;
+			}
+			case sf::Event::MouseMoved: {
+				sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+				sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+				for (auto& element : buttons) {
+					if (element.getBounds().contains(mousePosF)) {
+						if (element.getName() == "Play") {
+							hoveredSelection = selection::Play;
+						}
+						else if (element.getName() == "Exit") {
+							hoveredSelection = selection::Exit;
+						}
+					}
+				}
+				break;
+			}
+		}
 		}
 		// Logic
 		if (enteredSelection != selection::Nothing) {
@@ -99,9 +105,11 @@ void MenuScreen::run(sf::RenderWindow& window, GameState& state, Player& plr) {
 			case selection::Play:
 				state = GameState::Playing;
 				exiting = true;
+				break;
 			case selection::Exit:
 				state = GameState::Exiting;
 				exiting = true;
+				break;
 			}
 		}
 		// Drawing

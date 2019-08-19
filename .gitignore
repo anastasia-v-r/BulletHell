@@ -5,8 +5,8 @@
 [Cc]onan/
 
 ## Player Data
-[Pp]layers/*
-![Pp]layers/Default
+[Pp]layerData/*
+![Pp]layerData/Default
 
 ## .vs
 .vs/

@@ -1,6 +1,6 @@
 #pragma once
-#include "../game.hpp"
-#include "../player/player.hpp"
+#include <game/game.hpp>
+#include <player/player.hpp>
 
 class MenuScreen
 {
