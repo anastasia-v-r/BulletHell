@@ -1,33 +1,26 @@
 #pragma once
-#include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include <player/player.hpp>
+#include <resourceManager/resourceManager.hpp>
+#include <stateManager/stateManager.hpp>
+#include <user/user.hpp>
 
-enum GameState {
-	Splash, MainMenu,
-	Playing, Paused, Exiting
-};
-
-class Game 
+class Game : private sf::NonCopyable
 {
-
-public:
-	void Start();
-	
 private:
-	
-	Player player;
-	GameState _gameState{ Splash };
-	sf::RenderWindow _mainWindow;
-	bool running{ true };
-
-	void GameLoop();
+	sf::RenderWindow mWindow;
+	User mCurrentUser;
+	StateManager mStateManager;
+	ResourceManager mResourceManager;
+	sf::RectangleShape box = sf::RectangleShape(sf::Vector2f(10, 10));
 
 public:
-	Game() {
-		auto mode = sf::VideoMode::getDesktopMode();
-		mode.height += 1;
-		_mainWindow.create(mode, "BulletHell!", sf::Style::None);
-	};
+	void run();
+	void processEvents();
+	void gameLogic();
+	void draw();
+
+public:
+	Game();
 	~Game();
+
 };

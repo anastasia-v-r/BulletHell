@@ -1,7 +1,7 @@
-﻿#include <game/game.hpp>
+#include "game/game.hpp"
 
 int main() {
 	Game game;
-	game.Start();
+	game.run();
 	system("pause");
 }
