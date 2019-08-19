@@ -28,10 +28,11 @@ endif()
 
 # Progam Resource Management
 file(COPY ${PROJECT_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR}/bin)
-file(COPY ${PROJECT_SOURCE_DIR}/players DESTINATION ${CMAKE_BINARY_DIR}/bin)
+file(COPY ${PROJECT_SOURCE_DIR}/playerData DESTINATION ${CMAKE_BINARY_DIR}/bin)
 
 # .exe, Append all src files to an env. var.
 FILE(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cpp
+                  ${PROJECT_SOURCE_DIR}/src/game/*.cpp
 	              ${PROJECT_SOURCE_DIR}/src/gameStates/*.cpp
 	              ${PROJECT_SOURCE_DIR}/src/settings/*.cpp
 	              ${PROJECT_SOURCE_DIR}/src/player/*.cpp
@@ -42,7 +43,11 @@ set_target_properties(BulletHell PROPERTIES
 	CXX_STANDARD_REQUIRED ON
 	CXX_EXTENSIONS OFF
 	CXX_STANDARD 17 # Force c++17 standard
-	)
+)
+
+# Include Directories
+target_include_directories(BulletHell PUBLIC ${PROJECT_SOURCE_DIR}/src)
+
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") 
   target_link_libraries(BulletHell stdc++fs)
 endif()
