@@ -1,12 +1,11 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-class State : public sf::Drawable
+class State
 {
 private:
 
 
-public:
-
+protected:
 	virtual void draw(sf::RenderTarget&, sf::RenderStates) = 0;
 };

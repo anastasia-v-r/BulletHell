@@ -16,12 +16,12 @@ public:
 		Pause
 	};
 
-
 private:
-	std::stack<State> mStateStack;
-	CurrentState mCurrentState;
+	std::stack<State*> mStateStack;
+	CurrentState mCurrentState{ CurrentState::Splash };
 
 public:
+	void processStack();
 	StateManager();
 
 };

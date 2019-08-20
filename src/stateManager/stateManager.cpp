@@ -1,5 +1,6 @@
 #include "stateManager.hpp"
 
-StateManager::StateManager() : mCurrentState{ CurrentState::Splash } {
-
+StateManager::StateManager() {
+	SplashState* pSplashState = new SplashState();
+	mStateStack.push();
 }
