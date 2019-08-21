@@ -6,6 +6,6 @@ class State
 private:
 
 
-protected:
+public:
 	virtual void draw(sf::RenderTarget&, sf::RenderStates) = 0;
 };

@@ -14,11 +14,8 @@ private:
 	sf::RectangleShape box = sf::RectangleShape(sf::Vector2f(10, 10));
 
 public:
-	void run();
-	void processEvents();
-	void gameLogic();
-	void draw();
-
+	void runGame();
+	
 public:
 	Game();
 	~Game();

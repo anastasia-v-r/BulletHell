@@ -21,7 +21,7 @@ private:
 	CurrentState mCurrentState{ CurrentState::Splash };
 
 public:
-	void processStack();
+	void processStack(sf::RenderWindow);
 	StateManager();
 
 };

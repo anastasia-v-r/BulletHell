@@ -7,29 +7,8 @@ Game::Game() {
 	mWindow.create(mode, "Bullet Hell!", sf::Style::None);
 }
 
-void Game::run() {
-	while (mWindow.isOpen()) {
-		processEvents();
-		gameLogic();
-		draw();
-	}
-}
-
-void Game::processEvents() {
-	sf::Event mEvent;
-	while (mWindow.pollEvent(mEvent)) {
-
-	}
-}
-
-void Game::gameLogic() {
-
-}
-
-void Game::draw() {
-	mWindow.clear();
-	mWindow.draw(box);
-	mWindow.display();
+void Game::runGame() {
+	mStateManager.processStack(mWindow);
 }
 
 Game::~Game() {
