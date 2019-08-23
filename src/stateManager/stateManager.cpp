@@ -1,6 +1,6 @@
 #include "stateManager.hpp"
 
-void StateManager::processStack(sf::RenderWindow window) {
+void StateManager::processStack(sf::RenderWindow& window) {
 	sf::RenderStates states;
 	mStateStack.top()->draw(window, states);
 }
