@@ -26,6 +26,8 @@ else()
     endif()
 endif()
 
+find_package(nlohmann_json 3.2.0 REQUIRED)
+
 # Progam Resource Management
 file(COPY ${PROJECT_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR}/bin)
 file(COPY ${PROJECT_SOURCE_DIR}/playerData DESTINATION ${CMAKE_BINARY_DIR}/bin)
@@ -53,3 +55,4 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   target_link_libraries(BulletHell stdc++fs)
 endif()
 target_link_libraries(BulletHell ${CONAN_LIBS})
+target_link_libraries(BulletHell nlohmann_json::nlohmann_json)
