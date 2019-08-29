@@ -1,5 +1,1 @@
-#include "resourceManager.hpp"
-
-ResourceManager::ResourceManager() {
-
-}
+#include "ResourceManager.h"

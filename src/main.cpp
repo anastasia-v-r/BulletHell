@@ -1,12 +1,13 @@
-#include "game/game.hpp"
+#include "Application.h"
 
 int main() {
-	Game game;
-	game.runGame();
-	system("pause");
+	try
+	{
+		Application app;
+		app.runApp();
+	}
+	catch
+	{
+		
+	}
 }
-
-/*Notes
-Make the statemanager process the game, Game will only instance the statemanager itself.
-
-*/ 
