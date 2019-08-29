@@ -1,3 +1,6 @@
+#include <exception>
+#include <iostream>
+
 #include "Application.h"
 
 int main() {
@@ -6,8 +9,8 @@ int main() {
 		Application app;
 		app.runApp();
 	}
-	catch
+	catch (std::exception &ex)
 	{
-		
+		std::cout << "\nEXCEPTION: " << ex.what() << std::endl;
 	}
 }
