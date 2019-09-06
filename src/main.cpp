@@ -1,16 +1,6 @@
-#include <exception>
-#include <iostream>
-
-#include "Application.h"
+#include <Application.hpp>
 
 int main() {
-	try
-	{
-		Application app;
-		app.runApp();
-	}
-	catch (std::exception &ex)
-	{
-		std::cout << "\nEXCEPTION: " << ex.what() << std::endl;
-	}
+	Application app;
+	app.run();
 }
