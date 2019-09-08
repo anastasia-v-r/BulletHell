@@ -13,8 +13,8 @@ set (CMAKE_CXX_STANDARD 17)
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
 
 # Conan
-if(EXISTS ${PROJECT_SOURCE_DIR}/conan/conanbuildinfo.cmake)
-    include(${PROJECT_SOURCE_DIR}/conan/conanbuildinfo.cmake)
+if(EXISTS ${PROJECT_SOURCE_DIR}/conan/conanbuildinfo_multi.cmake)
+    include(${PROJECT_SOURCE_DIR}/conan/conanbuildinfo_multi.cmake)
     conan_basic_setup()
 else()
     if(EXISTS ${PROJECT_SOURCE_DIR}/conanfile.txt)
@@ -51,8 +51,10 @@ set_target_properties(BulletHell PROPERTIES
 target_include_directories(BulletHell PUBLIC ${PROJECT_SOURCE_DIR}/src)
 target_include_directories(BulletHell PUBLIC ${PROJECT_SOURCE_DIR}/src/stateManager/states)
 
+# For filthy MacOS
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") 
   target_link_libraries(BulletHell stdc++fs)
 endif()
-target_link_libraries(BulletHell ${CONAN_LIBS})
-target_link_libraries(BulletHell nlohmann_json::nlohmann_json)
+
+# Link all Libraries
+conan_target_link_libraries(BulletHell)
