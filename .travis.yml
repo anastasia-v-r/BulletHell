@@ -5,14 +5,14 @@ language: cpp
 matrix:
   include:
   # windows msvc debug
-  - name: Windows Debug
+  - name: "Windows Debug"
 	os: windows
     env:
       - CONAN_SETTINGS_FLAG="-s compiler=\"Visual Studio\" -s compiler.version=15 -s arch=x86_64 -s build_type=Debug -b missing"
       - CMAKE_GENERATOR_FLAG="-G \"Visual Studio 15 2017\" -DCMAKE_GENERATOR_PLATFORM=x64"
       - BUILD_CONFIG=Debug
   # windows msvc release
-  - name: Windows Release
+  - name: "Windows Release"
 	os: windows
     env:
       - CONAN_SETTINGS_FLAG_RELEASE="-s compiler=\"Visual Studio\" -s compiler.version=15 -s arch=x86_64 -s build_type=Release -b missing"
