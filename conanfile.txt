@@ -7,4 +7,5 @@ sfml:window=True
 sfml:graphics=True
 
 [generators]
+cmake
 cmake_multi
