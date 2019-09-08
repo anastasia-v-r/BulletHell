@@ -9,9 +9,10 @@
 ![Pp]layerData/Default
 
 ## .vs
-.vs/
+.vs/*
 
 ## .vscode
 .vscode/
 
 ## Misc.
+!.vs/tasks.vs.json
