@@ -5,7 +5,3 @@ jsonformoderncpp/3.7.0@vthiery/stable
 [options]
 sfml:window=True
 sfml:graphics=True
-
-[generators]
-cmake
-cmake_multi
