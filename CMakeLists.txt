@@ -58,3 +58,5 @@ endif()
 
 # Link all Libraries
 conan_target_link_libraries(BulletHell)
+target_link_libraries(BulletHell debug nlohmann_json::nlohmann_json)
+target_link_libraries(BulletHell optimized nlohmann_json::nlohmann_json)
