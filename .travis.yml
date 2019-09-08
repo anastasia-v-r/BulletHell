@@ -9,14 +9,14 @@ matrix:
     os: windows
     env:
       - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Release -b missing"
-      - CMAKE_GENERATOR_FLAG=""
+      - CMAKE_GENERATOR_FLAG="-G \"Ninja\""
       - BUILD_CONFIG=Release
   # windows msvc
   - name: "Windows Debug"
     os: windows
     env:
       - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Debug -b missing"
-      - CMAKE_GENERATOR_FLAG=""
+      - CMAKE_GENERATOR_FLAG="-G \"Ninja\""
       - BUILD_CONFIG=Debug
   # MacOS clang
   - name: "MacOS Release"
