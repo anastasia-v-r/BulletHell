@@ -8,14 +8,14 @@ matrix:
   - name: "Windows Release"
     os: windows
     env:
-      - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Release -b missing"
+      - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Release"
       - CMAKE_GENERATOR_FLAG="-G \"Ninja\" -DCMAKE_GENERATOR_PLATFORM=x64"
       - BUILD_CONFIG=Release
   # windows msvc
   - name: "Windows Debug"
     os: windows
     env:
-      - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Debug -b missing"
+      - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Debug"
       - CMAKE_GENERATOR_FLAG="-G \"Ninja\" -DCMAKE_GENERATOR_PLATFORM=x64"
       - BUILD_CONFIG=Debug
   # MacOS clang
@@ -26,7 +26,7 @@ matrix:
       - compiler=clang
       - COMPILER_CC=clang
       - COMPILER_CXX=clang++
-      - CONAN_SETTINGS_FLAG=""
+      - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Release"
       - CMAKE_GENERATOR_FLAG=""
       - BUILD_CONFIG=Release
   # Linux gcc
@@ -37,7 +37,7 @@ matrix:
       - COMPILER=g++-8
       - COMPILER_CC=gcc-8
       - COMPILER_CXX=g++-8
-      - CONAN_SETTINGS_FLAG="-s compiler.libcxx=libstdc++11"
+      - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Release -s compiler.libcxx=libstdc++11"
       - CMAKE_GENERATOR_FLAG="-G \"Unix Makefiles\""
       - BUILD_CONFIG=Release
     addons:
