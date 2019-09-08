@@ -40,11 +40,17 @@ void Application::HandleInput() {
 				std::cout << "A" << std::endl;
 				direction = Dir::Left;
 				break;
+			case sf::Keyboard::Escape:
+				exiting = true;
+				break;
 			}
 			break;
 		case sf::Event::KeyReleased:
 			std::cout << "None" << std::endl;
 			direction = Dir::None;
+			break;
+		case sf::Event::Closed:
+			exiting = true;
 			break;
 		default:
 			break;
