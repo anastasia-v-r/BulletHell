@@ -8,8 +8,9 @@ class StateManager
 public:
 	StateManager() { mStack.push(new SplashState()); }
 	void run();
+	std::stack<State*> mStack;
 private:
 
 private:
-	std::stack<State*> mStack;
+
 };

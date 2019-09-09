@@ -4,7 +4,7 @@
 class State
 {
 public:
-	virtual void HandleInput() = 0;
-	virtual void UpdateGame() = 0;
+	virtual void HandleInput(sf::RenderWindow&) = 0;
+	virtual void UpdateGame(sf::RenderWindow&) = 0;
 	virtual void DrawElements(sf::RenderWindow&) = 0;
 };

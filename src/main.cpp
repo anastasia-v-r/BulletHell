@@ -2,6 +2,8 @@
 #include <nlohmann/json.hpp>
 
 int main() {
-	Application app;
+	auto mode = sf::VideoMode::getDesktopMode();
+	mode.height += 1;
+	Application app(mode);
 	app.run();
 }

@@ -6,12 +6,12 @@ class SplashState : public State
 {
 public:
 	SplashState();
-	virtual void HandleInput() override;
-	virtual void UpdateGame()  override;
+	virtual void HandleInput(sf::RenderWindow&) override;
+	virtual void UpdateGame(sf::RenderWindow&)  override;
 	virtual void DrawElements(sf::RenderWindow&) override;
 private:
 
 private:
-	sf::Image bg;
-	sf::RectangleShape box = sf::RectangleShape(sf::Vector2f(10, 10));
+	sf::RectangleShape splashImage;
+	sf::Texture image;
 };

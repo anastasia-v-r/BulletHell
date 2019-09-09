@@ -15,18 +15,14 @@ enum Dir
 class Application
 {
 public:
-	Application();
+	Application(sf::VideoMode);
 	void run();
 private:
-	void HandleInput();
-	void UpdateGame();
-	void DrawElements();
+
 private:
 	sf::RenderWindow mWindow;
 	StateManager mStackManager;
 	ResourceManager mResourceManager;
 
-	bool exiting = false;
-	sf::RectangleShape box = sf::RectangleShape(sf::Vector2f(10, 10));
-	Dir direction;
+	bool exiting;
 };
