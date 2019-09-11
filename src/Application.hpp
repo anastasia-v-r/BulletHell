@@ -3,15 +3,6 @@
 #include "ResourceManager.hpp"
 #include <SFML/Graphics.hpp>
 
-enum Dir
-{
-	None,
-	Up,
-	Right,
-	Down,
-	Left
-};
-
 class Application
 {
 public:
