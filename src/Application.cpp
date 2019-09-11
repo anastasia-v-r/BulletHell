@@ -14,5 +14,7 @@ void Application::run() {
 		mStackManager.mStack.top()->HandleInput(mWindow);
 		mStackManager.mStack.top()->UpdateGame(mWindow);
 		mStackManager.mStack.top()->DrawElements(mWindow);
+		if (!mWindow.isOpen())
+			exiting = true;
 	}
 }
