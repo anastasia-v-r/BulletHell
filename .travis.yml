@@ -4,21 +4,21 @@ language: cpp
 # Matrix
 matrix:
   include:
-  # windows msvc
+  # Windows msvc Release
   - name: "Windows Release"
     os: windows
     env:
       - CONAN_SETTINGS_FLAG="-g cmake -s compiler=\"Visual Studio\" -s compiler.version=15 -s arch=x86_64 -s build_type=Release -b missing"
       - CMAKE_GENERATOR_FLAG="-G \"Visual Studio 15 2017\" -DCMAKE_GENERATOR_PLATFORM=x64"
       - BUILD_CONFIG=Release
-  # windows msvc
+  # Windows msvc Debug
   - name: "Windows Debug"
     os: windows
     env:
       - CONAN_SETTINGS_FLAG="-g cmake -s compiler=\"Visual Studio\" -s compiler.version=15 -s arch=x86_64 -s build_type=Debug -b missing"
       - CMAKE_GENERATOR_FLAG="-G \"Visual Studio 15 2017\" -DCMAKE_GENERATOR_PLATFORM=x64"
       - BUILD_CONFIG=Debug
-  # MacOS clang
+  # MacOS clang Release
   - name: "MacOS Release"
     os: osx
     osx_image: xcode10
@@ -29,7 +29,18 @@ matrix:
       - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Release"
       - CMAKE_GENERATOR_FLAG=""
       - BUILD_CONFIG=Release
-  # Linux gcc
+  # MacOS clang Debug
+  - name: "MacOS Debug"
+    os: osx
+    osx_image: xcode10
+    env:
+      - compiler=clang
+      - COMPILER_CC=clang
+      - COMPILER_CXX=clang++
+      - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Debug"
+      - CMAKE_GENERATOR_FLAG=""
+      - BUILD_CONFIG=Debug
+  # Linux gcc Release
   - name: "Linux Release"
     os: linux
     dist: xenial
@@ -40,6 +51,21 @@ matrix:
       - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Release -s compiler.libcxx=libstdc++11"
       - CMAKE_GENERATOR_FLAG="-G \"Unix Makefiles\""
       - BUILD_CONFIG=Release
+    addons:
+      apt:
+        sources: ['ubuntu-toolchain-r-test']
+        packages: ['gcc-8', 'g++-8' ]
+  # Linux gcc Debug
+  - name: "Linux Debug"
+    os: linux
+    dist: xenial
+    env:
+      - COMPILER=g++-8
+      - COMPILER_CC=gcc-8
+      - COMPILER_CXX=g++-8
+      - CONAN_SETTINGS_FLAG="-g cmake -s build_type=Debug -s compiler.libcxx=libstdc++11"
+      - CMAKE_GENERATOR_FLAG="-G \"Unix Makefiles\""
+      - BUILD_CONFIG=Debug
     addons:
       apt:
         sources: ['ubuntu-toolchain-r-test']

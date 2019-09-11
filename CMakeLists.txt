@@ -38,11 +38,7 @@ file(COPY ${PROJECT_SOURCE_DIR}/playerData DESTINATION ${CMAKE_BINARY_DIR}/bin)
 
 # .exe, Append all src files to an env. var.
 FILE(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cpp
-                  ${PROJECT_SOURCE_DIR}/src/game/*.cpp
-	              ${PROJECT_SOURCE_DIR}/src/stateManager/*.cpp
-	              ${PROJECT_SOURCE_DIR}/src/stateManager/states/*.cpp
-	              ${PROJECT_SOURCE_DIR}/src/resourceManager/*.cpp
-	              ${PROJECT_SOURCE_DIR}/src/user/*.cpp
+
 ) 
 add_executable(BulletHell ${sources}) # Create executable
 set_target_properties(BulletHell PROPERTIES 
@@ -53,7 +49,6 @@ set_target_properties(BulletHell PROPERTIES
 
 # Include Directories
 target_include_directories(BulletHell PUBLIC ${PROJECT_SOURCE_DIR}/src)
-target_include_directories(BulletHell PUBLIC ${PROJECT_SOURCE_DIR}/src/stateManager/states)
 
 # For filthy MacOS
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") 
