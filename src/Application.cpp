@@ -3,17 +3,16 @@
 
 Application::Application(sf::VideoMode mode) 
 : mWindow(mode, "BulletHell", sf::Style::Default) 
-, mStackManager()
-, mResourceManager()
+, mStates{new SplashState}
 , exiting{ false } 
 {
 }
 
 void Application::run() {
 	while (!exiting) {
-		mStackManager.mStack.top()->HandleInput(mWindow);
-		mStackManager.mStack.top()->UpdateGame(mWindow);
-		mStackManager.mStack.top()->DrawElements(mWindow);
+		mStates.top()->HandleInput(mWindow);
+		mStates.top()->UpdateGame(mWindow);
+		mStates.top()->DrawElements(mWindow);
 		if (!mWindow.isOpen())
 			exiting = true;
 	}
