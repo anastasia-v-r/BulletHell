@@ -31,6 +31,10 @@ void Application::run() {
 		else if (State::removeState) {
 			mStates.pop();
 			State::removeState = false;
+		} else if (State::wipeStates) {
+			while (!mStates.empty()) {
+				mStates.pop();
+			}
 		}
 	}
 	mWindow.close();

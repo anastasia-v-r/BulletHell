@@ -20,6 +20,7 @@ private:
 
 public:
 	static bool removeState;
+	static bool wipeStates;
 	static bool addState;
 	static StateEnum nextState;
 };
