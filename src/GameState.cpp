@@ -79,13 +79,13 @@ void GameState::HandleInput(sf::RenderWindow& window) {
 
 void GameState::UpdateGame(sf::RenderWindow& window) {
 	if (mKeys["Up"])
-		screenElements["Player"]->setPosition(screenElements["Player"]->getPosition().x, screenElements["Player"]->getPosition().y - .1);
+		screenElements["Player"]->move( 0, -.1 );
 	if (mKeys["Right"])
-		screenElements["Player"]->setPosition(screenElements["Player"]->getPosition().x + .1, screenElements["Player"]->getPosition().y);
+		screenElements["Player"]->move( .1, 0 );
 	if (mKeys["Down"])
-		screenElements["Player"]->setPosition(screenElements["Player"]->getPosition().x, screenElements["Player"]->getPosition().y + .1);
+		screenElements["Player"]->move( 0, .1 );
 	if (mKeys["Left"])
-		screenElements["Player"]->setPosition(screenElements["Player"]->getPosition().x - .1, screenElements["Player"]->getPosition().y);
+		screenElements["Player"]->move( -.1, 0 );
 }
 
 void GameState::DrawElements(sf::RenderWindow& window) {
