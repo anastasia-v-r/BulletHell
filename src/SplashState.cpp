@@ -19,6 +19,10 @@ void SplashState::HandleInput(sf::RenderWindow& window) {
 				State::addState = true;
 				State::nextState = StateEnum::Game;
 			}
+			break;
+		case sf::Event::Closed:
+			State::removeState = true;
+			break;
 		}
 	}
 }

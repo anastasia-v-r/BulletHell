@@ -12,7 +12,7 @@ public:
 	virtual void UpdateGame(sf::RenderWindow&)  override;
 	virtual void DrawElements(sf::RenderWindow&) override;
 private:
-
+	void processKeys(sf::Keyboard::Key, bool);
 private:
 	std::map<std::string, sf::RectangleShape*> screenElements;
 	std::map<std::string, sf::Texture*> textures;

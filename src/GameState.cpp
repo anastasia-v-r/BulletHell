@@ -31,47 +31,19 @@ void GameState::HandleInput(sf::RenderWindow& window) {
 		case sf::Event::KeyPressed:
 			switch (evnt.key.code) 
 			{
-			case sf::Keyboard::W:
-			case sf::Keyboard::Up:
-				mKeys["Up"] = true;
-				break;
-			case sf::Keyboard::D:
-			case sf::Keyboard::Right:
-				mKeys["Right"] = true;
-				break;
-			case sf::Keyboard::S:
-			case sf::Keyboard::Down:
-				mKeys["Down"] = true;
-				break;
-			case sf::Keyboard::A:
-			case sf::Keyboard::Left:
-				mKeys["Left"] = true;
-				break;
 			case sf::Keyboard::Escape:
 				State::removeState = true;
+				break;
+			default:
+				processKeys(evnt.key.code, true);
 				break;
 			}
 			break;
 		case sf::Event::KeyReleased:
-			switch (evnt.key.code)
-			{
-			case sf::Keyboard::W:
-			case sf::Keyboard::Up:
-				mKeys["Up"] = false;
-				break;
-			case sf::Keyboard::D:
-			case sf::Keyboard::Right:
-				mKeys["Right"] = false;
-				break;
-			case sf::Keyboard::S:
-			case sf::Keyboard::Down:
-				mKeys["Down"] = false;
-				break;
-			case sf::Keyboard::A:
-			case sf::Keyboard::Left:
-				mKeys["Left"] = false;
-				break;
-			}
+			processKeys(evnt.key.code, false);
+			break;
+		case sf::Event::Closed:
+			State::wipeStates = true;
 			break;
 		}
 	}
@@ -94,4 +66,26 @@ void GameState::DrawElements(sf::RenderWindow& window) {
 		window.draw(*element.second);
 	}
 	window.display();
+}
+
+void GameState::processKeys(sf::Keyboard::Key key, bool pressed) {
+	switch (key)
+	{
+	case sf::Keyboard::W:
+	case sf::Keyboard::Up:
+		mKeys["Up"] = pressed;
+		break;
+	case sf::Keyboard::D:
+	case sf::Keyboard::Right:
+		mKeys["Right"] = pressed;
+		break;
+	case sf::Keyboard::S:
+	case sf::Keyboard::Down:
+		mKeys["Down"] = pressed;
+		break;
+	case sf::Keyboard::A:
+	case sf::Keyboard::Left:
+		mKeys["Left"] = pressed;
+		break;
+	}
 }
