@@ -13,9 +13,11 @@ void Application::run() {
 		mStates.top()->HandleInput(mWindow);
 		mStates.top()->UpdateGame(mWindow);
 		mStates.top()->DrawElements(mWindow);
-		if (mStates.top()->moveState)
-			switch (mStates.top()->nextState)
+		if (State::addState) {
+			switch (State::nextState)
 			{
+			case StateEnum::None:
+				break;
 			case StateEnum::Menu:
 
 				break;
@@ -23,6 +25,13 @@ void Application::run() {
 				mStates.push(new GameState);
 				break;
 			}
+			State::addState = false;
+			State::nextState = StateEnum::None;
+		}
+		else if (State::removeState) {
+			mStates.pop();
+			State::removeState = false;
+		}
 	}
 	mWindow.close();
 }

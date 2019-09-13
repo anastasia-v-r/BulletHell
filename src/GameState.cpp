@@ -33,6 +33,9 @@ void GameState::HandleInput(sf::RenderWindow& window) {
 			case sf::Keyboard::Left:
 				mKeys["Left"] = true;
 				break;
+			case sf::Keyboard::Escape:
+				State::removeState = true;
+				break;
 			}
 			break;
 		case sf::Event::KeyReleased:

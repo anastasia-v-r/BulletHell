@@ -4,6 +4,7 @@
 
 enum StateEnum
 {
+	None,
 	Splash,
 	Menu,
 	Game
@@ -18,6 +19,7 @@ public:
 private:
 
 public:
-	bool moveState;
-	StateEnum nextState;
+	static bool removeState;
+	static bool addState;
+	static StateEnum nextState;
 };
