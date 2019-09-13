@@ -14,7 +14,7 @@ public:
 private:
 
 private:
-	sf::RectangleShape mPlayer;
-	sf::Texture mPlayerTexture;
+	std::map<std::string, sf::RectangleShape*> screenElements;
+	std::map<std::string, sf::Texture*> textures;
 	std::map<std::string, bool> mKeys;
 };

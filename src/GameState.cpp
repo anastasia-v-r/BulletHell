@@ -2,11 +2,25 @@
 
 GameState::GameState() {
 	auto mode = sf::VideoMode::getDesktopMode();
-	mKeys = { {"Up", false}, {"Right", false}, {"Down", false}, {"Left", false} };
-	mPlayer = sf::RectangleShape(sf::Vector2f(50, 50));
-	mPlayerTexture.loadFromFile("assets/GameState/PlayerTexture.png");
-	mPlayer.setTexture(&mPlayerTexture);
-	mPlayer.setPosition(mode.width / 2, mode.height / 2);
+	mKeys = { 
+		{"Up", false}, 
+		{"Right", false}, 
+		{"Down", false}, 
+		{"Left", false} 
+	};
+	screenElements = {
+		{"Background", new sf::RectangleShape(sf::Vector2f(mode.width, mode.height))},
+		{"Player", new sf::RectangleShape(sf::Vector2f(50, 50))}
+	};
+	textures = {
+		{"Background", new sf::Texture},
+		{"Player", new sf::Texture}
+	};
+	textures["Background"]->loadFromFile("assets/GameState/BackgroundTexture.png");
+	textures["Player"]->loadFromFile("assets/GameState/PlayerTexture.png");
+	screenElements["Background"]->setTexture(textures["Background"]);
+	screenElements["Player"]->setTexture(textures["Player"]);
+	screenElements["Player"]->setPosition(mode.width / 2, mode.height / 2);
 }
 
 void GameState::HandleInput(sf::RenderWindow& window) {
@@ -65,17 +79,19 @@ void GameState::HandleInput(sf::RenderWindow& window) {
 
 void GameState::UpdateGame(sf::RenderWindow& window) {
 	if (mKeys["Up"])
-		mPlayer.setPosition(mPlayer.getPosition().x, mPlayer.getPosition().y - .1);
+		screenElements["Player"]->setPosition(screenElements["Player"]->getPosition().x, screenElements["Player"]->getPosition().y - .1);
 	if (mKeys["Right"])
-		mPlayer.setPosition(mPlayer.getPosition().x + .1, mPlayer.getPosition().y);
+		screenElements["Player"]->setPosition(screenElements["Player"]->getPosition().x + .1, screenElements["Player"]->getPosition().y);
 	if (mKeys["Down"])
-		mPlayer.setPosition(mPlayer.getPosition().x, mPlayer.getPosition().y + .1);
+		screenElements["Player"]->setPosition(screenElements["Player"]->getPosition().x, screenElements["Player"]->getPosition().y + .1);
 	if (mKeys["Left"])
-		mPlayer.setPosition(mPlayer.getPosition().x - .1, mPlayer.getPosition().y);
+		screenElements["Player"]->setPosition(screenElements["Player"]->getPosition().x - .1, screenElements["Player"]->getPosition().y);
 }
 
 void GameState::DrawElements(sf::RenderWindow& window) {
 	window.clear();
-	window.draw(mPlayer);
+	for (const auto& element : screenElements) {
+		window.draw(*element.second);
+	}
 	window.display();
 }
