@@ -13,7 +13,8 @@ void SplashState::HandleInput(sf::RenderWindow& window) {
 		switch (evnt.type)
 		{
 		case sf::Event::KeyPressed:
-			window.close();
+			moveState = true;
+			nextState = StateEnum::Game;
 		}
 	}
 }

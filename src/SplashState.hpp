@@ -10,8 +10,6 @@ public:
 	virtual void UpdateGame(sf::RenderWindow&)  override;
 	virtual void DrawElements(sf::RenderWindow&) override;
 private:
-
-private:
 	sf::RectangleShape splashImage;
 	sf::Texture image;
 };
