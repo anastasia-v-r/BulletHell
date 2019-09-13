@@ -9,7 +9,7 @@ GameState::GameState() {
 		{"Left", false} 
 	};
 	screenElements = {
-		{"Background", new sf::RectangleShape(sf::Vector2f(mode.width, mode.height))},
+		{"Background", new sf::RectangleShape(sf::Vector2f((float)mode.width, (float)mode.height))},
 		{"Player", new sf::RectangleShape(sf::Vector2f(50, 50))}
 	};
 	textures = {
@@ -20,7 +20,7 @@ GameState::GameState() {
 	textures["Player"]->loadFromFile("assets/GameState/PlayerTexture.png");
 	screenElements["Background"]->setTexture(textures["Background"]);
 	screenElements["Player"]->setTexture(textures["Player"]);
-	screenElements["Player"]->setPosition(mode.width / 2, mode.height / 2);
+	screenElements["Player"]->setPosition(mode.width / 2.0f, mode.height / 2.0f);
 }
 
 void GameState::HandleInput(sf::RenderWindow& window) {
@@ -51,13 +51,13 @@ void GameState::HandleInput(sf::RenderWindow& window) {
 
 void GameState::UpdateGame(sf::RenderWindow& window) {
 	if (mKeys["Up"])
-		screenElements["Player"]->move( 0, -.1 );
+		screenElements["Player"]->move( 0.0f, -0.1f );
 	if (mKeys["Right"])
-		screenElements["Player"]->move( .1, 0 );
+		screenElements["Player"]->move( 0.1f, 0.0f );
 	if (mKeys["Down"])
-		screenElements["Player"]->move( 0, .1 );
+		screenElements["Player"]->move( 0.0f, 0.1f );
 	if (mKeys["Left"])
-		screenElements["Player"]->move( -.1, 0 );
+		screenElements["Player"]->move( -0.1f, 0.0f );
 }
 
 void GameState::DrawElements(sf::RenderWindow& window) {
