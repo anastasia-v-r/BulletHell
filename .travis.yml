@@ -154,7 +154,7 @@ before_deploy:
     if [[ "${TRAVIS_OS_NAME}" == "windows" ]]; then
       echo %cd%
       ls
-      powershell.exe Compress-Archive -Path .\bin\ -DestinationPath ${DEPLOY_EXE}
+      powershell.exe Compress-Archive -Path bin/ -DestinationPath ${DEPLOY_EXE}
     else
       pwd
       ls
