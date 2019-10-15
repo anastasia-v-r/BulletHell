@@ -9,7 +9,8 @@ int main() {
 		{"Up", false},
 		{"Right", false},
 		{"Down", false},
-		{"Left", false}
+		{"Left", false},
+		{"Space", false }
 	};
 	// Create Render Window
 	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Danmaku", sf::Style::Default);
@@ -19,6 +20,9 @@ int main() {
 	box.setFillColor(sf::Color::Red);
 	// Bullet vector
 	std::vector<Bullet> bullets;
+	// Setup clock
+	sf::Clock gameClock;
+	sf::Time bulletTimeBank;
 	// Run While the window is open
 	while (window.isOpen()) {
 		// Process Events
@@ -33,7 +37,7 @@ int main() {
 					window.close();
 					break;
 				case sf::Keyboard::Space:
-					bullets.push_back(Bullet(box.getPosition()));
+					keyMap["Space"] = true;
 					break;
 				case sf::Keyboard::W:
 					keyMap["Up"] = true;
@@ -54,6 +58,9 @@ int main() {
 			case sf::Event::KeyReleased:
 				switch (evnt.key.code)
 				{
+				case sf::Keyboard::Space:
+					keyMap["Space"] = false;
+					break;
 				case sf::Keyboard::W:
 					keyMap["Up"] = false;
 					break;
@@ -75,14 +82,23 @@ int main() {
 			}
 		}
 		// Update Game
+		float speed = 100.0f;
+		auto elapsedTime = gameClock.restart();
 		if (keyMap["Up"])
-			box.move(0, -.1);
+			box.move(0, -speed * elapsedTime.asSeconds());
 		if (keyMap["Right"])
-			box.move(.1, 0);
+			box.move(speed * elapsedTime.asSeconds(), 0);
 		if (keyMap["Down"])
-			box.move(0, .1);
+			box.move(0, speed * elapsedTime.asSeconds());
 		if (keyMap["Left"])
-			box.move(-.1, 0);
+			box.move(-speed * elapsedTime.asSeconds(), 0);
+		if (keyMap["Space"])
+			if (bulletTimeBank.asSeconds() > 0.25f) {
+				bullets.push_back(Bullet(box.getPosition()));
+				bulletTimeBank -= (sf::seconds)(0.25f);
+			}
+			else
+				bulletTimeBank += elapsedTime;
 		if (!bullets.empty())
 			for (auto& bullet : bullets) {
 				bullet.travel();
