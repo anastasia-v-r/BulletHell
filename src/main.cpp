@@ -82,26 +82,27 @@ int main() {
 			}
 		}
 		// Update Game
-		float speed = 100.0f;
+		float boxSpeed = 500.0f;
+		float fireRate = 0.1f;
 		auto elapsedTime = gameClock.restart();
 		if (keyMap["Up"])
-			box.move(0, -speed * elapsedTime.asSeconds());
+			box.move(0, -boxSpeed * elapsedTime.asSeconds());
 		if (keyMap["Right"])
-			box.move(speed * elapsedTime.asSeconds(), 0);
+			box.move(boxSpeed * elapsedTime.asSeconds(), 0);
 		if (keyMap["Down"])
-			box.move(0, speed * elapsedTime.asSeconds());
+			box.move(0, boxSpeed * elapsedTime.asSeconds());
 		if (keyMap["Left"])
-			box.move(-speed * elapsedTime.asSeconds(), 0);
+			box.move(-boxSpeed * elapsedTime.asSeconds(), 0);
 		if (keyMap["Space"])
-			if (bulletTimeBank.asSeconds() > 0.25f) {
+			if (bulletTimeBank.asSeconds() > fireRate) {
 				bullets.push_back(Bullet(box.getPosition()));
-				bulletTimeBank -= (sf::seconds)(0.25f);
+				bulletTimeBank -= (sf::seconds)(fireRate);
 			}
 			else
 				bulletTimeBank += elapsedTime;
 		if (!bullets.empty())
 			for (auto& bullet : bullets) {
-				bullet.travel();
+				bullet.travel(elapsedTime);
 			}
 		// Draw objects
 		window.clear();
