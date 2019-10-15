@@ -2,6 +2,7 @@
 #include <SFML/Audio.hpp>
 #include "bullet.hpp"
 #include <vector>
+#include <queue>
 #include <map>
 
 int main() {
@@ -20,9 +21,11 @@ int main() {
 	box.setFillColor(sf::Color::Red);
 	// Bullet vector
 	std::vector<Bullet> bullets;
-	// Setup clock
+	// Setup clocks
 	sf::Clock gameClock;
+	sf::Clock fixedClock;
 	sf::Time bulletTimeBank;
+	std::queue<sf::Time> fps;
 	// Run While the window is open
 	while (window.isOpen()) {
 		// Process Events
@@ -84,7 +87,7 @@ int main() {
 		// Update Game
 		float boxSpeed = 500.0f;
 		float fireRate = 0.1f;
-		auto elapsedTime = gameClock.restart();
+		auto elapsedTime = fixedClock.restart();
 		if (keyMap["Up"])
 			box.move(0, -boxSpeed * elapsedTime.asSeconds());
 		if (keyMap["Right"])
@@ -112,5 +115,10 @@ int main() {
 				window.draw(bullet);
 			}
 		window.display();
+		// Calculate Fps
+		fps.push(gameClock.getElapsedTime());
+		while (fps.front() < (gameClock.getElapsedTime() - (sf::seconds)(1)))
+			fps.pop();
+		window.setTitle("FPS : " + std::to_string(fps.size() / 1));
 	}
 }
