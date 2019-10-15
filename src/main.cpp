@@ -86,7 +86,7 @@ int main() {
 		}
 		// Update Game
 		float boxSpeed = 500.0f;
-		float fireRate = 0.1f;
+		float fireRate = 0.000f;
 		auto elapsedTime = fixedClock.restart();
 		if (keyMap["Up"])
 			box.move(0, -boxSpeed * elapsedTime.asSeconds());
@@ -99,6 +99,7 @@ int main() {
 		if (keyMap["Space"])
 			if (bulletTimeBank.asSeconds() > fireRate) {
 				bullets.push_back(Bullet(box.getPosition()));
+				bullets.push_back(Bullet(box.getPosition() + sf::Vector2f(box.getSize().x, 0.0f)));
 				bulletTimeBank -= (sf::seconds)(fireRate);
 			}
 			else
