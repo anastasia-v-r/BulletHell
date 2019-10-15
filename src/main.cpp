@@ -1,29 +1,19 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include "bullet.hpp"
 #include <vector>
-
-class Bullet : public sf::Drawable
-{
-public:
-	Bullet(sf::Vector2f pos) 
-		: bullet{sf::RectangleShape(sf::Vector2f(10.0f, 10.0f))} {
-		bullet.setPosition(pos);
-		bullet.setFillColor(sf::Color::Green);
-	}
-	void travel() {
-		bullet.move(0.0f, -1.0f);
-	}
-	virtual void draw(sf::RenderTarget& window, sf::RenderStates states) const {
-		window.draw(bullet, states);
-	}
-private:
-	sf::RectangleShape bullet;
-};
+#include <map>
 
 int main() {
+	std::map<std::string, bool> keyMap = {
+		{"Up", false},
+		{"Right", false},
+		{"Down", false},
+		{"Left", false}
+	};
 	// Create Render Window
-	sf::RenderWindow window;
-	window.create(sf::VideoMode::getDesktopMode(), "Danmaku", sf::Style::Default);
+	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Danmaku", sf::Style::Default);
+	window.setKeyRepeatEnabled(false);
 	// Test object
 	sf::RectangleShape box(sf::Vector2f(50.0f, 50.0f));
 	box.setFillColor(sf::Color::Red);
@@ -46,25 +36,53 @@ int main() {
 					bullets.push_back(Bullet(box.getPosition()));
 					break;
 				case sf::Keyboard::W:
-					box.move(0.0f, -10.0f);
-					break;
-				case sf::Keyboard::A:
-					box.move(-10.0f, 0.0f);
-					break;
-				case sf::Keyboard::S:
-					box.move(0.0f, 10.0f);
+					keyMap["Up"] = true;
 					break;
 				case sf::Keyboard::D:
-					box.move(10.0f, 0.0f);
+					keyMap["Right"] = true;
+					break;
+				case sf::Keyboard::S:
+					keyMap["Down"] = true;
+					break;
+				case sf::Keyboard::A:
+					keyMap["Left"] = true;
 					break;
 				default:
 					break;
 				}
+				break;
+			case sf::Event::KeyReleased:
+				switch (evnt.key.code)
+				{
+				case sf::Keyboard::W:
+					keyMap["Up"] = false;
+					break;
+				case sf::Keyboard::D:
+					keyMap["Right"] = false;
+					break;
+				case sf::Keyboard::S:
+					keyMap["Down"] = false;
+					break;
+				case sf::Keyboard::A:
+					keyMap["Left"] = false;
+					break;
+				default:
+					break;
+				}
+				break;
 			default:
 				break;
 			}
 		}
 		// Update Game
+		if (keyMap["Up"])
+			box.move(0, -.1);
+		if (keyMap["Right"])
+			box.move(.1, 0);
+		if (keyMap["Down"])
+			box.move(0, .1);
+		if (keyMap["Left"])
+			box.move(-.1, 0);
 		if (!bullets.empty())
 			for (auto& bullet : bullets) {
 				bullet.travel();
