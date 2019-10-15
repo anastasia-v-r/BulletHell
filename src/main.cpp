@@ -1,4 +1,4 @@
-#include <SFML/Graphics.hpp>
+﻿#include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "bullet.hpp"
 #include <vector>
@@ -14,7 +14,7 @@ int main() {
 		{"Space", false }
 	};
 	// Create Render Window
-	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Danmaku", sf::Style::Default);
+	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), L"弾幕", sf::Style::Default);
 	window.setKeyRepeatEnabled(false);
 	// Test object
 	sf::RectangleShape box(sf::Vector2f(50.0f, 50.0f));
@@ -119,6 +119,6 @@ int main() {
 		fps.push(gameClock.getElapsedTime());
 		while (fps.front() < (gameClock.getElapsedTime() - (sf::seconds)(1)))
 			fps.pop();
-		window.setTitle("FPS : " + std::to_string(fps.size() / 1));
+		window.setTitle(L"『弾幕』 FPS : " + (std::to_wstring(fps.size() / 1)));
 	}
 }
