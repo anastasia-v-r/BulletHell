@@ -18,9 +18,10 @@ int main() {
 	sf::RenderWindow window(mode, L"弾幕", sf::Style::Default);
 	window.setKeyRepeatEnabled(false);
 	// Player
-	sf::RectangleShape player(sf::Vector2f(10.0f, 10.0f));
+	sf::RectangleShape player(sf::Vector2f(20.0f, 20.0f));
 	player.setPosition(mode.width / 2.0f, mode.height / 2.0f);
-	player.setFillColor(sf::Color::Red);
+	player.setFillColor(sf::Color::Green);
+	int playerHp = 3;
 	// Enemy
 	sf::RectangleShape enemy(sf::Vector2f(50.0f, 50.0f));
 	enemy.setPosition(mode.width / 2.0f, 0.0f);
@@ -29,8 +30,9 @@ int main() {
 	sf::Font font;
 	font.loadFromFile("C:\\Users\\domin\\Desktop\\windowsBin\\assets\\fonts\\bauh.ttf");
 	sf::Text hp("HP : ", font, 30);
-	// Bullet vector
-	std::vector<Bullet> bullets;
+	// Bullet vectors
+	std::vector<Bullet> enemyBullets;
+	std::vector<Bullet> playerBullets;
 	// Setup clocks
 	sf::Clock gameClock;
 	sf::Clock fixedClock;
@@ -123,15 +125,20 @@ int main() {
 		// Player firing
 		if (keyMap["Space"])
 			if (bulletTimeBank.asSeconds() > fireRate) {
-				bullets.push_back(Bullet(player.getPosition(), 1.0f, true));
-				bullets.push_back(Bullet(player.getPosition() + sf::Vector2f(player.getSize().x, 0.0f), 1.0f, true));
+				playerBullets.push_back(Bullet(player.getPosition(), 1.0f, true));
+				playerBullets.push_back(Bullet(player.getPosition() + sf::Vector2f(player.getSize().x, 0.0f), 1.0f, true));
 				bulletTimeBank -= (sf::seconds)(fireRate);
 			}
 			else
 				bulletTimeBank += elapsedTime;
 		// Process Bullets
-		if (!bullets.empty()) {
-			for (auto& bullet : bullets) {
+		if (!playerBullets.empty()) {
+			for (auto& bullet : playerBullets) {
+				bullet.travel(elapsedTime);
+			}
+		}
+		if (!enemyBullets.empty()) {
+			for (auto& bullet : enemyBullets) {
 				bullet.travel(elapsedTime);
 			}
 		}
@@ -146,18 +153,17 @@ int main() {
 			enemy.move(-enemySpeed * elapsedTime.asSeconds(), 0.0f);
 		// Boss firing
 		if (bossTimeBank.asSeconds() > bossFireRate) {
-			for (int i = 0; i < 50; i += 10) {
-				bullets.push_back(Bullet(enemy.getPosition() + sf::Vector2f(i, 0.0f), -1.0f, false));
-			}
+			enemyBullets.push_back(Bullet(enemy.getPosition() + sf::Vector2f(0.0f, enemy.getSize().y), -1.0f, false));
+			enemyBullets.push_back(Bullet(enemy.getPosition() + sf::Vector2f(enemy.getSize().x, enemy.getSize().y), -1.0f, false));
 			bossTimeBank -= (sf::seconds)(bossFireRate);
 		}
 		else
 			bossTimeBank += elapsedTime;
 		// Boss Collision Detection
-		for (auto& bullet : bullets) {
+		for (auto& bullet : playerBullets) {
 			if (enemy.getGlobalBounds().contains(bullet.getPos()) && bullet.getPlr() && bullet.getVal()) {
 				bullet.invalidate();
-				enemyHp--;
+				enemyHp -= 5;
 				if (enemyHp < 75 && enemyHp >= 50)
 					enemy.setFillColor(sf::Color::Yellow);
 				else if (enemyHp < 50 && enemyHp >= 25)
@@ -169,11 +175,34 @@ int main() {
 			}
 		}
 		hp.setString("HP : " + std::to_string(enemyHp));
+		// Player Collission Detection
+		bool wipe = false;
+		for (auto& bullet : enemyBullets) {
+			if (player.getGlobalBounds().contains(bullet.getPos()) && !bullet.getPlr()) {
+				playerHp--;
+				if (playerHp == 2)
+					player.setFillColor(sf::Color(255, 98, 0));
+				else if (playerHp == 1)
+					player.setFillColor(sf::Color::Red);
+				else
+					close = true;
+				wipe = true;
+				break;
+			}
+		}
+		if (wipe)
+			enemyBullets.clear();
 		// Clear Bullets
-		if (!bullets.empty()) {
-			for (int i = 0; i < bullets.size(); i++) {
-				if ((bullets[i].getHeight() < 0.1f || bullets[i].getHeight() > 1080.0f) || !bullets[i].getVal())
-					bullets.erase(bullets.begin() + i);
+		if (!playerBullets.empty()) {
+			for (int i = 0; i < playerBullets.size(); i++) {
+				if ((playerBullets[i].getHeight() < 0.1f || playerBullets[i].getHeight() > 1080.0f))
+					playerBullets.erase(playerBullets.begin() + i);
+			}
+		}
+		if (!enemyBullets.empty()) {
+			for (int i = 0; i < enemyBullets.size(); i++) {
+				if ((enemyBullets[i].getHeight() < 0.1f || enemyBullets[i].getHeight() > 1080.0f))
+					enemyBullets.erase(enemyBullets.begin() + i);
 			}
 		}
 		// Draw objects
@@ -181,8 +210,12 @@ int main() {
 		window.draw(player);
 		window.draw(enemy);
 		window.draw(hp);
-		if (!bullets.empty())
-			for (const auto& bullet : bullets) {
+		if (!playerBullets.empty())
+			for (const auto& bullet : playerBullets) {
+				window.draw(bullet);
+			}
+		if (!enemyBullets.empty())
+			for (const auto& bullet : enemyBullets) {
 				window.draw(bullet);
 			}
 		window.display();
