@@ -24,6 +24,11 @@ int main() {
 	// Enemy
 	sf::RectangleShape enemy(sf::Vector2f(50.0f, 50.0f));
 	enemy.setPosition(mode.width / 2.0f, 0.0f);
+	int enemyHp = 100;
+	// Enemy Hp
+	sf::Font font;
+	font.loadFromFile("C:\\Users\\domin\\Desktop\\windowsBin\\assets\\fonts\\bauh.ttf");
+	sf::Text hp("HP : ", font, 30);
 	// Bullet vector
 	std::vector<Bullet> bullets;
 	// Setup clocks
@@ -35,6 +40,7 @@ int main() {
 	float timeModifier = 1.0f;
 	// Misc Vars
 	bool goRight = false;
+	bool close = false;
 	// Run While the window is open
 	while (window.isOpen()) {
 		// Process Events
@@ -101,8 +107,8 @@ int main() {
 		}
 		// Update Game
 		float boxSpeed = 500.0f;
-		float fireRate = 0.02f;
-		float bossFireRate = 0.25f;
+		float fireRate = 1.0f / 5.0f;
+		float bossFireRate = 1.0f / 4.0f;
 		float enemySpeed = 200.0f;
 		auto elapsedTime = fixedClock.restart() / timeModifier;
 		// Player movement
@@ -117,19 +123,14 @@ int main() {
 		// Player firing
 		if (keyMap["Space"])
 			if (bulletTimeBank.asSeconds() > fireRate) {
-				bullets.push_back(Bullet(player.getPosition(), 1.0f));
-				bullets.push_back(Bullet(player.getPosition() + sf::Vector2f(player.getSize().x, 0.0f), 1.0f));
+				bullets.push_back(Bullet(player.getPosition(), 1.0f, true));
+				bullets.push_back(Bullet(player.getPosition() + sf::Vector2f(player.getSize().x, 0.0f), 1.0f, true));
 				bulletTimeBank -= (sf::seconds)(fireRate);
 			}
 			else
 				bulletTimeBank += elapsedTime;
 		// Process Bullets
 		if (!bullets.empty()) {
-			for (int i = 0; i < bullets.size(); i++) {
-				if (bullets[i].getHeight() < 0.1f || bullets[i].getHeight() > 1080.0f)
-					bullets.erase(bullets.begin() + i);
-			}
-			bullets.shrink_to_fit();
 			for (auto& bullet : bullets) {
 				bullet.travel(elapsedTime);
 			}
@@ -146,16 +147,40 @@ int main() {
 		// Boss firing
 		if (bossTimeBank.asSeconds() > bossFireRate) {
 			for (int i = 0; i < 50; i += 10) {
-				bullets.push_back(Bullet(enemy.getPosition() + sf::Vector2f(i, 0.0f), -1.0f));
+				bullets.push_back(Bullet(enemy.getPosition() + sf::Vector2f(i, 0.0f), -1.0f, false));
 			}
 			bossTimeBank -= (sf::seconds)(bossFireRate);
 		}
 		else
 			bossTimeBank += elapsedTime;
+		// Boss Collision Detection
+		for (auto& bullet : bullets) {
+			if (enemy.getGlobalBounds().contains(bullet.getPos()) && bullet.getPlr() && bullet.getVal()) {
+				bullet.invalidate();
+				enemyHp--;
+				if (enemyHp < 75 && enemyHp >= 50)
+					enemy.setFillColor(sf::Color::Yellow);
+				else if (enemyHp < 50 && enemyHp >= 25)
+					enemy.setFillColor(sf::Color(255, 98, 0));
+				else if (enemyHp < 25 && enemyHp >= 1)
+					enemy.setFillColor(sf::Color::Red);
+				else if (enemyHp < 1)
+					close = true;
+			}
+		}
+		hp.setString("HP : " + std::to_string(enemyHp));
+		// Clear Bullets
+		if (!bullets.empty()) {
+			for (int i = 0; i < bullets.size(); i++) {
+				if ((bullets[i].getHeight() < 0.1f || bullets[i].getHeight() > 1080.0f) || !bullets[i].getVal())
+					bullets.erase(bullets.begin() + i);
+			}
+		}
 		// Draw objects
 		window.clear();
 		window.draw(player);
 		window.draw(enemy);
+		window.draw(hp);
 		if (!bullets.empty())
 			for (const auto& bullet : bullets) {
 				window.draw(bullet);
@@ -166,5 +191,7 @@ int main() {
 		while (fps.front() < (gameClock.getElapsedTime() - (sf::seconds)(1)))
 			fps.pop();
 		window.setTitle(L"『弾幕』 FPS : " + (std::to_wstring(fps.size() / 1)));
+		if (close)
+			window.close();
 	}
 }
