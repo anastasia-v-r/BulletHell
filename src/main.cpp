@@ -32,6 +32,7 @@ int main() {
 	sf::Time bulletTimeBank;
 	sf::Time bossTimeBank;
 	std::queue<sf::Time> fps;
+	float timeModifier = 1.0f;
 	// Misc Vars
 	bool goRight = false;
 	// Run While the window is open
@@ -46,6 +47,9 @@ int main() {
 				{
 				case sf::Keyboard::Escape:
 					window.close();
+					break;
+				case sf::Keyboard::LShift:
+					timeModifier = 2.0f;
 					break;
 				case sf::Keyboard::Space:
 					keyMap["Space"] = true;
@@ -69,6 +73,9 @@ int main() {
 			case sf::Event::KeyReleased:
 				switch (evnt.key.code)
 				{
+				case sf::Keyboard::LShift:
+					timeModifier = 1.0f;
+					break;
 				case sf::Keyboard::Space:
 					keyMap["Space"] = false;
 					break;
@@ -97,7 +104,7 @@ int main() {
 		float fireRate = 0.02f;
 		float bossFireRate = 0.25f;
 		float enemySpeed = 200.0f;
-		auto elapsedTime = fixedClock.restart();
+		auto elapsedTime = fixedClock.restart() / timeModifier;
 		// Player movement
 		if (keyMap["Up"])
 			player.move(0, -boxSpeed * elapsedTime.asSeconds());
