@@ -72,9 +72,9 @@ matrix:
       - CMAKE_GENERATOR_FLAG="-G \"Unix Makefiles\""
       - BUILD_CONFIG=Release
       - DEPLOY_EXE=linuxBin.zip
-    cache:
-      directories:
-        - $HOME/.conan/data
+#    cache:
+#      directories:
+#        - $HOME/.conan/data
     addons:
       apt:
         sources: ['ubuntu-toolchain-r-test']
@@ -92,9 +92,9 @@ matrix:
       - CMAKE_GENERATOR_FLAG="-G \"Unix Makefiles\""
       - BUILD_CONFIG=Debug
       - DEPLOY_EXE=linuxBin.zip
-    cache:
-      directories:
-        - $HOME/.conan/data
+#    cache:
+#      directories:
+#        - $HOME/.conan/data
     addons:
       apt:
         sources: ['ubuntu-toolchain-r-test']
