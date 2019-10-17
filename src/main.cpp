@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "bullet.hpp"
+#include "player.hpp"
 #include <vector>
 #include <queue>
 #include <map>
@@ -38,10 +39,7 @@ int main() {
 	sf::RenderWindow window(mode, L"弾幕", sf::Style::Default);
 	window.setKeyRepeatEnabled(false);
 	// Player
-	sf::RectangleShape player(sf::Vector2f(20.0f, 20.0f));
-	player.setPosition(mode.width / 2.0f, mode.height / 2.0f);
-	player.setFillColor(sf::Color::Green);
-	int playerHp = 3;
+	Player player(mode);
 	// Enemy
 	sf::RectangleShape enemy(sf::Vector2f(50.0f, 50.0f));
 	enemy.setPosition(mode.width / 2.0f, 0.0f);
