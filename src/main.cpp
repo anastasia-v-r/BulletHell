@@ -208,7 +208,7 @@ void updateGame(sf::Time CurrentTime, sf::Time LastUpdate,
 		bossTimeBank += elapsedTime;
 	// Boss Collision Detection
 	for (auto& bullet : playerBullets) {
-		if (enemy.getGlobalBounds().contains(bullet.getPos()) && bullet.getPlr() && bullet.getVal()) {
+		if (enemy.getGlobalBounds().contains(bullet.getPos()) && bullet.getVal()) {
 			bullet.invalidate();
 			enemyHp -= 5;
 			if (enemyHp < 75 && enemyHp >= 50)
@@ -225,7 +225,7 @@ void updateGame(sf::Time CurrentTime, sf::Time LastUpdate,
 	// Player Collission Detection
 	bool wipe = false;
 	for (auto& bullet : enemyBullets) {
-		if (player.getGlobalBounds().contains(bullet.getPos()) && !bullet.getPlr()) {
+		if (player.getGlobalBounds().contains(bullet.getPos())) {
 			playerHp--;
 			if (playerHp == 2)
 				player.setFillColor(sf::Color(255, 98, 0));
