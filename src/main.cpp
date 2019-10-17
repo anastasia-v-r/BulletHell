@@ -4,6 +4,7 @@
 #include <vector>
 #include <queue>
 #include <map>
+#include <iostream>
 
 int main() {
 	std::map<std::string, bool> keyMap = {
@@ -28,7 +29,8 @@ int main() {
 	int enemyHp = 100;
 	// Enemy Hp
 	sf::Font font;
-	font.loadFromFile("C:\\Users\\domin\\Desktop\\windowsBin\\assets\\fonts\\bauh.ttf");
+	if (!font.loadFromFile("assets/Global/font/OpenSans-Regular.ttf"))
+		std::cout << "Font Failed to load" << std::endl;
 	sf::Text hp("HP : ", font, 30);
 	// Bullet vectors
 	std::vector<Bullet> enemyBullets;
