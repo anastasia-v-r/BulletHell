@@ -7,26 +7,37 @@ else()
     cmake_policy(VERSION 3.14)
 endif()
 
+# OS
+if(UNIX AND NOT APPLE)
+        set(LINUX TRUE)
+endif()
+
 # Project Creation
 project (BulletHell)
 set (CMAKE_CXX_STANDARD 17)
 set( EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin )
+set (WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin/assets)
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
 
 # Conan
-if(EXISTS ${PROJECT_SOURCE_DIR}/conan/conanbuildinfo_multi.cmake)
-    include(${PROJECT_SOURCE_DIR}/conan/conanbuildinfo_multi.cmake)
-    conan_basic_setup()
-elseif(EXISTS ${PROJECT_SOURCE_DIR}/conan/conanbuildinfo.cmake)
-    include(${PROJECT_SOURCE_DIR}/conan/conanbuildinfo.cmake)
+if(EXISTS ${CMAKE_SOURCE_DIR}/conan/conanbuildinfo_multi.cmake)
+	if( WIN32 )
+		include(${CMAKE_SOURCE_DIR}/conan/conanbuildinfo_multi.cmake)
+		conan_basic_setup()
+	else()
+		include($ENV{HOME}/conanCache/conanbuildinfo.cmake)
+		conan_basic_setup()
+	endif()
+elseif(EXISTS ${CMAKE_SOURCE_DIR}/conan/conanbuildinfo.cmake)
+    include(${CMAKE_SOURCE_DIR}/conan/conanbuildinfo.cmake)
     conan_basic_setup()
 else()
-    if(EXISTS ${PROJECT_SOURCE_DIR}/conanfile.txt)
+    if(EXISTS ${CMAKE_SOURCE_DIR}/conanfile.txt)
         message( FATAL_ERROR
 " A conanfile.txt file exists in the source directory\n"
-" indicating conan is used for dependences but a conanbuildinfo.cmake\n"
+" indicating Conan is used for dependences but a conanbuildinfo.cmake\n"
 " file does not exist. Make sure to execute:\n\n"
-" conan install ${PROJECT_SOURCE_DIR} --build=missing -if ${CMAKE_BINARY_DIR}" )
+" Conan install ${CMAKE_SOURCE_DIR} --build=missing -if ${CMAKE_BINARY_DIR}" )
     endif()
 endif()
 
