@@ -31,10 +31,11 @@ public:
 			player.setFillColor(sf::Color::Red);
 		else
 			return true;
+		return false;
 	}
 	// Getters
-	const sf::RectangleShape* obj() {
-		return &player;
+	const sf::RectangleShape& obj() {
+		return player;
 	}
 	virtual void draw(sf::RenderTarget& window, sf::RenderStates states) const {
 		window.draw(player, states);
