@@ -7,12 +7,19 @@
 #include <map>
 #include <iostream>
 
+//************************
+// Function Declarations *
+//************************
+
+void processInput(sf::RenderWindow& /* window */, float& /* timeModifier */,
+				  std::map<std::string, bool> /*keyMap*/, bool& /* close */);
+
 void updateGame(sf::Time /* Current Time */, sf::Time /* Time since last update */,
 				sf::Text& /* hp */, sf::VideoMode /* mode */,
 				sf::RectangleShape& /* player */, int& /* playerHp */,
 				sf::RectangleShape& /* enemy */, int& /* enemyHp */,
 				std::vector<Bullet>& /*enemyBullets*/, std::vector<Bullet>& /*playerBullets*/,
-				std::map<std::string, bool> /*keyMap*/, bool& /* close */, float& /* timeModifier */);
+				std::map<std::string, bool> /*keyMap*/, bool& /* close */, float /* timeModifier */);
 
 void renderGame(sf::RectangleShape& /* player */, sf::RectangleShape& /* enemy */,
 				std::vector<Bullet>& /*enemyBullets*/, std::vector<Bullet>& /*playerBullets*/,
@@ -57,67 +64,7 @@ int main() {
 	// Run While the window is open
 	while (window.isOpen()) {
 		// Process Events
-		sf::Event evnt;
-		while (window.pollEvent(evnt)) {
-			switch (evnt.type)
-			{
-			case sf::Event::KeyPressed:
-				switch (evnt.key.code)
-				{
-				case sf::Keyboard::Escape:
-					window.close();
-					break;
-				case sf::Keyboard::LShift:
-					timeModifier = 2.0f;
-					break;
-				case sf::Keyboard::Space:
-					keyMap["Space"] = true;
-					break;
-				case sf::Keyboard::W:
-					keyMap["Up"] = true;
-					break;
-				case sf::Keyboard::D:
-					keyMap["Right"] = true;
-					break;
-				case sf::Keyboard::S:
-					keyMap["Down"] = true;
-					break;
-				case sf::Keyboard::A:
-					keyMap["Left"] = true;
-					break;
-				default:
-					break;
-				}
-				break;
-			case sf::Event::KeyReleased:
-				switch (evnt.key.code)
-				{
-				case sf::Keyboard::LShift:
-					timeModifier = 1.0f;
-					break;
-				case sf::Keyboard::Space:
-					keyMap["Space"] = false;
-					break;
-				case sf::Keyboard::W:
-					keyMap["Up"] = false;
-					break;
-				case sf::Keyboard::D:
-					keyMap["Right"] = false;
-					break;
-				case sf::Keyboard::S:
-					keyMap["Down"] = false;
-					break;
-				case sf::Keyboard::A:
-					keyMap["Left"] = false;
-					break;
-				default:
-					break;
-				}
-				break;
-			default:
-				break;
-			}
-		}
+		processInput(window, timeModifier, keyMap, close);
 		// Update Game
 		updateGame(gameClock.getElapsedTime(), lastUpdate, hp, mode, player, playerHp, enemy, enemyHp, enemyBullets, playerBullets, keyMap, close, timeModifier);
 		lastUpdate = gameClock.getElapsedTime();
@@ -132,13 +79,81 @@ int main() {
 			window.close();
 	}
 }
+//***********************
+// Function Definitions *
+//***********************
+
+void processInput(sf::RenderWindow& window, float& timeModifier,
+	std::map<std::string, bool> keyMap, bool& close) {
+	sf::Event evnt;
+	while (window.pollEvent(evnt)) {
+		switch (evnt.type)
+		{
+		case sf::Event::KeyPressed:
+			switch (evnt.key.code)
+			{
+			case sf::Keyboard::Escape:
+				close = true;
+				break;
+			case sf::Keyboard::LShift:
+				timeModifier = 2.0f;
+				break;
+			case sf::Keyboard::Space:
+				keyMap["Space"] = true;
+				break;
+			case sf::Keyboard::W:
+				keyMap["Up"] = true;
+				break;
+			case sf::Keyboard::D:
+				keyMap["Right"] = true;
+				break;
+			case sf::Keyboard::S:
+				keyMap["Down"] = true;
+				break;
+			case sf::Keyboard::A:
+				keyMap["Left"] = true;
+				break;
+			default:
+				break;
+			}
+			break;
+		case sf::Event::KeyReleased:
+			switch (evnt.key.code)
+			{
+			case sf::Keyboard::LShift:
+				timeModifier = 1.0f;
+				break;
+			case sf::Keyboard::Space:
+				keyMap["Space"] = false;
+				break;
+			case sf::Keyboard::W:
+				keyMap["Up"] = false;
+				break;
+			case sf::Keyboard::D:
+				keyMap["Right"] = false;
+				break;
+			case sf::Keyboard::S:
+				keyMap["Down"] = false;
+				break;
+			case sf::Keyboard::A:
+				keyMap["Left"] = false;
+				break;
+			default:
+				break;
+			}
+			break;
+		default:
+			break;
+		}
+	}
+}
 
 void updateGame(sf::Time CurrentTime, sf::Time LastUpdate, 
 				sf::Text& hp, sf::VideoMode mode,
 				sf::RectangleShape& player, int& playerHp, 
 				sf::RectangleShape& enemy, int& enemyHp,
 				std::vector<Bullet>& enemyBullets, std::vector<Bullet>& playerBullets,
-				std::map<std::string, bool> keyMap, bool& close, float& timeModifier) {
+				std::map<std::string, bool> keyMap, bool& close, float timeModifier) {
 	sf::Time elapsedTime = (CurrentTime - LastUpdate) / timeModifier;
 	static sf::Time bulletTimeBank;
 	static sf::Time bossTimeBank;
