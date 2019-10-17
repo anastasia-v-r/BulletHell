@@ -13,7 +13,7 @@ public:
 		bullet.setFillColor(sf::Color::Green);
 	}
 	// Getters
-	float getHeight() {
+	float getHeight() const {
 		return bullet.getPosition().y;
 	}
 	auto getPos() const {
