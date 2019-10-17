@@ -8,7 +8,8 @@ public:
 	// Cons. & Desc.
 	Player(sf::VideoMode mode) 
 		: player{ sf::Vector2f(20.0f, 20.0f) }
-		, hp{ 3 } {
+		, hp{ 3 }
+		, speed{ 500.0f } {
 		player.setPosition(mode.width / 2.0f, mode.height / 2.0f);
 		player.setFillColor(sf::Color::Green);
 	}
@@ -20,7 +21,7 @@ public:
 			player.move(speed * elapsedTime.asSeconds(), 0);
 		if (keyMap.at("Down"))
 			player.move(0, speed * elapsedTime.asSeconds());
-		if (keyMap.at("Left"))@
+		if (keyMap.at("Left"))
 			player.move(-speed * elapsedTime.asSeconds(), 0);
 	}
 	int dmg() {
@@ -45,6 +46,6 @@ private:
 private:
 	sf::RectangleShape player;
 	int hp;
-	int speed;
+	float speed;
 };
 

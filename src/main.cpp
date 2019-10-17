@@ -22,7 +22,7 @@ void updateGame(sf::Time /* Current Time */, sf::Time /* Time since last update 
 				std::vector<Bullet>& /*enemyBullets*/, std::vector<Bullet>& /*playerBullets*/,
 				const std::map<std::string, bool>& /*keyMap*/, bool& /* close */, float /* timeModifier */);
 
-void renderGame(sf::RectangleShape& /* player */, sf::RectangleShape& /* enemy */,
+void renderGame(Player& /* player */, sf::RectangleShape& /* enemy */,
 				std::vector<Bullet>& /*enemyBullets*/, std::vector<Bullet>& /*playerBullets*/,
 				sf::Text& /* hp */, sf::RenderWindow& /* window */);
 
@@ -156,7 +156,6 @@ void updateGame(sf::Time CurrentTime, sf::Time LastUpdate,
 	static sf::Time bulletTimeBank;
 	static sf::Time bossTimeBank;
 	static bool goRight = false;
-	float boxSpeed = 500.0f;
 	float fireRate = 1.0f / 5.0f;
 	float bossFireRate = 1.0f / 4.0f;
 	float enemySpeed = 200.0f;
@@ -219,7 +218,7 @@ void updateGame(sf::Time CurrentTime, sf::Time LastUpdate,
 	bool wipe = false;
 	for (auto& bullet : enemyBullets) {
 		if (player.obj().getGlobalBounds().contains(bullet.getPos())) {
-			close = player.dmg;
+			close = player.dmg();
 			wipe = true;
 			break;
 		}
@@ -241,7 +240,7 @@ void updateGame(sf::Time CurrentTime, sf::Time LastUpdate,
 	}
 }
 
-void renderGame(sf::RectangleShape& player, sf::RectangleShape& enemy,
+void renderGame(Player& player, sf::RectangleShape& enemy,
 	std::vector<Bullet>& enemyBullets, std::vector<Bullet>& playerBullets,
 	sf::Text& hp, sf::RenderWindow& window) {
 	window.clear();
