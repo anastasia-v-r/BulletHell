@@ -17,10 +17,10 @@ void processInput(sf::RenderWindow& /* window */, float& /* timeModifier */,
 
 void updateGame(sf::Time /* Current Time */, sf::Time /* Time since last update */,
 				sf::Text& /* hp */, sf::VideoMode /* mode */,
-				sf::RectangleShape& /* player */, int& /* playerHp */,
+				Player& /* player */,
 				sf::RectangleShape& /* enemy */, int& /* enemyHp */,
 				std::vector<Bullet>& /*enemyBullets*/, std::vector<Bullet>& /*playerBullets*/,
-				std::map<std::string, bool> /*keyMap*/, bool& /* close */, float /* timeModifier */);
+				const std::map<std::string, bool>& /*keyMap*/, bool& /* close */, float /* timeModifier */);
 
 void renderGame(sf::RectangleShape& /* player */, sf::RectangleShape& /* enemy */,
 				std::vector<Bullet>& /*enemyBullets*/, std::vector<Bullet>& /*playerBullets*/,
@@ -64,7 +64,7 @@ int main() {
 		// Process Events
 		processInput(window, timeModifier, keyMap, close);
 		// Update Game
-		updateGame(gameClock.getElapsedTime(), lastUpdate, hp, mode, player, playerHp, enemy, enemyHp, enemyBullets, playerBullets, keyMap, close, timeModifier);
+		updateGame(gameClock.getElapsedTime(), lastUpdate, hp, mode, player, enemy, enemyHp, enemyBullets, playerBullets, keyMap, close, timeModifier);
 		lastUpdate = gameClock.getElapsedTime();
 		// Draw objects
 		renderGame(player, enemy, enemyBullets, playerBullets, hp, window);
@@ -148,10 +148,10 @@ void processInput(sf::RenderWindow& window, float& timeModifier,
 
 void updateGame(sf::Time CurrentTime, sf::Time LastUpdate, 
 				sf::Text& hp, sf::VideoMode mode,
-				sf::RectangleShape& player, int& playerHp, 
+				Player& player,
 				sf::RectangleShape& enemy, int& enemyHp,
 				std::vector<Bullet>& enemyBullets, std::vector<Bullet>& playerBullets,
-				std::map<std::string, bool> keyMap, bool& close, float timeModifier) {
+				const std::map<std::string, bool>& keyMap, bool& close, float timeModifier) {
 	sf::Time elapsedTime = (CurrentTime - LastUpdate) / timeModifier;
 	static sf::Time bulletTimeBank;
 	static sf::Time bossTimeBank;
@@ -161,19 +161,12 @@ void updateGame(sf::Time CurrentTime, sf::Time LastUpdate,
 	float bossFireRate = 1.0f / 4.0f;
 	float enemySpeed = 200.0f;
 	// Player movement
-	if (keyMap["Up"])
-		player.move(0, -boxSpeed * elapsedTime.asSeconds());
-	if (keyMap["Right"])
-		player.move(boxSpeed * elapsedTime.asSeconds(), 0);
-	if (keyMap["Down"])
-		player.move(0, boxSpeed * elapsedTime.asSeconds());
-	if (keyMap["Left"])
-		player.move(-boxSpeed * elapsedTime.asSeconds(), 0);
+	player.move(elapsedTime, keyMap);
 	// Player firing
-	if (keyMap["Space"])
+	if (keyMap.at("Space"))
 		if (bulletTimeBank.asSeconds() > fireRate) {
-			playerBullets.push_back(Bullet(player.getPosition(), 1.0f, true));
-			playerBullets.push_back(Bullet(player.getPosition() + sf::Vector2f(player.getSize().x, 0.0f), 1.0f, true));
+			playerBullets.push_back(Bullet(player.obj().getPosition(), 1.0f, true));
+			playerBullets.push_back(Bullet(player.obj().getPosition() + sf::Vector2f(player.obj().getSize().x, 0.0f), 1.0f, true));
 			bulletTimeBank -= (sf::seconds)(fireRate);
 		}
 		else
@@ -225,14 +218,8 @@ void updateGame(sf::Time CurrentTime, sf::Time LastUpdate,
 	// Player Collission Detection
 	bool wipe = false;
 	for (auto& bullet : enemyBullets) {
-		if (player.getGlobalBounds().contains(bullet.getPos())) {
-			playerHp--;
-			if (playerHp == 2)
-				player.setFillColor(sf::Color(255, 98, 0));
-			else if (playerHp == 1)
-				player.setFillColor(sf::Color::Red);
-			else
-				close = true;
+		if (player.obj().getGlobalBounds().contains(bullet.getPos())) {
+			close = player.dmg;
 			wipe = true;
 			break;
 		}
