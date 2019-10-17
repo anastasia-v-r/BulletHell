@@ -13,7 +13,7 @@
 //************************
 
 void processInput(sf::RenderWindow& /* window */, float& /* timeModifier */,
-				  std::map<std::string, bool> /*keyMap*/, bool& /* close */);
+				  std::map<std::string, bool>& /*keyMap*/, bool& /* close */);
 
 void updateGame(sf::Time /* Current Time */, sf::Time /* Time since last update */,
 				sf::Text& /* hp */, sf::VideoMode /* mode */,
@@ -82,7 +82,7 @@ int main() {
 //***********************
 
 void processInput(sf::RenderWindow& window, float& timeModifier,
-	std::map<std::string, bool> keyMap, bool& close) {
+	std::map<std::string, bool>& keyMap, bool& close) {
 	sf::Event evnt;
 	while (window.pollEvent(evnt)) {
 		switch (evnt.type)
