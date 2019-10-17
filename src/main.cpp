@@ -14,6 +14,10 @@ void updateGame(sf::Time /* Current Time */, sf::Time /* Time since last update 
 				std::vector<Bullet>& /*enemyBullets*/, std::vector<Bullet>& /*playerBullets*/,
 				std::map<std::string, bool> /*keyMap*/, bool& /* close */, float& /* timeModifier */);
 
+void renderGame(sf::RectangleShape& /* player */, sf::RectangleShape& /* enemy */,
+				std::vector<Bullet>& /*enemyBullets*/, std::vector<Bullet>& /*playerBullets*/,
+				sf::Text& /* hp */, sf::RenderWindow& /* window */);
+
 int main() {
 	std::map<std::string, bool> keyMap = {
 		{"Up", false},
@@ -118,19 +122,7 @@ int main() {
 		updateGame(gameClock.getElapsedTime(), lastUpdate, hp, mode, player, playerHp, enemy, enemyHp, enemyBullets, playerBullets, keyMap, close, timeModifier);
 		lastUpdate = gameClock.getElapsedTime();
 		// Draw objects
-		window.clear();
-		window.draw(player);
-		window.draw(enemy);
-		window.draw(hp);
-		if (!playerBullets.empty())
-			for (const auto& bullet : playerBullets) {
-				window.draw(bullet);
-			}
-		if (!enemyBullets.empty())
-			for (const auto& bullet : enemyBullets) {
-				window.draw(bullet);
-			}
-		window.display();
+		renderGame(player, enemy, enemyBullets, playerBullets, hp, window);
 		// Calculate Fps
 		fps.push(gameClock.getElapsedTime());
 		while (fps.front() < (gameClock.getElapsedTime() - (sf::seconds)(1)))
@@ -247,4 +239,22 @@ void updateGame(sf::Time CurrentTime, sf::Time LastUpdate,
 				enemyBullets.erase(enemyBullets.begin() + i);
 		}
 	}
+}
+
+void renderGame(sf::RectangleShape& player, sf::RectangleShape& enemy,
+	std::vector<Bullet>& enemyBullets, std::vector<Bullet>& playerBullets,
+	sf::Text& hp, sf::RenderWindow& window) {
+	window.clear();
+	window.draw(player);
+	window.draw(enemy);
+	window.draw(hp);
+	if (!playerBullets.empty())
+		for (const auto& bullet : playerBullets) {
+			window.draw(bullet);
+		}
+	if (!enemyBullets.empty())
+		for (const auto& bullet : enemyBullets) {
+			window.draw(bullet);
+		}
+	window.display();
 }
