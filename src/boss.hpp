@@ -41,17 +41,18 @@ public:
 			if (boss.getGlobalBounds().contains(bullet.getPos()) && bullet.getVal()) {
 				bullet.invalidate();
 				hp -= 5;
-				if (hp < 75 && hp >= 50)
+				if (hp < 75 && hp >= 50) {
 					boss.setFillColor(sf::Color::Yellow);
-				else if (hp < 50 && hp >= 25)
+				} else if (hp < 50 && hp >= 25) {
 					boss.setFillColor(sf::Color(255, 98, 0));
-				else if (hp < 25 && hp >= 1)
+				} else if (hp < 25 && hp >= 1) {
 					boss.setFillColor(sf::Color::Red);
-				else if (hp < 1)
+				} else if (hp < 1) {
 					return true;
-				return false;
+				}
 			}
 		}
+		return false;
 	}
 	// Getters
 	int getHp() const {
