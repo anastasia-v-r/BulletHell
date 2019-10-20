@@ -42,9 +42,7 @@ int main() {
 	// Player
 	Player player(mode);
 	// Enemy
-	sf::RectangleShape enemy(sf::Vector2f(50.0f, 50.0f));
-	enemy.setPosition(mode.width / 2.0f, 0.0f);
-	int enemyHp = 100;
+	Boss boss(mode);
 	// Enemy Hp
 	sf::Font font;
 	if (!font.loadFromFile("assets/Global/font/OpenSans-Regular.ttf"))
@@ -149,17 +147,13 @@ void processInput(sf::RenderWindow& window, float& timeModifier,
 
 void updateGame(sf::Time CurrentTime, sf::Time LastUpdate, 
 				sf::Text& hp, sf::VideoMode mode,
-				Player& player,
-				sf::RectangleShape& enemy, int& enemyHp,
+				Player& player, Boss& boss,
 				std::vector<Bullet>& enemyBullets, std::vector<Bullet>& playerBullets,
 				const std::map<std::string, bool>& keyMap, bool& close, float timeModifier) {
 	sf::Time elapsedTime = (CurrentTime - LastUpdate) / timeModifier;
 	static sf::Time bulletTimeBank;
-	static sf::Time bossTimeBank;
-	static bool goRight = false;
 	float fireRate = 1.0f / 5.0f;
-	float bossFireRate = 1.0f / 4.0f;
-	float enemySpeed = 200.0f;
+	
 	// Player movement
 	player.move(elapsedTime, keyMap);
 	// Player firing
@@ -182,39 +176,13 @@ void updateGame(sf::Time CurrentTime, sf::Time LastUpdate,
 			bullet.travel(elapsedTime);
 		}
 	}
-	// Enemy movement
-	if (enemy.getPosition().x > ((mode.width / 3) * 2))
-		goRight = false;
-	else if (enemy.getPosition().x < ((mode.width / 3)))
-		goRight = true;
-	if (goRight)
-		enemy.move(enemySpeed * elapsedTime.asSeconds(), 0.0f);
-	else
-		enemy.move(-enemySpeed * elapsedTime.asSeconds(), 0.0f);
-	// Boss firing
-	if (bossTimeBank.asSeconds() > bossFireRate) {
-		enemyBullets.push_back(Bullet(enemy.getPosition() + sf::Vector2f(0.0f, enemy.getSize().y), -1.0f, false));
-		enemyBullets.push_back(Bullet(enemy.getPosition() + sf::Vector2f(enemy.getSize().x, enemy.getSize().y), -1.0f, false));
-		bossTimeBank -= (sf::seconds)(bossFireRate);
-	}
-	else
-		bossTimeBank += elapsedTime;
-	// Boss Collision Detection
-	for (auto& bullet : playerBullets) {
-		if (enemy.getGlobalBounds().contains(bullet.getPos()) && bullet.getVal()) {
-			bullet.invalidate();
-			enemyHp -= 5;
-			if (enemyHp < 75 && enemyHp >= 50)
-				enemy.setFillColor(sf::Color::Yellow);
-			else if (enemyHp < 50 && enemyHp >= 25)
-				enemy.setFillColor(sf::Color(255, 98, 0));
-			else if (enemyHp < 25 && enemyHp >= 1)
-				enemy.setFillColor(sf::Color::Red);
-			else if (enemyHp < 1)
-				close = true;
-		}
-	}
-	hp.setString("HP : " + std::to_string(enemyHp));
+
+	// Process Boss
+	boss.move(elapsedTime, mode);
+	boss.fire(elapsedTime, enemyBullets);
+	boss.detectCollide(playerBullets);
+	hp.setString("HP : " + std::to_string(boss.getHp()));
+
 	// Player Collission Detection
 	bool wipe = false;
 	for (auto& bullet : enemyBullets) {
