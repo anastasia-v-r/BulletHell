@@ -3,6 +3,7 @@
 #include <SFML/Audio.hpp>
 #include "bullet.hpp"
 #include "player.hpp"
+#include "boss.hpp"
 #include <vector>
 #include <queue>
 #include <map>
