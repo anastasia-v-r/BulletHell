@@ -31,6 +31,7 @@ public:
 		if (timeBank.asSeconds() > fireRate) {
 			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(0.0f, boss.getRadius() * 2), -1.0f, false));
 			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius() * 2, boss.getRadius() * 2), -1.0f, false));
+			timeBank -= (sf::seconds)(fireRate);
 		} else {
 			timeBank += elapsedTime;
 		}
