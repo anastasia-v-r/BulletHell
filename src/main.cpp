@@ -179,7 +179,7 @@ void updateGame(sf::Time CurrentTime, sf::Time LastUpdate,
 	// Process Boss
 	boss.move(elapsedTime, mode);
 	boss.fire(elapsedTime, enemyBullets);
-	boss.detectCollide(playerBullets);
+	close = boss.detectCollide(playerBullets);
 	hp.setString("HP : " + std::to_string(boss.getHp()));
 
 	// Player Collission Detection
