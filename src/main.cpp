@@ -150,10 +150,7 @@ void updateGame(sf::Time CurrentTime, sf::Time LastUpdate,
 				std::vector<Bullet>& enemyBullets, std::vector<Bullet>& playerBullets,
 				const std::map<std::string, bool>& keyMap, bool& close, float timeModifier) {
 	sf::Time elapsedTime = (CurrentTime - LastUpdate) / timeModifier;
-	// Player movement
-	player.move(elapsedTime, keyMap);
-	// Player firing
-	player.fire(elapsedTime, playerBullets, keyMap.at("Space"));
+
 	// Process Bullets
 	if (!playerBullets.empty()) {
 		for (auto& bullet : playerBullets) {
@@ -166,16 +163,18 @@ void updateGame(sf::Time CurrentTime, sf::Time LastUpdate,
 		}
 	}
 
+	// Process player
+	player.move(elapsedTime, keyMap);
+	player.fire(elapsedTime, playerBullets, keyMap.at("Space"));
+	if (player.detectCollide(enemyBullets))
+		close = true;
+
 	// Process Boss
 	boss.move(elapsedTime, mode);
 	boss.fire(elapsedTime, enemyBullets);
 	if (boss.detectCollide(playerBullets))
 		close = true;
 	hp.setString("HP : " + std::to_string(boss.getHp()));
-
-	// Player Collission Detection
-	if (player.detectCollide(enemyBullets))
-		close = true;
 
 	// Clear Bullets
 	if (!playerBullets.empty()) {
