@@ -150,20 +150,10 @@ void updateGame(sf::Time CurrentTime, sf::Time LastUpdate,
 				std::vector<Bullet>& enemyBullets, std::vector<Bullet>& playerBullets,
 				const std::map<std::string, bool>& keyMap, bool& close, float timeModifier) {
 	sf::Time elapsedTime = (CurrentTime - LastUpdate) / timeModifier;
-	static sf::Time bulletTimeBank;
-	float fireRate = 1.0f / 5.0f;
-	
 	// Player movement
 	player.move(elapsedTime, keyMap);
 	// Player firing
-	if (keyMap.at("Space"))
-		if (bulletTimeBank.asSeconds() > fireRate) {
-			playerBullets.push_back(Bullet(player.obj().getPosition(), 1.0f, true));
-			playerBullets.push_back(Bullet(player.obj().getPosition() + sf::Vector2f(player.obj().getSize().x, 0.0f), 1.0f, true));
-			bulletTimeBank -= (sf::seconds)(fireRate);
-		}
-		else
-			bulletTimeBank += elapsedTime;
+	player.fire(elapsedTime, playerBullets, keyMap.at("Space"));
 	// Process Bullets
 	if (!playerBullets.empty()) {
 		for (auto& bullet : playerBullets) {
@@ -179,20 +169,14 @@ void updateGame(sf::Time CurrentTime, sf::Time LastUpdate,
 	// Process Boss
 	boss.move(elapsedTime, mode);
 	boss.fire(elapsedTime, enemyBullets);
-	close = boss.detectCollide(playerBullets);
+	if (boss.detectCollide(playerBullets))
+		close = true;
 	hp.setString("HP : " + std::to_string(boss.getHp()));
 
 	// Player Collission Detection
-	bool wipe = false;
-	for (auto& bullet : enemyBullets) {
-		if (player.obj().getGlobalBounds().contains(bullet.getPos())) {
-			close = player.dmg();
-			wipe = true;
-			break;
-		}
-	}
-	if (wipe)
-		enemyBullets.clear();
+	if (player.detectCollide(enemyBullets))
+		close = true;
+
 	// Clear Bullets
 	if (!playerBullets.empty()) {
 		for (int i = 0; i < playerBullets.size(); i++) {
