@@ -37,10 +37,13 @@ public:
 				timeBank += elapsedTime;
 			}
 		} else {
-			if (timeBank > sf::Time::Zero)
+			if (timeBank >= (sf::seconds)(fireRate * 2.0f)) {
 				timeBank -= (sf::seconds)(fireRate);
-			else
+			} else if (timeBank >= (sf::seconds)(fireRate)) {
+				timeBank = (sf::seconds)(fireRate);
+			} else {
 				timeBank = sf::Time::Zero;
+			}
 		}
 	}
 	bool detectCollide(std::vector<Bullet>& bullets) {
