@@ -18,12 +18,11 @@ void processInput(sf::RenderWindow& /* window */, float& /* timeModifier */,
 
 void updateGame(sf::Time /* Current Time */, sf::Time /* Time since last update */,
 				sf::Text& /* hp */, sf::VideoMode /* mode */,
-				Player& /* player */,
-				sf::RectangleShape& /* enemy */, int& /* enemyHp */,
+				Player& /* player */, Boss& /* boss */,
 				std::vector<Bullet>& /*enemyBullets*/, std::vector<Bullet>& /*playerBullets*/,
 				const std::map<std::string, bool>& /*keyMap*/, bool& /* close */, float /* timeModifier */);
 
-void renderGame(Player& /* player */, sf::RectangleShape& /* enemy */,
+void renderGame(Player& /* player */, Boss& /* enemy */,
 				std::vector<Bullet>& /*enemyBullets*/, std::vector<Bullet>& /*playerBullets*/,
 				sf::Text& /* hp */, sf::RenderWindow& /* window */);
 
@@ -63,10 +62,10 @@ int main() {
 		// Process Events
 		processInput(window, timeModifier, keyMap, close);
 		// Update Game
-		updateGame(gameClock.getElapsedTime(), lastUpdate, hp, mode, player, enemy, enemyHp, enemyBullets, playerBullets, keyMap, close, timeModifier);
+		updateGame(gameClock.getElapsedTime(), lastUpdate, hp, mode, player, boss, enemyBullets, playerBullets, keyMap, close, timeModifier);
 		lastUpdate = gameClock.getElapsedTime();
 		// Draw objects
-		renderGame(player, enemy, enemyBullets, playerBullets, hp, window);
+		renderGame(player, boss, enemyBullets, playerBullets, hp, window);
 		// Calculate Fps
 		fps.push(gameClock.getElapsedTime());
 		while (fps.front() < (gameClock.getElapsedTime() - (sf::seconds)(1)))
@@ -209,12 +208,12 @@ void updateGame(sf::Time CurrentTime, sf::Time LastUpdate,
 	}
 }
 
-void renderGame(Player& player, sf::RectangleShape& enemy,
+void renderGame(Player& player, Boss& boss,
 	std::vector<Bullet>& enemyBullets, std::vector<Bullet>& playerBullets,
 	sf::Text& hp, sf::RenderWindow& window) {
 	window.clear();
 	window.draw(player);
-	window.draw(enemy);
+	window.draw(boss);
 	window.draw(hp);
 	if (!playerBullets.empty())
 		for (const auto& bullet : playerBullets) {
