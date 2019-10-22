@@ -13,7 +13,6 @@ public:
 		, valid{ true }
 		, dir{ dir } {
 		angle = sf::Vector2f((float)std::sin(DEG2RAD(dir)), (float)-std::cos(DEG2RAD(dir)));
-		std::cout << angle.x << std::endl;
 		bullet.setOrigin(bullet.getRadius(), bullet.getRadius());
 		bullet.setPosition(pos);
 		if (plr)

@@ -8,7 +8,7 @@ class Boss : public sf::Drawable
 public:
 	Boss(sf::VideoMode mode)
 		: boss{ 50.0f }
-		, iHp{ 300 }
+		, iHp{ 500 }
 		, hp{ iHp }
 		, speed{ 200.0f } 
 		, goRight{ true } 
@@ -44,9 +44,10 @@ public:
 	}
 	bool detectCollide(std::vector<Bullet>& bullets) {
 		auto [x2, y2] = boss.getPosition();
+		float bRad = boss.getRadius();
 		for (auto& bullet : bullets) {
 			auto [x1, y1] = bullet.getPos();
-			if ( bullet.getVal() && std::sqrt(std::pow(y2 - y1, 2) + std::pow(x2 - x1, 2)) < (boss.getRadius() + bullet.getRadius()) ) {
+			if ( bullet.getVal() && std::sqrt(std::pow(y2 - y1, 2) + std::pow(x2 - x1, 2)) < (bRad + bullet.getRadius()) ) {
 				bullet.invalidate();
 				hp -= 5;
 				if (hp < (iHp * .75) && hp >= (iHp * .50)) {

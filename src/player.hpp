@@ -47,8 +47,11 @@ public:
 		}
 	}
 	bool detectCollide(std::vector<Bullet>& bullets) {
+		auto [x2, y2] = player.getPosition();
+		float pRad = player.getRadius();
 		for (auto& bullet : bullets) {
-			if (std::sqrt(std::pow((player.getPosition().x - bullet.getPos().x), 2) + std::pow((player.getPosition().y - bullet.getPos().y), 2)) < (player.getRadius() + bullet.getRadius())) {
+			auto [x1, y1] = bullet.getPos();
+			if ( std::sqrt(std::pow(y2 - y1, 2) + std::pow(x2 - x1, 2)) < (pRad + bullet.getRadius()) ) {
 				hp--;
 				bullets.clear();
 				if (hp == 2) {
