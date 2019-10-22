@@ -8,12 +8,14 @@ class Boss : public sf::Drawable
 public:
 	Boss(sf::VideoMode mode)
 		: boss{ 50.0f }
-		, hp{ 100 }
+		, iHp{ 300 }
+		, hp{ iHp }
 		, speed{ 200.0f } 
 		, goRight{ true } 
 		, fireRate{ 1.0f / 4.0f } 
 		, timeBank{ sf::Time::Zero } {
 		boss.setPosition(mode.width / 2.0f, 0.0f);
+		boss.setOrigin(25.0f, 25.0f);
 	}
 	// Processors
 	void move(const sf::Time& elapsedTime, const sf::VideoMode& mode) {
@@ -38,15 +40,17 @@ public:
 		}
 	}
 	bool detectCollide(std::vector<Bullet>& bullets) {
+		auto [x2, y2] = boss.getPosition();
 		for (auto& bullet : bullets) {
-			if ( std::sqrt(std::pow((boss.getPosition().x - bullet.getPos().x), 2) / std::pow((boss.getPosition().y - bullet.getPos().y), 2)) < (boss.getRadius() + bullet.getRadius()) ) {
+			auto [x1, y1] = bullet.getPos();
+			if ( bullet.getVal() && std::sqrt(std::pow(y2 - y1, 2) + std::pow(x2 - x1, 2)) < (boss.getRadius() + bullet.getRadius()) ) {
 				bullet.invalidate();
 				hp -= 5;
-				if (hp < 75 && hp >= 50) {
+				if (hp < (iHp * .75) && hp >= (iHp * .50)) {
 					boss.setFillColor(sf::Color::Yellow);
-				} else if (hp < 50 && hp >= 25) {
+				} else if (hp < (iHp * .50) && hp >= (iHp * .25)) {
 					boss.setFillColor(sf::Color(255, 98, 0));
-				} else if (hp < 25 && hp >= 1) {
+				} else if (hp < (iHp * .25) && hp >= 1) {
 					boss.setFillColor(sf::Color::Red);
 				} else if (hp < 1) {
 					return true;
@@ -67,6 +71,7 @@ private:
 
 private:
 	sf::CircleShape boss;
+	int iHp;
 	int hp;
 	float speed;
 	bool goRight;

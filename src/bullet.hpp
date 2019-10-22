@@ -10,7 +10,10 @@ public:
 		, player{ plr }
 		, valid{ true } {
 		bullet.setPosition(pos);
-		bullet.setFillColor(sf::Color::Green);
+		if (plr)
+			bullet.setFillColor(sf::Color::Green);
+		else
+			bullet.setFillColor(sf::Color::Magenta);
 	}
 	// Getters
 	float getRadius() const {

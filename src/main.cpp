@@ -179,7 +179,7 @@ void updateGame(sf::Time CurrentTime, sf::Time LastUpdate,
 	// Clear Bullets
 	if (!playerBullets.empty()) {
 		for (int i = 0; i < playerBullets.size(); i++) {
-			if ((playerBullets[i].getHeight() < 0.1f || playerBullets[i].getHeight() > 1080.0f))
+			if ((playerBullets[i].getHeight() < 0.1f || playerBullets[i].getHeight() > 1080.0f) || !playerBullets[i].getVal())
 				playerBullets.erase(playerBullets.begin() + i);
 		}
 	}

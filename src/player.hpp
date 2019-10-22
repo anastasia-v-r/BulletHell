@@ -7,13 +7,14 @@ class Player : public sf::Drawable
 public:
 	// Cons. & Desc.
 	Player(sf::VideoMode mode) 
-		: player{ 20.0f }
+		: player{ 10.0f }
 		, hp{ 3 }
 		, speed{ 500.0f }
 		, fireRate{ 1.0f / 5.0f } 
 		, timeBank{ sf::Time::Zero } {
 		player.setPosition(mode.width / 2.0f, mode.height / 2.0f);
 		player.setFillColor(sf::Color::Green);
+		player.setOrigin(player.getRadius() / 2, player.getRadius() / 2);
 	}
 	// Processors
 	void move(sf::Time elapsedTime, const std::map<std::string, bool>& keyMap) {
@@ -29,8 +30,8 @@ public:
 	void fire(const sf::Time& elapsedTime, std::vector<Bullet>& bullets, bool key) {
 		if (key) {
 			if (timeBank.asSeconds() > fireRate) {
-				bullets.push_back(Bullet(player.getPosition() + sf::Vector2f(0.0f, player.getRadius() * 2), 1.0f, false));
-				bullets.push_back(Bullet(player.getPosition() + sf::Vector2f(player.getRadius() * 2, player.getRadius() * 2), 1.0f, false));
+				bullets.push_back(Bullet(player.getPosition() + sf::Vector2f(0.0f, player.getRadius() * 2), 1.0f, true));
+				bullets.push_back(Bullet(player.getPosition() + sf::Vector2f(player.getRadius() * 2, player.getRadius() * 2), 1.0f, true));
 				timeBank -= (sf::seconds)(fireRate);
 			}
 			else {
@@ -48,7 +49,7 @@ public:
 	}
 	bool detectCollide(std::vector<Bullet>& bullets) {
 		for (auto& bullet : bullets) {
-			if (player.getGlobalBounds().contains(bullet.getPos())) {
+			if (std::sqrt(std::pow((player.getPosition().x - bullet.getPos().x), 2) + std::pow((player.getPosition().y - bullet.getPos().y), 2)) < (player.getRadius() + bullet.getRadius())) {
 				hp--;
 				bullets.clear();
 				if (hp == 2) {
