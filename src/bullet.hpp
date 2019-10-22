@@ -3,12 +3,13 @@
 class Bullet : public sf::Drawable
 {
 public:
-	Bullet(sf::Vector2f pos, int dir, bool plr)
+	Bullet(sf::Vector2f pos, int dir, bool plr, float speed)
 		: bullet{ 20.0f }
-		, speed{ 750.0f }
+		, speed{ speed }
 		, direction{ dir } 
 		, player{ plr }
 		, valid{ true } {
+		bullet.setOrigin(bullet.getRadius(), bullet.getRadius());
 		bullet.setPosition(pos);
 		if (plr)
 			bullet.setFillColor(sf::Color::Green);

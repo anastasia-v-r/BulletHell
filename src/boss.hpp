@@ -15,7 +15,7 @@ public:
 		, fireRate{ 1.0f / 4.0f } 
 		, timeBank{ sf::Time::Zero } {
 		boss.setPosition(mode.width / 2.0f, 0.0f);
-		boss.setOrigin(25.0f, 25.0f);
+		boss.setOrigin(boss.getRadius(), boss.getRadius());
 	}
 	// Processors
 	void move(const sf::Time& elapsedTime, const sf::VideoMode& mode) {
@@ -32,8 +32,8 @@ public:
 	}
 	void fire(const sf::Time& elapsedTime, std::vector<Bullet>& bullets) {
 		if (timeBank.asSeconds() > fireRate) {
-			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(0.0f, boss.getRadius() * 2), -1.0f, false));
-			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius() * 2, boss.getRadius() * 2), -1.0f, false));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(0.0f, boss.getRadius() * 2), -1.0f, false, 500.0f));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius() * 2, boss.getRadius() * 2), -1.0f, false, 500.0f));
 			timeBank -= (sf::seconds)(fireRate);
 		} else {
 			timeBank += elapsedTime;
