@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "bullet.hpp"
+#include <cmath>
 
 class Boss : public sf::Drawable
 {
@@ -38,7 +39,7 @@ public:
 	}
 	bool detectCollide(std::vector<Bullet>& bullets) {
 		for (auto& bullet : bullets) {
-			if (boss.getGlobalBounds().contains(bullet.getPos()) && bullet.getVal()) {
+			if ( std::sqrt(std::pow((boss.getPosition().x - bullet.getPos().x), 2) / std::pow((boss.getPosition().y - bullet.getPos().y), 2)) < (boss.getRadius() + bullet.getRadius()) ) {
 				bullet.invalidate();
 				hp -= 5;
 				if (hp < 75 && hp >= 50) {

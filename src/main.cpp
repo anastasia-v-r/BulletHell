@@ -92,7 +92,7 @@ void processInput(sf::RenderWindow& window, float& timeModifier,
 				close = true;
 				break;
 			case sf::Keyboard::LShift:
-				timeModifier = 2.0f;
+				timeModifier = 5.0f;
 				break;
 			case sf::Keyboard::Space:
 				keyMap["Space"] = true;

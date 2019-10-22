@@ -13,6 +13,9 @@ public:
 		bullet.setFillColor(sf::Color::Green);
 	}
 	// Getters
+	float getRadius() const {
+		return bullet.getRadius();
+	}
 	float getHeight() const {
 		return bullet.getPosition().y;
 	}
