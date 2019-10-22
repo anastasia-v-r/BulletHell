@@ -4,7 +4,7 @@ class Bullet : public sf::Drawable
 {
 public:
 	Bullet(sf::Vector2f pos, int dir, bool plr)
-		: bullet{ sf::RectangleShape(sf::Vector2f(20.0f, 20.0f)) }
+		: bullet{ 20.0f }
 		, speed{ 750.0f }
 		, direction{ dir } 
 		, player{ plr }
@@ -37,7 +37,7 @@ public:
 		window.draw(bullet, states);
 	}
 private:
-	sf::RectangleShape bullet;
+	sf::CircleShape bullet;
 	float speed;
 	int direction;
 	bool player;
