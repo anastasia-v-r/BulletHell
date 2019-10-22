@@ -32,8 +32,11 @@ public:
 	}
 	void fire(const sf::Time& elapsedTime, std::vector<Bullet>& bullets) {
 		if (timeBank.asSeconds() > fireRate) {
-			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(0.0f, boss.getRadius() * 2), -1.0f, false, 500.0f));
-			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius() * 2, boss.getRadius() * 2), -1.0f, false, 500.0f));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius(), boss.getRadius()), 135.0f, false, 500.0f));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius() / 2, boss.getRadius()), 157.5f, false, 500.0f));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(0.0f, boss.getRadius()), 180.0f, false, 500.0f));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(-boss.getRadius() / 2, boss.getRadius()), 202.5f, false, 500.0f));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(-boss.getRadius(), boss.getRadius()), 225.0f, false, 500.0f));
 			timeBank -= (sf::seconds)(fireRate);
 		} else {
 			timeBank += elapsedTime;

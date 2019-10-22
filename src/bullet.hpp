@@ -1,14 +1,19 @@
 #pragma once
-
+#include <cmath>
+#include <iostream>
+#define M_PI 3.14159265
+#define DEG2RAD(angleDegrees) (angleDegrees * M_PI / 180.0)
 class Bullet : public sf::Drawable
 {
 public:
-	Bullet(sf::Vector2f pos, int dir, bool plr, float speed)
+	Bullet(sf::Vector2f pos, float dir, bool plr, float speed)
 		: bullet{ 20.0f }
 		, speed{ speed }
-		, direction{ dir } 
 		, player{ plr }
-		, valid{ true } {
+		, valid{ true }
+		, dir{ dir } {
+		angle = sf::Vector2f((float)std::sin(DEG2RAD(dir)), (float)-std::cos(DEG2RAD(dir)));
+		std::cout << angle.x << std::endl;
 		bullet.setOrigin(bullet.getRadius(), bullet.getRadius());
 		bullet.setPosition(pos);
 		if (plr)
@@ -34,7 +39,7 @@ public:
 	}
 	// Processors
 	void travel(const sf::Time& time) {
-		bullet.move(0.0f, direction * (-speed * time.asSeconds()));
+		bullet.move(angle * speed * time.asSeconds());
 	}
 	void invalidate() {
 		valid = false;
@@ -46,7 +51,8 @@ public:
 private:
 	sf::CircleShape bullet;
 	float speed;
-	int direction;
 	bool player;
 	bool valid;
+	sf::Vector2f angle;
+	float dir;
 };
