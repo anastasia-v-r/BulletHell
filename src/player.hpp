@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "bullet.hpp"
+#include <cmath>
 
 class Player : public sf::Drawable
 {
