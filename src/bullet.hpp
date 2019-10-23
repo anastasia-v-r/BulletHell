@@ -3,17 +3,24 @@
 class Bullet : public sf::Drawable
 {
 public:
-	Bullet(sf::Vector2f pos, int dir, bool plr)
-		: bullet{ sf::RectangleShape(sf::Vector2f(20.0f, 20.0f)) }
-		, speed{ 750.0f }
+	Bullet(sf::Vector2f pos, int dir, bool plr, float speed)
+		: bullet{ 20.0f }
+		, speed{ speed }
 		, direction{ dir } 
 		, player{ plr }
 		, valid{ true } {
+		bullet.setOrigin(bullet.getRadius(), bullet.getRadius());
 		bullet.setPosition(pos);
-		bullet.setFillColor(sf::Color::Green);
+		if (plr)
+			bullet.setFillColor(sf::Color::Green);
+		else
+			bullet.setFillColor(sf::Color::Magenta);
 	}
 	// Getters
-	float getHeight() {
+	float getRadius() const {
+		return bullet.getRadius();
+	}
+	float getHeight() const {
 		return bullet.getPosition().y;
 	}
 	auto getPos() const {
@@ -37,7 +44,7 @@ public:
 		window.draw(bullet, states);
 	}
 private:
-	sf::RectangleShape bullet;
+	sf::CircleShape bullet;
 	float speed;
 	int direction;
 	bool player;
