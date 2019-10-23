@@ -6,12 +6,13 @@
 class Bullet : public sf::Drawable
 {
 public:
-	Bullet(sf::Vector2f pos, float dir, bool plr, float speed)
+	Bullet(sf::Vector2f pos, float dir, bool plr, float speed, float angVel)
 		: bullet{ 20.0f }
 		, speed{ speed }
 		, player{ plr }
 		, valid{ true }
-		, dir{ dir } {
+		, dir{ dir }
+		, angularVelocity{ angVel } {
 		angle = sf::Vector2f((float)std::sin(DEG2RAD(dir)), (float)-std::cos(DEG2RAD(dir)));
 		bullet.setOrigin(bullet.getRadius(), bullet.getRadius());
 		bullet.setPosition(pos);
@@ -39,6 +40,8 @@ public:
 	// Processors
 	void travel(const sf::Time& time) {
 		bullet.move(angle * speed * time.asSeconds());
+		dir += (angularVelocity * time.asSeconds());
+		angle = sf::Vector2f((float)std::sin(DEG2RAD(dir)), (float)-std::cos(DEG2RAD(dir)));
 	}
 	void invalidate() {
 		valid = false;
@@ -54,4 +57,5 @@ private:
 	bool valid;
 	sf::Vector2f angle;
 	float dir;
+	float angularVelocity;
 };

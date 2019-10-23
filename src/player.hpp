@@ -30,7 +30,7 @@ public:
 	void fire(const sf::Time& elapsedTime, std::vector<Bullet>& bullets, bool key) {
 		if (key) {
 			if (timeBank.asSeconds() > fireRate) {
-				bullets.push_back(Bullet(sf::Vector2f(player.getPosition().x, player.getPosition().y + player.getRadius()), 0.0f, true, 1000.0f));
+				bullets.push_back(Bullet(sf::Vector2f(player.getPosition().x, player.getPosition().y + player.getRadius()), 0.0f, true, 1000.0f, 0.0f));
 				timeBank -= (sf::seconds)(fireRate);
 			}
 			else {
