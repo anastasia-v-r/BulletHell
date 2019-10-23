@@ -6,6 +6,19 @@
 class Bullet : public sf::Drawable
 {
 public:
+	Bullet(sf::Vector2f pos, float dir, bool plr, float speed, float angVel, float dmg, const sf::Texture& texture)
+		: bullet{ 20.0f }
+		, speed{ speed }
+		, player{ plr }
+		, valid{ true }
+		, dir{ dir }
+		, angularVelocity{ angVel }
+		, dmg{ dmg } {
+		bullet.setTexture(&texture);
+		angle = sf::Vector2f((float)std::sin(DEG2RAD(dir)), (float)-std::cos(DEG2RAD(dir)));
+		bullet.setOrigin(bullet.getRadius(), bullet.getRadius());
+		bullet.setPosition(pos);
+	}
 	Bullet(sf::Vector2f pos, float dir, bool plr, float speed, float angVel, float dmg)
 		: bullet{ 20.0f }
 		, speed{ speed }
