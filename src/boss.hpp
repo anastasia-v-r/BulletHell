@@ -34,15 +34,16 @@ public:
 		if (timeBank.asSeconds() > fireRate) {
 			float speed = 500.0f;
 			float angVel;
+			float dmg = 1;
 			if (goRight)
 				angVel = -50.0f;
 			else
 				angVel = 50.0f;
-			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius(), boss.getRadius()), 135.0f, false, speed, angVel));
-			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius() / 2, boss.getRadius()), 157.5f, false, speed, angVel));
-			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(0.0f, boss.getRadius()), 180.0f, false, speed, angVel));
-			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(-boss.getRadius() / 2, boss.getRadius()), 202.5f, false, speed, angVel));
-			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(-boss.getRadius(), boss.getRadius()), 225.0f, false, speed, angVel));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius(), boss.getRadius()), 135.0f, false, speed, angVel, dmg));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius() / 2, boss.getRadius()), 157.5f, false, speed, angVel, dmg));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(0.0f, boss.getRadius()), 180.0f, false, speed, angVel, dmg));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(-boss.getRadius() / 2, boss.getRadius()), 202.5f, false, speed, angVel, dmg));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(-boss.getRadius(), boss.getRadius()), 225.0f, false, speed, angVel, dmg));
 			timeBank -= (sf::seconds)(fireRate);
 		} else {
 			timeBank += elapsedTime;
@@ -55,12 +56,12 @@ public:
 			auto [x1, y1] = bullet.getPos();
 			if ( bullet.getVal() && std::sqrt(std::pow(y2 - y1, 2) + std::pow(x2 - x1, 2)) < (bRad + bullet.getRadius()) ) {
 				bullet.invalidate();
-				hp -= 5;
-				if (hp < (iHp * .75) && hp >= (iHp * .50)) {
+				hp -= bullet.getDmg();
+				if (hp < (iHp * 0.75f) && hp >= (iHp * 0.50f)) {
 					boss.setFillColor(sf::Color::Yellow);
-				} else if (hp < (iHp * .50) && hp >= (iHp * .25)) {
+				} else if (hp < (iHp * 0.50f) && hp >= (iHp * 0.25f)) {
 					boss.setFillColor(sf::Color(255, 98, 0));
-				} else if (hp < (iHp * .25) && hp >= 1) {
+				} else if (hp < (iHp * 0.25f) && hp >= 1.0f) {
 					boss.setFillColor(sf::Color::Red);
 				} else if (hp < 1) {
 					return true;
