@@ -8,12 +8,14 @@ class Boss : public sf::Drawable
 public:
 	Boss(sf::VideoMode mode)
 		: boss{ 50.0f }
-		, iHp{ 300 }
+		, iHp{ 500 }
 		, hp{ iHp }
 		, speed{ 200.0f } 
 		, goRight{ true } 
 		, fireRate{ 1.0f / 4.0f } 
 		, timeBank{ sf::Time::Zero } {
+		bul1.loadFromFile("assets/textures/boss_bullet_1.png");
+		bul2.loadFromFile("assets/textures/boss_bullet_2.png");
 		boss.setPosition(mode.width / 2.0f, 0.0f);
 		boss.setOrigin(boss.getRadius(), boss.getRadius());
 	}
@@ -32,8 +34,19 @@ public:
 	}
 	void fire(const sf::Time& elapsedTime, std::vector<Bullet>& bullets) {
 		if (timeBank.asSeconds() > fireRate) {
-			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(0.0f, boss.getRadius() * 2), -1.0f, false, 500.0f));
-			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius() * 2, boss.getRadius() * 2), -1.0f, false, 500.0f));
+			float speed = 500.0f;
+			float size = 15.0f;
+			float angVel;
+			float dmg = 1;
+			if (goRight)
+				angVel = -40.0f;
+			else
+				angVel = 40.0f;
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius(), boss.getRadius()), 135.0f, speed, angVel, dmg, size, bul1));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius() / 2, boss.getRadius()), 157.5f, speed, angVel, dmg, size, bul2));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(0.0f, boss.getRadius()), 180.0f, speed, angVel, dmg, size, bul1));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(-boss.getRadius() / 2, boss.getRadius()), 202.5f, speed, angVel, dmg, size, bul2));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(-boss.getRadius(), boss.getRadius()), 225.0f, speed, angVel, dmg, size, bul1));
 			timeBank -= (sf::seconds)(fireRate);
 		} else {
 			timeBank += elapsedTime;
@@ -41,16 +54,17 @@ public:
 	}
 	bool detectCollide(std::vector<Bullet>& bullets) {
 		auto [x2, y2] = boss.getPosition();
+		float bRad = boss.getRadius();
 		for (auto& bullet : bullets) {
 			auto [x1, y1] = bullet.getPos();
-			if ( bullet.getVal() && std::sqrt(std::pow(y2 - y1, 2) + std::pow(x2 - x1, 2)) < (boss.getRadius() + bullet.getRadius()) ) {
+			if ( bullet.getVal() && std::sqrt(std::pow(y2 - y1, 2) + std::pow(x2 - x1, 2)) < (bRad + bullet.getRadius()) ) {
 				bullet.invalidate();
-				hp -= 5;
-				if (hp < (iHp * .75) && hp >= (iHp * .50)) {
+				hp -= bullet.getDmg();
+				if (hp < (iHp * 0.75f) && hp >= (iHp * 0.50f)) {
 					boss.setFillColor(sf::Color::Yellow);
-				} else if (hp < (iHp * .50) && hp >= (iHp * .25)) {
+				} else if (hp < (iHp * 0.50f) && hp >= (iHp * 0.25f)) {
 					boss.setFillColor(sf::Color(255, 98, 0));
-				} else if (hp < (iHp * .25) && hp >= 1) {
+				} else if (hp < (iHp * 0.25f) && hp >= 1.0f) {
 					boss.setFillColor(sf::Color::Red);
 				} else if (hp < 1) {
 					return true;
@@ -62,6 +76,9 @@ public:
 	// Getters
 	int getHp() const {
 		return hp;
+	}
+	sf::Vector2f getPos() const {
+		return boss.getPosition();
 	}
 	// Draw
 	virtual void draw(sf::RenderTarget& window, sf::RenderStates states) const {
@@ -77,4 +94,6 @@ private:
 	bool goRight;
 	sf::Time timeBank;
 	float fireRate;
+	sf::Texture bul1;
+	sf::Texture bul2;
 };

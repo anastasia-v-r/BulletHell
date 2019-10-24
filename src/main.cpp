@@ -154,12 +154,12 @@ void updateGame(sf::Time CurrentTime, sf::Time LastUpdate,
 	// Process Bullets
 	if (!playerBullets.empty()) {
 		for (auto& bullet : playerBullets) {
-			bullet.travel(elapsedTime);
+			bullet.travel(elapsedTime, boss.getPos());
 		}
 	}
 	if (!enemyBullets.empty()) {
 		for (auto& bullet : enemyBullets) {
-			bullet.travel(elapsedTime);
+			bullet.travel(elapsedTime, boss.getPos());
 		}
 	}
 

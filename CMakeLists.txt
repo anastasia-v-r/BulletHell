@@ -61,9 +61,9 @@ set_target_properties(BulletHell PROPERTIES
 # Include Directories
 target_include_directories(BulletHell PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
-# For filthy MacOS
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") 
-  target_link_libraries(BulletHell stdc++fs)
+# Unix System Fixes
+if(UNIX)
+	target_link_libraries(BulletHell m)
 endif()
 
 # Link all Libraries

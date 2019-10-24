@@ -1,21 +1,19 @@
 #pragma once
+#include <SFML/Graphics.hpp>
+#include <cmath>
+#include <iostream>
+constexpr float Pi = 3.14159265;
+
+constexpr float deg_to_rad(float angle_deg) {
+	return (angle_deg * Pi) / 180;
+}
 
 class Bullet : public sf::Drawable
 {
 public:
-	Bullet(sf::Vector2f pos, int dir, bool plr, float speed)
-		: bullet{ 20.0f }
-		, speed{ speed }
-		, direction{ dir } 
-		, player{ plr }
-		, valid{ true } {
-		bullet.setOrigin(bullet.getRadius(), bullet.getRadius());
-		bullet.setPosition(pos);
-		if (plr)
-			bullet.setFillColor(sf::Color::Green);
-		else
-			bullet.setFillColor(sf::Color::Magenta);
-	}
+	Bullet(sf::Vector2f, float, float, float, float, float, const sf::Texture&);
+	Bullet(sf::Vector2f, float, float, float, const sf::Texture&, bool);
+	Bullet(sf::Vector2f, float, float, float, float, float, sf::Color);
 	// Getters
 	float getRadius() const {
 		return bullet.getRadius();
@@ -26,16 +24,14 @@ public:
 	auto getPos() const {
 		return bullet.getPosition();
 	}
-	bool getPlr() const {
-		return player;
-	}
 	bool getVal() const {
 		return valid;
 	}
-	// Processors
-	void travel(const sf::Time& time) {
-		bullet.move(0.0f, direction * (-speed * time.asSeconds()));
+	float getDmg() const {
+		return dmg;
 	}
+	// Processors
+	void travel(const sf::Time&, sf::Vector2f);
 	void invalidate() {
 		valid = false;
 	}
@@ -46,7 +42,10 @@ public:
 private:
 	sf::CircleShape bullet;
 	float speed;
-	int direction;
-	bool player;
 	bool valid;
+	sf::Vector2f angle;
+	float dir;
+	float angularVelocity;
+	float dmg;
+	bool tracking;
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "bullet.hpp"
+#include <cmath>
 
 class Player : public sf::Drawable
 {
@@ -15,6 +16,8 @@ public:
 		player.setPosition(mode.width / 2.0f, mode.height / 2.0f);
 		player.setFillColor(sf::Color::Green);
 		player.setOrigin(player.getRadius(), player.getRadius());
+		bul1.loadFromFile("assets/textures/player_bullet_1.png");
+		bul2.loadFromFile("assets/textures/player_bullet_2.png");
 	}
 	// Processors
 	void move(sf::Time elapsedTime, const std::map<std::string, bool>& keyMap) {
@@ -28,9 +31,15 @@ public:
 			player.move(-speed * elapsedTime.asSeconds(), 0);
 	}
 	void fire(const sf::Time& elapsedTime, std::vector<Bullet>& bullets, bool key) {
+		static int bullet = 0;
 		if (key) {
 			if (timeBank.asSeconds() > fireRate) {
-				bullets.push_back(Bullet(sf::Vector2f(player.getPosition().x, player.getPosition().y + player.getRadius()), 1.0f, true, 1000.0f));
+				bullets.push_back(Bullet(sf::Vector2f(player.getPosition().x, player.getPosition().y + player.getRadius()), 0.0f, 1000.0f, 0.0f, 5.0f, 10.0f, bul1)); // Normal bullets
+				bullet += 1;
+				if (bullet == 4) {
+					bullets.push_back(Bullet(sf::Vector2f(player.getPosition().x, player.getPosition().y + player.getRadius()), 1000.0f, 5.0f, 25.0f, bul2, true));
+					bullet = 0;
+				}
 				timeBank -= (sf::seconds)(fireRate);
 			}
 			else {
@@ -47,8 +56,11 @@ public:
 		}
 	}
 	bool detectCollide(std::vector<Bullet>& bullets) {
+		auto [x2, y2] = player.getPosition();
+		float pRad = player.getRadius();
 		for (auto& bullet : bullets) {
-			if (std::sqrt(std::pow((player.getPosition().x - bullet.getPos().x), 2) + std::pow((player.getPosition().y - bullet.getPos().y), 2)) < (player.getRadius() + bullet.getRadius())) {
+			auto [x1, y1] = bullet.getPos();
+			if ( std::sqrt(std::pow(y2 - y1, 2) + std::pow(x2 - x1, 2)) < (pRad + bullet.getRadius()) ) {
 				hp--;
 				bullets.clear();
 				if (hp == 2) {
@@ -77,5 +89,7 @@ private:
 	float speed;
 	sf::Time timeBank;
 	float fireRate;
+	sf::Texture bul1;
+	sf::Texture bul2;
 };
 
