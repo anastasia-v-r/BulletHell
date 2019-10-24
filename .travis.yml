@@ -116,7 +116,7 @@ install:
   - |
     if [[ "${TRAVIS_OS_NAME}" == "windows" ]]; then
       pip install conan
-    else 
+    else
       pip install --user --upgrade pip
       pip install --user conan --upgrade
     fi
@@ -126,9 +126,9 @@ before_script:
   # so we ahve to manually add the path it on Windows.
   - if [[ "${TRAVIS_OS_NAME}" == "windows" ]]; then export PATH=$PATH:/c/Program\ Files/Conan/conan; fi
   - if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then export PATH=$PATH:/Users/travis/Library/Python/2.7/bin; fi
-  
+
   - if [ -f conanfile.txt ]; then export USE_CONAN=TRUE; fi
-  
+
   - if [[ "${USE_CONAN}" == "TRUE" ]]; then conan user; fi
   - if [[ "${USE_CONAN}" == "TRUE" ]]; then conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan; fi
 
