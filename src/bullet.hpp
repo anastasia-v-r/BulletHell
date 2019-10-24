@@ -11,8 +11,8 @@ constexpr float deg_to_rad(float angle_deg) {
 class Bullet : public sf::Drawable
 {
 public:
-	Bullet(sf::Vector2f, float, bool, float, float, float, float, const sf::Texture&);
-	Bullet(sf::Vector2f, float, bool, float, float, float, float);
+	Bullet(sf::Vector2f, float, float, float, float, float, const sf::Texture&);
+	Bullet(sf::Vector2f, float, float, float, float, float);
 	// Getters
 	float getRadius() const {
 		return bullet.getRadius();
@@ -22,9 +22,6 @@ public:
 	}
 	auto getPos() const {
 		return bullet.getPosition();
-	}
-	bool getPlr() const {
-		return player;
 	}
 	bool getVal() const {
 		return valid;
@@ -48,7 +45,6 @@ public:
 private:
 	sf::CircleShape bullet;
 	float speed;
-	bool player;
 	bool valid;
 	sf::Vector2f angle;
 	float dir;

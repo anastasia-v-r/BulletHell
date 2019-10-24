@@ -1,10 +1,9 @@
 #include "bullet.hpp"
 #include <SFML/Graphics.hpp>
 
-Bullet::Bullet(sf::Vector2f pos, float dir, bool plr, float speed, float angVel, float dmg, float size, const sf::Texture& texture)
+Bullet::Bullet(sf::Vector2f pos, float dir, float speed, float angVel, float dmg, float size, const sf::Texture& texture)
 	: bullet{ size }
 	, speed{ speed }
-	, player{ plr }
 	, valid{ true }
 	, dir{ dir }
 	, angularVelocity{ angVel }
@@ -14,10 +13,9 @@ Bullet::Bullet(sf::Vector2f pos, float dir, bool plr, float speed, float angVel,
 	bullet.setOrigin(bullet.getRadius(), bullet.getRadius());
 	bullet.setPosition(pos);
 }
-Bullet::Bullet(sf::Vector2f pos, float dir, bool plr, float speed, float angVel, float dmg, float size)
+Bullet::Bullet(sf::Vector2f pos, float dir, float speed, float angVel, float dmg, float size)
 	: bullet{ size }
 	, speed{ speed }
-	, player{ plr }
 	, valid{ true }
 	, dir{ dir }
 	, angularVelocity{ angVel }
