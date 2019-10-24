@@ -17,6 +17,7 @@ public:
 		player.setFillColor(sf::Color::Green);
 		player.setOrigin(player.getRadius(), player.getRadius());
 		bul1.loadFromFile("assets/textures/player_bullet_1.png");
+		bul2.loadFromFile("assets/textures/player_bullet_2.png");
 	}
 	// Processors
 	void move(sf::Time elapsedTime, const std::map<std::string, bool>& keyMap) {
@@ -30,9 +31,15 @@ public:
 			player.move(-speed * elapsedTime.asSeconds(), 0);
 	}
 	void fire(const sf::Time& elapsedTime, std::vector<Bullet>& bullets, bool key) {
+		static int bullet = 0;
 		if (key) {
 			if (timeBank.asSeconds() > fireRate) {
-				bullets.push_back(Bullet(sf::Vector2f(player.getPosition().x, player.getPosition().y + player.getRadius()), 0.0f, 1000.0f, 0.0f, 5.0f, 10.0f, bul1));
+				bullets.push_back(Bullet(sf::Vector2f(player.getPosition().x, player.getPosition().y + player.getRadius()), 0.0f, 1000.0f, 0.0f, 5.0f, 10.0f, bul1)); // Normal bullets
+				bullet += 1;
+				if (bullet == 4) {
+					bullets.push_back(Bullet(sf::Vector2f(player.getPosition().x, player.getPosition().y + player.getRadius()), 1000.0f, 5.0f, 25.0f, bul2, true));
+					bullet = 0;
+				}
 				timeBank -= (sf::seconds)(fireRate);
 			}
 			else {
@@ -83,5 +90,6 @@ private:
 	sf::Time timeBank;
 	float fireRate;
 	sf::Texture bul1;
+	sf::Texture bul2;
 };
 

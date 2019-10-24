@@ -75,6 +75,9 @@ public:
 	int getHp() const {
 		return hp;
 	}
+	sf::Vector2f getPos() const {
+		return boss.getPosition();
+	}
 	// Draw
 	virtual void draw(sf::RenderTarget& window, sf::RenderStates states) const {
 		window.draw(boss, states);

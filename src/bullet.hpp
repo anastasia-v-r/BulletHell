@@ -12,6 +12,7 @@ class Bullet : public sf::Drawable
 {
 public:
 	Bullet(sf::Vector2f, float, float, float, float, float, const sf::Texture&);
+	Bullet(sf::Vector2f, float, float, float, const sf::Texture&, bool);
 	Bullet(sf::Vector2f, float, float, float, float, float);
 	// Getters
 	float getRadius() const {
@@ -30,10 +31,16 @@ public:
 		return dmg;
 	}
 	// Processors
-	void travel(const sf::Time& time) {
-		bullet.move(angle * speed * time.asSeconds());
-		dir += (angularVelocity * time.asSeconds());
-		angle = sf::Vector2f((float)std::sin(deg_to_rad(dir)), (float)-std::cos(deg_to_rad(dir)));
+	void travel(const sf::Time& time, sf::Vector2f bosspos) {
+		if (!tracking) {
+			bullet.move(angle * speed * time.asSeconds());
+			dir += (angularVelocity * time.asSeconds());
+			angle = sf::Vector2f((float)std::sin(deg_to_rad(dir)), (float)-std::cos(deg_to_rad(dir)));
+		} else {
+			auto diff = (bosspos - bullet.getPosition());
+			diff /= std::sqrt((diff.x * diff.x) + (diff.y * diff.y));
+			bullet.move(diff * speed * time.asSeconds());
+		}
 	}
 	void invalidate() {
 		valid = false;
@@ -50,4 +57,5 @@ private:
 	float dir;
 	float angularVelocity;
 	float dmg;
+	bool tracking;
 };
