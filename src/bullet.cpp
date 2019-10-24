@@ -27,7 +27,7 @@ Bullet::Bullet(sf::Vector2f pos, float speed, float dmg, float size, const sf::T
 	bullet.setOrigin(bullet.getRadius(), bullet.getRadius());
 	bullet.setPosition(pos);
 }
-Bullet::Bullet(sf::Vector2f pos, float dir, float speed, float angVel, float dmg, float size)
+Bullet::Bullet(sf::Vector2f pos, float dir, float speed, float angVel, float dmg, float size, sf::Color color)
 	: bullet{ size }
 	, speed{ speed }
 	, valid{ true }
@@ -36,6 +36,7 @@ Bullet::Bullet(sf::Vector2f pos, float dir, float speed, float angVel, float dmg
 	, dmg{ dmg } 
 	, tracking{ false } {
 	angle = sf::Vector2f((float)std::sin(deg_to_rad(dir)), (float)-std::cos(deg_to_rad(dir)));
+	bullet.setFillColor(color);
 	bullet.setOrigin(bullet.getRadius(), bullet.getRadius());
 	bullet.setPosition(pos);
 	bullet.setFillColor(sf::Color::Magenta);

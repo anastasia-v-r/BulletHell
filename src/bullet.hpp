@@ -13,7 +13,7 @@ class Bullet : public sf::Drawable
 public:
 	Bullet(sf::Vector2f, float, float, float, float, float, const sf::Texture&);
 	Bullet(sf::Vector2f, float, float, float, const sf::Texture&, bool);
-	Bullet(sf::Vector2f, float, float, float, float, float);
+	Bullet(sf::Vector2f, float, float, float, float, float, sf::Color);
 	// Getters
 	float getRadius() const {
 		return bullet.getRadius();
