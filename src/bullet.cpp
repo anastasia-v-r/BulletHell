@@ -23,8 +23,5 @@ Bullet::Bullet(sf::Vector2f pos, float dir, float speed, float angVel, float dmg
 	angle = sf::Vector2f((float)std::sin(deg_to_rad(dir)), (float)-std::cos(deg_to_rad(dir)));
 	bullet.setOrigin(bullet.getRadius(), bullet.getRadius());
 	bullet.setPosition(pos);
-	if (plr)
-		bullet.setFillColor(sf::Color::Green);
-	else
-		bullet.setFillColor(sf::Color::Magenta);
+	bullet.setFillColor(sf::Color::Magenta);
 }
