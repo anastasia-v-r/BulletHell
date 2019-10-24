@@ -37,6 +37,7 @@ public:
 			dir += (angularVelocity * time.asSeconds());
 			angle = sf::Vector2f((float)std::sin(deg_to_rad(dir)), (float)-std::cos(deg_to_rad(dir)));
 		} else {
+			bullet.rotate(360 * time.asSeconds());
 			auto diff = (bosspos - bullet.getPosition());
 			diff /= std::sqrt((diff.x * diff.x) + (diff.y * diff.y));
 			bullet.move(diff * speed * time.asSeconds());
