@@ -14,6 +14,8 @@ public:
 		, goRight{ true } 
 		, fireRate{ 1.0f / 4.0f } 
 		, timeBank{ sf::Time::Zero } {
+		bul1.loadFromFile("assets/textures/boss_bullet_1.png");
+		bul2.loadFromFile("assets/textures/boss_bullet_2.png");
 		boss.setPosition(mode.width / 2.0f, 0.0f);
 		boss.setOrigin(boss.getRadius(), boss.getRadius());
 	}
@@ -40,11 +42,11 @@ public:
 				angVel = -40.0f;
 			else
 				angVel = 40.0f;
-			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius(), boss.getRadius()), 135.0f, speed, angVel, dmg, size));
-			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius() / 2, boss.getRadius()), 157.5f, speed, angVel, dmg, size));
-			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(0.0f, boss.getRadius()), 180.0f, speed, angVel, dmg, size));
-			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(-boss.getRadius() / 2, boss.getRadius()), 202.5f, speed, angVel, dmg, size));
-			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(-boss.getRadius(), boss.getRadius()), 225.0f, speed, angVel, dmg, size));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius(), boss.getRadius()), 135.0f, speed, angVel, dmg, size, bul1));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius() / 2, boss.getRadius()), 157.5f, speed, angVel, dmg, size, bul2));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(0.0f, boss.getRadius()), 180.0f, speed, angVel, dmg, size, bul1));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(-boss.getRadius() / 2, boss.getRadius()), 202.5f, speed, angVel, dmg, size, bul2));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(-boss.getRadius(), boss.getRadius()), 225.0f, speed, angVel, dmg, size, bul1));
 			timeBank -= (sf::seconds)(fireRate);
 		} else {
 			timeBank += elapsedTime;
@@ -92,4 +94,6 @@ private:
 	bool goRight;
 	sf::Time timeBank;
 	float fireRate;
+	sf::Texture bul1;
+	sf::Texture bul2;
 };
