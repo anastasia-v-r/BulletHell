@@ -40,3 +40,17 @@ Bullet::Bullet(sf::Vector2f pos, float dir, float speed, float angVel, float dmg
 	bullet.setPosition(pos);
 	bullet.setFillColor(sf::Color::Magenta);
 }
+
+void Bullet::travel(const sf::Time& time, sf::Vector2f bosspos) {
+	if (!tracking) {
+		bullet.move(angle * speed * time.asSeconds());
+		dir += (angularVelocity * time.asSeconds());
+		angle = sf::Vector2f((float)std::sin(deg_to_rad(dir)), (float)-std::cos(deg_to_rad(dir)));
+	}
+	else {
+		bullet.rotate(360 * time.asSeconds());
+		auto diff = (bosspos - bullet.getPosition());
+		diff /= std::sqrt((diff.x * diff.x) + (diff.y * diff.y));
+		bullet.move(diff * speed * time.asSeconds());
+	}
+}
