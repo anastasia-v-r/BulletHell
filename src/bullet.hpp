@@ -1,40 +1,21 @@
 #pragma once
 #include <cmath>
 #include <iostream>
-#define M_PI 3.14159265
-#define DEG2RAD(angleDegrees) (angleDegrees * M_PI / 180.0)
+constexpr float Pi = 3.14159265;
+
+constexpr float deg_to_rad(float angle_deg) {
+	return (angle_deg * Pi) / 180;
+}
+
+namespace BulletType {
+	struct Boss
+}
+
 class Bullet : public sf::Drawable
 {
 public:
-	Bullet(sf::Vector2f pos, float dir, bool plr, float speed, float angVel, float dmg, float size, const sf::Texture& texture)
-		: bullet{ size }
-		, speed{ speed }
-		, player{ plr }
-		, valid{ true }
-		, dir{ dir }
-		, angularVelocity{ angVel }
-		, dmg{ dmg } {
-		bullet.setTexture(&texture);
-		angle = sf::Vector2f((float)std::sin(DEG2RAD(dir)), (float)-std::cos(DEG2RAD(dir)));
-		bullet.setOrigin(bullet.getRadius(), bullet.getRadius());
-		bullet.setPosition(pos);
-	}
-	Bullet(sf::Vector2f pos, float dir, bool plr, float speed, float angVel, float dmg, float size)
-		: bullet{ size }
-		, speed{ speed }
-		, player{ plr }
-		, valid{ true }
-		, dir{ dir }
-		, angularVelocity{ angVel }
-		, dmg{ dmg } {
-		angle = sf::Vector2f((float)std::sin(DEG2RAD(dir)), (float)-std::cos(DEG2RAD(dir)));
-		bullet.setOrigin(bullet.getRadius(), bullet.getRadius());
-		bullet.setPosition(pos);
-		if (plr)
-			bullet.setFillColor(sf::Color::Green);
-		else
-			bullet.setFillColor(sf::Color::Magenta);
-	}
+	Bullet(sf::Vector2f, float, bool, float, float, float, float, const sf::Texture&);
+	Bullet(sf::Vector2f, float, bool, float, float, float, float);
 	// Getters
 	float getRadius() const {
 		return bullet.getRadius();
@@ -58,7 +39,7 @@ public:
 	void travel(const sf::Time& time) {
 		bullet.move(angle * speed * time.asSeconds());
 		dir += (angularVelocity * time.asSeconds());
-		angle = sf::Vector2f((float)std::sin(DEG2RAD(dir)), (float)-std::cos(DEG2RAD(dir)));
+		angle = sf::Vector2f((float)std::sin(deg_to_rad(dir)), (float)-std::cos(deg_to_rad(dir)));
 	}
 	void invalidate() {
 		valid = false;
