@@ -6,8 +6,8 @@
 class Bullet : public sf::Drawable
 {
 public:
-	Bullet(sf::Vector2f pos, float dir, bool plr, float speed, float angVel, float dmg, const sf::Texture& texture)
-		: bullet{ 20.0f }
+	Bullet(sf::Vector2f pos, float dir, bool plr, float speed, float angVel, float dmg, float size, const sf::Texture& texture)
+		: bullet{ size }
 		, speed{ speed }
 		, player{ plr }
 		, valid{ true }
@@ -19,8 +19,8 @@ public:
 		bullet.setOrigin(bullet.getRadius(), bullet.getRadius());
 		bullet.setPosition(pos);
 	}
-	Bullet(sf::Vector2f pos, float dir, bool plr, float speed, float angVel, float dmg)
-		: bullet{ 20.0f }
+	Bullet(sf::Vector2f pos, float dir, bool plr, float speed, float angVel, float dmg, float size)
+		: bullet{ size }
 		, speed{ speed }
 		, player{ plr }
 		, valid{ true }

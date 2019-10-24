@@ -33,17 +33,18 @@ public:
 	void fire(const sf::Time& elapsedTime, std::vector<Bullet>& bullets) {
 		if (timeBank.asSeconds() > fireRate) {
 			float speed = 500.0f;
+			float size = 20.0f;
 			float angVel;
 			float dmg = 1;
 			if (goRight)
 				angVel = -50.0f;
 			else
 				angVel = 50.0f;
-			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius(), boss.getRadius()), 135.0f, false, speed, angVel, dmg));
-			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius() / 2, boss.getRadius()), 157.5f, false, speed, angVel, dmg));
-			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(0.0f, boss.getRadius()), 180.0f, false, speed, angVel, dmg));
-			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(-boss.getRadius() / 2, boss.getRadius()), 202.5f, false, speed, angVel, dmg));
-			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(-boss.getRadius(), boss.getRadius()), 225.0f, false, speed, angVel, dmg));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius(), boss.getRadius()), 135.0f, false, speed, angVel, dmg, size));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius() / 2, boss.getRadius()), 157.5f, false, speed, angVel, dmg, size));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(0.0f, boss.getRadius()), 180.0f, false, speed, angVel, dmg, size));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(-boss.getRadius() / 2, boss.getRadius()), 202.5f, false, speed, angVel, dmg, size));
+			bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(-boss.getRadius(), boss.getRadius()), 225.0f, false, speed, angVel, dmg, size));
 			timeBank -= (sf::seconds)(fireRate);
 		} else {
 			timeBank += elapsedTime;
