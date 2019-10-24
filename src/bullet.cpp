@@ -1,6 +1,7 @@
 #include "bullet.hpp"
+#include <SFML/Graphics.hpp>
 
-Bullet(sf::Vector2f pos, float dir, bool plr, float speed, float angVel, float dmg, float size, const sf::Texture& texture)
+Bullet::Bullet(sf::Vector2f pos, float dir, bool plr, float speed, float angVel, float dmg, float size, const sf::Texture& texture)
 	: bullet{ size }
 	, speed{ speed }
 	, player{ plr }
@@ -13,7 +14,7 @@ Bullet(sf::Vector2f pos, float dir, bool plr, float speed, float angVel, float d
 	bullet.setOrigin(bullet.getRadius(), bullet.getRadius());
 	bullet.setPosition(pos);
 }
-Bullet(sf::Vector2f pos, float dir, bool plr, float speed, float angVel, float dmg, float size)
+Bullet::Bullet(sf::Vector2f pos, float dir, bool plr, float speed, float angVel, float dmg, float size)
 	: bullet{ size }
 	, speed{ speed }
 	, player{ plr }
@@ -21,7 +22,7 @@ Bullet(sf::Vector2f pos, float dir, bool plr, float speed, float angVel, float d
 	, dir{ dir }
 	, angularVelocity{ angVel }
 	, dmg{ dmg } {
-	angle = sf::Vector2f((float)std::sin(DEG2RAD(dir)), (float)-std::cos(DEG2RAD(dir)));
+	angle = sf::Vector2f((float)std::sin(deg_to_rad(dir)), (float)-std::cos(deg_to_rad(dir)));
 	bullet.setOrigin(bullet.getRadius(), bullet.getRadius());
 	bullet.setPosition(pos);
 	if (plr)
