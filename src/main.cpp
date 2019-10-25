@@ -35,8 +35,11 @@ int main() {
 		{"Space", false }
 	};
 	// Create Render Window
-	auto mode = sf::VideoMode::getDesktopMode();
-	sf::RenderWindow window(mode, L"弾幕", sf::Style::Default);
+	auto mode = sf::VideoMode(1920, 1080, 32);
+	auto realmode = sf::VideoMode::getDesktopMode();
+	sf::RenderWindow window(mode, L"弾幕", sf::Style::None);
+	window.setSize(sf::Vector2u(realmode.width, realmode.height));
+	window.setPosition(sf::Vector2i(1, 1));
 	window.setKeyRepeatEnabled(false);
 	// Player
 	Player player(mode);
