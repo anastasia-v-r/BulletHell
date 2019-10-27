@@ -112,6 +112,20 @@ void processInput(sf::RenderWindow& window, float& timeModifier,
 			case sf::Keyboard::A:
 				keyMap["Left"] = true;
 				break;
+			case sf::Keyboard::Equal: {
+				auto [x, y] = window.getSize();
+				auto [xp, yp, z] = sf::VideoMode::getDesktopMode();
+				window.setSize(sf::Vector2u((sf::Vector2f(x, y) * 1.10f)));
+				window.setPosition(sf::Vector2i(((float)xp - (float)window.getSize().x) / 2.0f, ((float)yp - (float)window.getSize().y) / 2.0f));
+				break;
+			}
+			case sf::Keyboard::Dash: {
+				auto [x, y] = window.getSize();
+				auto [xp, yp, z] = sf::VideoMode::getDesktopMode();
+				window.setSize(sf::Vector2u((sf::Vector2f(x, y) * .9f)));
+				window.setPosition(sf::Vector2i(((float)xp - (float)window.getSize().x) / 2.0f, ((float)yp - (float)window.getSize().y) / 2.0f));
+				break;
+			}
 			default:
 				break;
 			}
