@@ -19,17 +19,11 @@ void ResizeView(const sf::RenderWindow& window, sf::View& view) {
 		std::cout << "NOT 16:9" << std::endl;
 		float aspectRatio = (float)window.getSize().x / (float)window.getSize().y;
 		if (aspectRatio > TRUE_WIDTH / TRUE_HEIGHT) { // Side bars
-			xOffset = ((1.0f - (TRUE_RATIO / aspectRatio)) / 2.0f) * 1920.0f;
-			yOffset = 0.0f;
 			view.setViewport(sf::FloatRect((1.0f - (TRUE_RATIO / aspectRatio)) / 2.0f, 0.0f, TRUE_RATIO / aspectRatio, 1.0f));
 		} else { // Bars on top and under
-			xOffset = 0;
-			yOffset = ((1.0f - (aspectRatio / TRUE_RATIO)) / 2.0f) * 1080.0f;
 			view.setViewport(sf::FloatRect(0.0f, (1.0f - (aspectRatio / TRUE_RATIO)) / 2.0f, 1.0f, aspectRatio / TRUE_RATIO));
 		}
 	} else {
-		xOffset = 0.0f;
-		yOffset = 0.0f;
 		view.setViewport(sf::FloatRect(0.0f, 0.0f, 1.0f, 1.0f));
 	}
 }
@@ -175,13 +169,15 @@ void processInput(sf::RenderWindow& window, float& timeModifier,
 		case sf::Event::MouseButtonPressed: {
 			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 			sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-			mousePosF.x *= (TRUE_WIDTH / window.getSize().x);
-			mousePosF.y *= (TRUE_HEIGHT / window.getSize().y);
-			mousePosF.x -= xOffset;
-			mousePosF.y -= yOffset;
-			//auto [x, y] = mousePosF;
-			//std::cout << "xO[" << xOffset << "]yO[" << yOffset << "]" << std::endl;
-			//std::cout << "x[" << x << "]y[" << y << "]" << std::endl;
+			mousePosF = window.mapPixelToCoords(mousePos, view);
+			if (mousePosF.x > button.getPosition().x&&
+				mousePosF.x < button.getPosition().x + button.getSize().x &&
+				mousePosF.y > button.getPosition().y&&
+				mousePosF.y < button.getPosition().y + button.getSize().y) {
+				sf::Color col = button.getFillColor();
+				col.r += 100.0f;
+				button.setFillColor(col);
+			}
 		}
 			break;
 		default:
