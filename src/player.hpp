@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "globals.hpp"
 #include "bullet.hpp"
 #include <cmath>
 
@@ -81,8 +82,6 @@ public:
 	virtual void draw(sf::RenderTarget& window, sf::RenderStates states) const {
 		window.draw(player, states);
 	}
-private:
-
 private:
 	sf::CircleShape player;
 	int hp;
