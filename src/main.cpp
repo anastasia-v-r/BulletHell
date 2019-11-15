@@ -12,6 +12,7 @@
 // DEFINITIONS
 static const float TRUE_WIDTH = 1920.0f;
 static const float TRUE_HEIGHT = 1080.0f;
+static const float TRUE_RATIO = TRUE_WIDTH / TRUE_HEIGHT;
 static const sf::VideoMode TRUE_MODE(1920.0f, 1080.0f, 32);
 
 //************************
@@ -19,15 +20,20 @@ static const sf::VideoMode TRUE_MODE(1920.0f, 1080.0f, 32);
 //************************
 
 void ResizeView(const sf::RenderWindow& window, sf::View& view) {
-	if ((float)window.getSize().x / (float)window.getSize().y != 1920.0f / 1080.0f) {
+	if ((float)window.getSize().x / (float)window.getSize().y != TRUE_WIDTH / TRUE_WIDTH) {
+		std::cout << "NOT 16:9" << std::endl;
 		float aspectRatio = (float)window.getSize().x / (float)window.getSize().y;
-		if (aspectRatio < TRUE_WIDTH / TRUE_HEIGHT) { // Bars on top and under
-			view.setViewport(sf::FloatRect(0.0f, (1.0f * ((TRUE_WIDTH / TRUE_HEIGHT) - (aspectRatio))) / 2.0f, 1.0f, (1.0f * ((TRUE_WIDTH / TRUE_HEIGHT) - (aspectRatio))) / 2.0f));
-		} else { // Side bars
-			view.setViewport(sf::FloatRect((1.0f * ((aspectRatio)-(TRUE_WIDTH / TRUE_HEIGHT))) / 2.0f, 0.0f, ((1.0f * ((aspectRatio)-(TRUE_WIDTH / TRUE_HEIGHT))) / 2.0f), 1.0f));
+		if (aspectRatio > TRUE_WIDTH / TRUE_HEIGHT) { // Side bars
+			// ( starting x, starting y, extend x, extent y)
+			view.setViewport(sf::FloatRect((1.0f - (TRUE_RATIO / aspectRatio)) / 2.0f, 0.0f, TRUE_RATIO / aspectRatio, 1.0f));
+		} else { // Bars on top and under
+			view.setViewport(sf::FloatRect(0.0f, (1.0f - (aspectRatio / TRUE_RATIO)) / 2.0f, 1.0f, aspectRatio / TRUE_RATIO));
 		}
+	} else {
+		view.setViewport(sf::FloatRect(0.0f, 0.0f, 1.0f, 1.0f));
 	}
 }
+
 void processInput(sf::RenderWindow& /* window */, float& /* timeModifier */,
 	std::map<std::string, bool>& /*keyMap*/, bool& /* close */, sf::View& /* camera */);
 
@@ -58,16 +64,9 @@ int main() {
 	sf::RenderWindow window(realmode, L"弾幕", sf::Style::Default);
 	// Setup View
 	sf::View view(sf::Vector2f(TRUE_WIDTH / 2.0f, TRUE_HEIGHT / 2.0f), sf::Vector2f(TRUE_WIDTH, TRUE_HEIGHT));
-	if ((float)realmode.width / (float)realmode.height != 1920.0f / 1080.0f) {
-		float aspectRatio = (float)window.getSize().x / (float)window.getSize().y;
-		if (aspectRatio < TRUE_WIDTH / TRUE_HEIGHT) { // Bars on top and under
-			view.setViewport(sf::FloatRect(0.0f, (1.0f * ((TRUE_WIDTH / TRUE_HEIGHT) - (aspectRatio))) / 2.0f, 1.0f, (1.0f * ((TRUE_WIDTH / TRUE_HEIGHT) - (aspectRatio))) / 2.0f));
-		} else { // Side bars
-			view.setViewport(sf::FloatRect((1.0f * ((aspectRatio)-(TRUE_WIDTH / TRUE_HEIGHT))) / 2.0f, 0.0f, ((1.0f * ((aspectRatio)-(TRUE_WIDTH / TRUE_HEIGHT))) / 2.0f), 1.0f));
-		}
-	}
+	ResizeView(window, view);
 	window.setView(view);
-	window.setPosition(sf::Vector2i(1, 1));
+	window.setPosition(sf::Vector2i(1, 0));
 	window.setKeyRepeatEnabled(false);
 	// Player
 	Player player(TRUE_MODE);
@@ -118,6 +117,7 @@ void processInput(sf::RenderWindow& window, float& timeModifier,
 		{
 		case sf::Event::Resized:
 			ResizeView(window, view);
+			window.setView(view);
 			break;
 		case sf::Event::KeyPressed:
 			switch (evnt.key.code)
