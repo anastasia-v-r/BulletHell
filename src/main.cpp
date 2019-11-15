@@ -4,6 +4,7 @@
 #include "bullet.hpp"
 #include "player.hpp"
 #include "boss.hpp"
+#include "world.hpp"
 #include <vector>
 #include <queue>
 #include <map>
@@ -14,6 +15,16 @@ static const float TRUE_WIDTH = 1920.0f;
 static const float TRUE_HEIGHT = 1080.0f;
 static const float TRUE_RATIO = TRUE_WIDTH / TRUE_HEIGHT;
 static const sf::VideoMode TRUE_MODE(1920.0f, 1080.0f, 32);
+
+// KEYMAP
+
+static std::map<std::string, bool> keyMap = {
+	{"Up", false},
+	{"Right", false},
+	{"Down", false},
+	{"Left", false},
+	{"Space", false }
+};
 
 //************************
 // Function Declarations *
@@ -35,13 +46,13 @@ void ResizeView(const sf::RenderWindow& window, sf::View& view) {
 }
 
 void processInput(sf::RenderWindow& /* window */, float& /* timeModifier */,
-	std::map<std::string, bool>& /*keyMap*/, bool& /* close */, sf::View& /* camera */);
+	bool& /* close */, sf::View& /* camera */);
 
 void updateGame(sf::Time /* Current Time */, sf::Time /* Time since last update */,
 	sf::Text& /* hp */, sf::VideoMode /* mode */,
 	Player& /* player */, Boss& /* boss */,
 	std::vector<Bullet>& /*enemyBullets*/, std::vector<Bullet>& /*playerBullets*/,
-	const std::map<std::string, bool>& /*keyMap*/, bool& /* close */, float /* timeModifier */);
+	bool& /* close */, float /* timeModifier */);
 
 void renderGame(Player& /* player */, Boss& /* enemy */,
 	std::vector<Bullet>& /*enemyBullets*/, std::vector<Bullet>& /*playerBullets*/,
@@ -52,13 +63,6 @@ static sf::RectangleShape playfield(sf::Vector2f(1920, 1080)); // TODO: Remove t
 
 int main() {
 	playfield.setFillColor(sf::Color(125, 125, 125, 255));
-	std::map<std::string, bool> keyMap = {
-		{"Up", false},
-		{"Right", false},
-		{"Down", false},
-		{"Left", false},
-		{"Space", false }
-	};
 	// Create Render Window
 	auto realmode = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window(realmode, L"弾幕", sf::Style::Default);
@@ -90,9 +94,9 @@ int main() {
 	// Run While the window is open
 	while (window.isOpen()) {
 		// Process Events
-		processInput(window, timeModifier, keyMap, close, view);
+		processInput(window, timeModifier, close, view);
 		// Update Game
-		updateGame(gameClock.getElapsedTime(), lastUpdate, hp, TRUE_MODE, player, boss, enemyBullets, playerBullets, keyMap, close, timeModifier);
+		updateGame(gameClock.getElapsedTime(), lastUpdate, hp, TRUE_MODE, player, boss, enemyBullets, playerBullets, close, timeModifier);
 		lastUpdate = gameClock.getElapsedTime();
 		// Draw objects
 		renderGame(player, boss, enemyBullets, playerBullets, hp, window);
@@ -110,7 +114,7 @@ int main() {
 //***********************
 
 void processInput(sf::RenderWindow& window, float& timeModifier,
-	std::map<std::string, bool>& keyMap, bool& close, sf::View& view) {
+	bool& close, sf::View& view) {
 	sf::Event evnt;
 	while (window.pollEvent(evnt)) {
 		switch (evnt.type)
@@ -182,7 +186,7 @@ void updateGame(sf::Time CurrentTime, sf::Time LastUpdate,
 	sf::Text& hp, sf::VideoMode mode,
 	Player& player, Boss& boss,
 	std::vector<Bullet>& enemyBullets, std::vector<Bullet>& playerBullets,
-	const std::map<std::string, bool>& keyMap, bool& close, float timeModifier) {
+	bool& close, float timeModifier) {
 	sf::Time elapsedTime = (CurrentTime - LastUpdate) / timeModifier;
 
 	// Process Bullets
