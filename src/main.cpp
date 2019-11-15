@@ -9,24 +9,43 @@
 #include <map>
 #include <iostream>
 
+// DEFINITIONS
+static const float TRUE_WIDTH = 1920.0f;
+static const float TRUE_HEIGHT = 1080.0f;
+static const sf::VideoMode TRUE_MODE(1920.0f, 1080.0f, 32);
+
 //************************
 // Function Declarations *
 //************************
 
+void ResizeView(const sf::RenderWindow& window, sf::View& view) {
+	if ((float)window.getSize().x / (float)window.getSize().y != 1920.0f / 1080.0f) {
+		float aspectRatio = (float)window.getSize().x / (float)window.getSize().y;
+		if (aspectRatio < TRUE_WIDTH / TRUE_HEIGHT) { // Bars on top and under
+			view.setViewport(sf::FloatRect(0.0f, (1.0f * ((TRUE_WIDTH / TRUE_HEIGHT) - (aspectRatio))) / 2.0f, 1.0f, (1.0f * ((TRUE_WIDTH / TRUE_HEIGHT) - (aspectRatio))) / 2.0f));
+		} else { // Side bars
+			view.setViewport(sf::FloatRect((1.0f * ((aspectRatio)-(TRUE_WIDTH / TRUE_HEIGHT))) / 2.0f, 0.0f, ((1.0f * ((aspectRatio)-(TRUE_WIDTH / TRUE_HEIGHT))) / 2.0f), 1.0f));
+		}
+	}
+}
 void processInput(sf::RenderWindow& /* window */, float& /* timeModifier */,
-				  std::map<std::string, bool>& /*keyMap*/, bool& /* close */);
+	std::map<std::string, bool>& /*keyMap*/, bool& /* close */, sf::View& /* camera */);
 
 void updateGame(sf::Time /* Current Time */, sf::Time /* Time since last update */,
-				sf::Text& /* hp */, sf::VideoMode /* mode */,
-				Player& /* player */, Boss& /* boss */,
-				std::vector<Bullet>& /*enemyBullets*/, std::vector<Bullet>& /*playerBullets*/,
-				const std::map<std::string, bool>& /*keyMap*/, bool& /* close */, float /* timeModifier */);
+	sf::Text& /* hp */, sf::VideoMode /* mode */,
+	Player& /* player */, Boss& /* boss */,
+	std::vector<Bullet>& /*enemyBullets*/, std::vector<Bullet>& /*playerBullets*/,
+	const std::map<std::string, bool>& /*keyMap*/, bool& /* close */, float /* timeModifier */);
 
 void renderGame(Player& /* player */, Boss& /* enemy */,
-				std::vector<Bullet>& /*enemyBullets*/, std::vector<Bullet>& /*playerBullets*/,
-				sf::Text& /* hp */, sf::RenderWindow& /* window */);
+	std::vector<Bullet>& /*enemyBullets*/, std::vector<Bullet>& /*playerBullets*/,
+	sf::Text& /* hp */, sf::RenderWindow& /* window */);
+
+// Playfield for visual testing
+static sf::RectangleShape playfield(sf::Vector2f(1920, 1080)); // TODO: Remove temp playfield once view is setup 
 
 int main() {
+	playfield.setFillColor(sf::Color(125, 125, 125, 255));
 	std::map<std::string, bool> keyMap = {
 		{"Up", false},
 		{"Right", false},
@@ -35,16 +54,25 @@ int main() {
 		{"Space", false }
 	};
 	// Create Render Window
-	auto mode = sf::VideoMode(1920, 1080, 32);
 	auto realmode = sf::VideoMode::getDesktopMode();
-	sf::RenderWindow window(mode, L"弾幕", sf::Style::None);
-	window.setSize(sf::Vector2u(realmode.width, realmode.height));
+	sf::RenderWindow window(realmode, L"弾幕", sf::Style::Default);
+	// Setup View
+	sf::View view(sf::Vector2f(TRUE_WIDTH / 2.0f, TRUE_HEIGHT / 2.0f), sf::Vector2f(TRUE_WIDTH, TRUE_HEIGHT));
+	if ((float)realmode.width / (float)realmode.height != 1920.0f / 1080.0f) {
+		float aspectRatio = (float)window.getSize().x / (float)window.getSize().y;
+		if (aspectRatio < TRUE_WIDTH / TRUE_HEIGHT) { // Bars on top and under
+			view.setViewport(sf::FloatRect(0.0f, (1.0f * ((TRUE_WIDTH / TRUE_HEIGHT) - (aspectRatio))) / 2.0f, 1.0f, (1.0f * ((TRUE_WIDTH / TRUE_HEIGHT) - (aspectRatio))) / 2.0f));
+		} else { // Side bars
+			view.setViewport(sf::FloatRect((1.0f * ((aspectRatio)-(TRUE_WIDTH / TRUE_HEIGHT))) / 2.0f, 0.0f, ((1.0f * ((aspectRatio)-(TRUE_WIDTH / TRUE_HEIGHT))) / 2.0f), 1.0f));
+		}
+	}
+	window.setView(view);
 	window.setPosition(sf::Vector2i(1, 1));
 	window.setKeyRepeatEnabled(false);
 	// Player
-	Player player(mode);
+	Player player(TRUE_MODE);
 	// Enemy
-	Boss boss(mode);
+	Boss boss(TRUE_MODE);
 	// Enemy Hp
 	sf::Font font;
 	if (!font.loadFromFile("assets/Global/font/OpenSans-Regular.ttf"))
@@ -63,9 +91,9 @@ int main() {
 	// Run While the window is open
 	while (window.isOpen()) {
 		// Process Events
-		processInput(window, timeModifier, keyMap, close);
+		processInput(window, timeModifier, keyMap, close, view);
 		// Update Game
-		updateGame(gameClock.getElapsedTime(), lastUpdate, hp, mode, player, boss, enemyBullets, playerBullets, keyMap, close, timeModifier);
+		updateGame(gameClock.getElapsedTime(), lastUpdate, hp, TRUE_MODE, player, boss, enemyBullets, playerBullets, keyMap, close, timeModifier);
 		lastUpdate = gameClock.getElapsedTime();
 		// Draw objects
 		renderGame(player, boss, enemyBullets, playerBullets, hp, window);
@@ -83,11 +111,14 @@ int main() {
 //***********************
 
 void processInput(sf::RenderWindow& window, float& timeModifier,
-	std::map<std::string, bool>& keyMap, bool& close) {
+	std::map<std::string, bool>& keyMap, bool& close, sf::View& view) {
 	sf::Event evnt;
 	while (window.pollEvent(evnt)) {
 		switch (evnt.type)
 		{
+		case sf::Event::Resized:
+			ResizeView(window, view);
+			break;
 		case sf::Event::KeyPressed:
 			switch (evnt.key.code)
 			{
@@ -112,20 +143,6 @@ void processInput(sf::RenderWindow& window, float& timeModifier,
 			case sf::Keyboard::A:
 				keyMap["Left"] = true;
 				break;
-			case sf::Keyboard::Equal: {
-				auto [x, y] = window.getSize();
-				auto [xp, yp, z] = sf::VideoMode::getDesktopMode();
-				window.setSize(sf::Vector2u((sf::Vector2f(x, y) * 1.10f)));
-				window.setPosition(sf::Vector2i(((float)xp - (float)window.getSize().x) / 2.0f, ((float)yp - (float)window.getSize().y) / 2.0f));
-				break;
-			}
-			case sf::Keyboard::Dash: {
-				auto [x, y] = window.getSize();
-				auto [xp, yp, z] = sf::VideoMode::getDesktopMode();
-				window.setSize(sf::Vector2u((sf::Vector2f(x, y) * .9f)));
-				window.setPosition(sf::Vector2i(((float)xp - (float)window.getSize().x) / 2.0f, ((float)yp - (float)window.getSize().y) / 2.0f));
-				break;
-			}
 			default:
 				break;
 			}
@@ -161,11 +178,11 @@ void processInput(sf::RenderWindow& window, float& timeModifier,
 	}
 }
 
-void updateGame(sf::Time CurrentTime, sf::Time LastUpdate, 
-				sf::Text& hp, sf::VideoMode mode,
-				Player& player, Boss& boss,
-				std::vector<Bullet>& enemyBullets, std::vector<Bullet>& playerBullets,
-				const std::map<std::string, bool>& keyMap, bool& close, float timeModifier) {
+void updateGame(sf::Time CurrentTime, sf::Time LastUpdate,
+	sf::Text& hp, sf::VideoMode mode,
+	Player& player, Boss& boss,
+	std::vector<Bullet>& enemyBullets, std::vector<Bullet>& playerBullets,
+	const std::map<std::string, bool>& keyMap, bool& close, float timeModifier) {
 	sf::Time elapsedTime = (CurrentTime - LastUpdate) / timeModifier;
 
 	// Process Bullets
@@ -212,6 +229,7 @@ void renderGame(Player& player, Boss& boss,
 	std::vector<Bullet>& enemyBullets, std::vector<Bullet>& playerBullets,
 	sf::Text& hp, sf::RenderWindow& window) {
 	window.clear();
+	window.draw(playfield); // TODO: Remove temp playfield once view is setup 
 	window.draw(player);
 	window.draw(boss);
 	window.draw(hp);
