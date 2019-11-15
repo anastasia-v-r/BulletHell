@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "globals.hpp"
 #include "bullet.hpp"
 #include <cmath>
 

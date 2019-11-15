@@ -19,12 +19,17 @@ void ResizeView(const sf::RenderWindow& window, sf::View& view) {
 		std::cout << "NOT 16:9" << std::endl;
 		float aspectRatio = (float)window.getSize().x / (float)window.getSize().y;
 		if (aspectRatio > TRUE_WIDTH / TRUE_HEIGHT) { // Side bars
-			// ( starting x, starting y, extend x, extent y)
+			xOffset = ((1.0f - (TRUE_RATIO / aspectRatio)) / 2.0f) * 1920.0f;
+			yOffset = 0.0f;
 			view.setViewport(sf::FloatRect((1.0f - (TRUE_RATIO / aspectRatio)) / 2.0f, 0.0f, TRUE_RATIO / aspectRatio, 1.0f));
 		} else { // Bars on top and under
+			xOffset = 0;
+			yOffset = ((1.0f - (aspectRatio / TRUE_RATIO)) / 2.0f) * 1080.0f;
 			view.setViewport(sf::FloatRect(0.0f, (1.0f - (aspectRatio / TRUE_RATIO)) / 2.0f, 1.0f, aspectRatio / TRUE_RATIO));
 		}
 	} else {
+		xOffset = 0.0f;
+		yOffset = 0.0f;
 		view.setViewport(sf::FloatRect(0.0f, 0.0f, 1.0f, 1.0f));
 	}
 }
@@ -45,8 +50,12 @@ void renderGame(Player& /* player */, Boss& /* enemy */,
 // Playfield for visual testing
 static sf::RectangleShape playfield(sf::Vector2f(1920, 1080)); // TODO: Remove temp playfield once view is setup 
 
+// Test button 
+sf::RectangleShape button(sf::Vector2f(200.0f, 100.0f)); // TODO: Remove temp button once view is setup 
+
 int main() {
-	playfield.setFillColor(sf::Color(125, 125, 125, 255));
+	// Playfield
+	playfield.setFillColor(sf::Color(125, 125, 125, 255)); // TODO: Remove temp playfield once view is setup 
 	// Create Render Window
 	auto realmode = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window(realmode, L"弾幕", sf::Style::Default);
@@ -56,6 +65,9 @@ int main() {
 	window.setView(view);
 	window.setPosition(sf::Vector2i(1, 0));
 	window.setKeyRepeatEnabled(false);
+	// Test button
+	button.setFillColor(sf::Color::Yellow);
+	button.setPosition(sf::Vector2f(TRUE_WIDTH - button.getSize().x, TRUE_HEIGHT - button.getSize().y));
 	// Player
 	Player player(TRUE_MODE);
 	// Enemy
@@ -160,6 +172,18 @@ void processInput(sf::RenderWindow& window, float& timeModifier,
 				break;
 			}
 			break;
+		case sf::Event::MouseButtonPressed: {
+			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+			sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+			mousePosF.x *= (TRUE_WIDTH / window.getSize().x);
+			mousePosF.y *= (TRUE_HEIGHT / window.getSize().y);
+			mousePosF.x -= xOffset;
+			mousePosF.y -= yOffset;
+			//auto [x, y] = mousePosF;
+			//std::cout << "xO[" << xOffset << "]yO[" << yOffset << "]" << std::endl;
+			//std::cout << "x[" << x << "]y[" << y << "]" << std::endl;
+		}
+			break;
 		default:
 			break;
 		}
@@ -221,6 +245,7 @@ void renderGame(Player& player, Boss& boss,
 	window.draw(player);
 	window.draw(boss);
 	window.draw(hp);
+	window.draw(button);
 	if (!playerBullets.empty())
 		for (const auto& bullet : playerBullets) {
 			window.draw(bullet);
