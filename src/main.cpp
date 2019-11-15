@@ -206,8 +206,8 @@ void updateGame(sf::Time CurrentTime, sf::Time LastUpdate,
 	}
 
 	// Process player
-	player.move(elapsedTime, keyMap);
-	player.fire(elapsedTime, playerBullets, keyMap.at("Space"));
+	player.move(elapsedTime);
+	player.fire(elapsedTime, playerBullets);
 	if (player.detectCollide(enemyBullets))
 		close = true;
 
