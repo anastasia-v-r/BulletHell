@@ -85,8 +85,6 @@ public:
 		window.draw(boss, states);
 	}
 private:
-
-private:
 	sf::CircleShape boss;
 	int iHp;
 	int hp;

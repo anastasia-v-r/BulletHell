@@ -83,8 +83,6 @@ public:
 		window.draw(player, states);
 	}
 private:
-
-private:
 	sf::CircleShape player;
 	int hp;
 	float speed;
