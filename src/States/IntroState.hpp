@@ -5,7 +5,9 @@
 class IntroState : public State
 {
 public:
-	IntroState() = default;
+	IntroState(std::queue<std::pair<StateChange, StateID>>& /* pendingChanges */);
+	void update(sf::Time /* elapsedTime */, bool& /* close */) override;
+	void draw(sf::RenderWindow& /* window */) override;
 private:
 
 };

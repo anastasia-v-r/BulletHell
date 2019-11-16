@@ -9,7 +9,7 @@
 class GameState : public State
 {
 public:
-	GameState();
+	GameState(std::queue<std::pair<StateChange, StateID>>& /* pendingChanges */);
 	void update(sf::Time /* elapsedTime */, bool& /* close */) override;
 	void draw(sf::RenderWindow& /* window */) override;
 private:

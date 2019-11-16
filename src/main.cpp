@@ -10,14 +10,6 @@
 #include <queue>
 #include <map>
 #include <iostream>
-//*****************
-// Data and Enums *
-//*****************
-
-enum struct StateChange {
-	ADD,
-	REMOVE
-};
 
 //************************
 // Function Declarations *
@@ -49,7 +41,7 @@ int main() {
 	// StateHolder
 	std::stack<std::unique_ptr<State>> stateStack;
 	std::queue<std::pair<StateChange, StateID>> pendingStackChanges;
-	stateStack.push(std::make_unique<GameState>());
+	stateStack.push(std::make_unique<GameState>(pendingStackChanges));
 	// Misc Vars
 	bool close = false;
 	
@@ -81,13 +73,13 @@ int main() {
 				switch (pendingStackChanges.front().second)
 				{
 				case StateID::INTRO:
-					stateStack.push(std::make_unique<IntroState>());
+					stateStack.push(std::make_unique<IntroState>(pendingStackChanges));
 					break;
 				case StateID::MENU:
-					stateStack.push(std::make_unique<MenuState>());
+					stateStack.push(std::make_unique<MenuState>(pendingStackChanges));
 					break;
 				case StateID::GAME:
-					stateStack.push(std::make_unique<GameState>());
+					stateStack.push(std::make_unique<GameState>(pendingStackChanges));
 					break;
 				default:
 					break;
@@ -103,7 +95,7 @@ int main() {
 }
 //***********************
 // Function Definitions *
-//***********************
+//***********************  
 
 void ResizeView(const sf::RenderWindow& window, sf::View& view) {
 	if ((float)window.getSize().x / (float)window.getSize().y != GlobalData::TRUE_WIDTH / GlobalData::TRUE_WIDTH) {

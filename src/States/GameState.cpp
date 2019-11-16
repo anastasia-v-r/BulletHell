@@ -5,8 +5,8 @@
 #include "Entities/Bullet.hpp"
 #include <iostream>
 
-GameState::GameState() 
-	: State(StateID::GAME)
+GameState::GameState(std::queue<std::pair<StateChange, StateID>>& pendingChanges)
+	: State(StateID::GAME, pendingChanges)
 	, player(GlobalData::TRUE_MODE)
 	, boss(GlobalData::TRUE_MODE) {
 	if (!font.loadFromFile("assets/Global/font/OpenSans-Regular.ttf"))
