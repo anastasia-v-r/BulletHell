@@ -5,6 +5,7 @@
 #include "States/IntroState.hpp"
 #include "States/MenuState.hpp"
 #include "States/GameState.hpp"
+#include <stack>
 #include <vector>
 #include <queue>
 #include <map>
@@ -34,8 +35,9 @@ int main() {
 	sf::Time lastUpdate = sf::Time::Zero;
 	std::queue<sf::Time> fps;
 	float timeModifier = 1.0f;
-	// GameState
-	GameState gameState;
+	// StateHolder
+	std::stack<std::unique_ptr<State>> stateStack;
+	stateStack.push(std::make_unique<GameState>());
 	// Misc Vars
 	bool close = false;
 	// Run While the window is open
@@ -43,10 +45,10 @@ int main() {
 		// Process Events
 		processInput(window, timeModifier, close, view);
 		// Update Game
-		gameState.update((gameClock.getElapsedTime() - lastUpdate) / timeModifier, close);
+		stateStack.top()->update((gameClock.getElapsedTime() - lastUpdate) / timeModifier, close);
 		lastUpdate = gameClock.getElapsedTime();
 		// Draw objects
-		gameState.draw(window);
+		stateStack.top()->draw(window);
 		// Calculate Fps
 		fps.push(gameClock.getElapsedTime());
 		while (fps.front() < (gameClock.getElapsedTime() - (sf::seconds)(1)))
