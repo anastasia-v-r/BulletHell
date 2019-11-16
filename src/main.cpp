@@ -34,7 +34,7 @@ int main() {
 	auto realmode = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window(realmode, L"弾幕", sf::Style::Default);
 	// Setup View
-	sf::View view(sf::Vector2f(GlobalData::TRUE_WIDTH / 2.0f, GlobalData::TRUE_HEIGHT / 2.0f), sf::Vector2f(TRUE_WIDTH, TRUE_HEIGHT));
+	sf::View view(sf::Vector2f(GlobalData::TRUE_WIDTH / 2.0f, GlobalData::TRUE_HEIGHT / 2.0f), sf::Vector2f(GlobalData::TRUE_WIDTH, GlobalData::TRUE_HEIGHT));
 	ResizeView(window, view);
 	window.setView(view);
 	window.setPosition(sf::Vector2i(1, 0));
@@ -44,6 +44,8 @@ int main() {
 	sf::Time lastUpdate = sf::Time::Zero;
 	std::queue<sf::Time> fps;
 	float timeModifier = 1.0f;
+	// GameState
+	GameState gameState;
 	// Misc Vars
 	bool close = false;
 	// Run While the window is open
@@ -51,10 +53,10 @@ int main() {
 		// Process Events
 		processInput(window, timeModifier, close, view);
 		// Update Game
-		// update();
+		gameState.update((gameClock.getElapsedTime() - lastUpdate) / timeModifier, close);
 		lastUpdate = gameClock.getElapsedTime();
 		// Draw objects
-		renderGame(player, boss, enemyBullets, playerBullets, hp, window);
+		gameState.draw(window);
 		// Calculate Fps
 		fps.push(gameClock.getElapsedTime());
 		while (fps.front() < (gameClock.getElapsedTime() - (sf::seconds)(1)))
@@ -157,22 +159,4 @@ void processInput(sf::RenderWindow& window, float& timeModifier,
 			break;
 		}
 	}
-}
-
-void renderGame(Player& player, Boss& boss,
-	std::vector<Bullet>& enemyBullets, std::vector<Bullet>& playerBullets,
-	sf::Text& hp, sf::RenderWindow& window) {
-	window.clear();
-	window.draw(player);
-	window.draw(boss);
-	window.draw(hp);
-	if (!playerBullets.empty())
-		for (const auto& bullet : playerBullets) {
-			window.draw(bullet);
-		}
-	if (!enemyBullets.empty())
-		for (const auto& bullet : enemyBullets) {
-			window.draw(bullet);
-		}
-	window.display();
 }

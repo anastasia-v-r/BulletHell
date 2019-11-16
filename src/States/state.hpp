@@ -13,6 +13,7 @@ class State
 public:
 	State(StateID);
 	virtual void update(sf::Time /* elapsedTime */, bool& /* close */) = 0;
+	virtual void draw(sf::RenderWindow& /* window */) = 0;
 protected:
 	StateID m_id;
 };

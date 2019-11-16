@@ -54,3 +54,19 @@ void GameState::update(sf::Time elapsedTime, bool& close) {
 		}
 	}
 }
+
+void GameState::draw(sf::RenderWindow& window) {
+	window.clear();
+	window.draw(player);
+	window.draw(boss);
+	window.draw(hp);
+	if (!playerBullets.empty())
+		for (const auto& bullet : playerBullets) {
+			window.draw(bullet);
+		}
+	if (!enemyBullets.empty())
+		for (const auto& bullet : enemyBullets) {
+			window.draw(bullet);
+		}
+	window.display();
+}

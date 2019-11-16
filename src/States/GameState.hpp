@@ -11,6 +11,7 @@ class GameState : public State
 public:
 	GameState();
 	void update(sf::Time /* elapsedTime */, bool& /* close */) override;
+	void draw(sf::RenderWindow& /* window */) override;
 private:
 	// Player
 	Player player;
