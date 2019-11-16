@@ -10,7 +10,7 @@ class GameState : public State
 {
 public:
 	GameState();
-	void update(sf::Time /* elapsedTime */) override;
+	void update(sf::Time /* elapsedTime */, bool& /* close */) override;
 private:
 	// Player
 	Player player;

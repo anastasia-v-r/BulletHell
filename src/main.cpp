@@ -23,9 +23,6 @@ void processInput(sf::RenderWindow& /* window */, float& /* timeModifier */,
 	bool& /* close */, sf::View& /* camera */);
 
 void updateGame(sf::Time /* Current Time */, sf::Time /* Time since last update */,
-	sf::Text& /* hp */, sf::VideoMode /* mode */,
-	Player& /* player */, Boss& /* boss */,
-	std::vector<Bullet>& /*enemyBullets*/, std::vector<Bullet>& /*playerBullets*/,
 	bool& /* close */, float /* timeModifier */);
 
 void renderGame(Player& /* player */, Boss& /* enemy */,
@@ -54,7 +51,7 @@ int main() {
 		// Process Events
 		processInput(window, timeModifier, close, view);
 		// Update Game
-		updateGame(gameClock.getElapsedTime(), lastUpdate, hp, GlobalData::TRUE_MODE, player, boss, enemyBullets, playerBullets, close, timeModifier);
+		// update();
 		lastUpdate = gameClock.getElapsedTime();
 		// Draw objects
 		renderGame(player, boss, enemyBullets, playerBullets, hp, window);
@@ -72,14 +69,14 @@ int main() {
 //***********************
 
 void ResizeView(const sf::RenderWindow& window, sf::View& view) {
-	if ((float)window.getSize().x / (float)window.getSize().y != TRUE_WIDTH / TRUE_WIDTH) {
+	if ((float)window.getSize().x / (float)window.getSize().y != GlobalData::TRUE_WIDTH / GlobalData::TRUE_WIDTH) {
 		std::cout << "NOT 16:9" << std::endl;
 		float aspectRatio = (float)window.getSize().x / (float)window.getSize().y;
-		if (aspectRatio > TRUE_WIDTH / TRUE_HEIGHT) { // Side bars
-			view.setViewport(sf::FloatRect((1.0f - (TRUE_RATIO / aspectRatio)) / 2.0f, 0.0f, TRUE_RATIO / aspectRatio, 1.0f));
+		if (aspectRatio > GlobalData::TRUE_WIDTH / GlobalData::TRUE_HEIGHT) { // Side bars
+			view.setViewport(sf::FloatRect((1.0f - (GlobalData::TRUE_RATIO / aspectRatio)) / 2.0f, 0.0f, GlobalData::TRUE_RATIO / aspectRatio, 1.0f));
 		}
 		else { // Bars on top and under
-			view.setViewport(sf::FloatRect(0.0f, (1.0f - (aspectRatio / TRUE_RATIO)) / 2.0f, 1.0f, aspectRatio / TRUE_RATIO));
+			view.setViewport(sf::FloatRect(0.0f, (1.0f - (aspectRatio / GlobalData::TRUE_RATIO)) / 2.0f, 1.0f, aspectRatio / GlobalData::TRUE_RATIO));
 		}
 	}
 	else {
@@ -158,53 +155,6 @@ void processInput(sf::RenderWindow& window, float& timeModifier,
 			break;
 		default:
 			break;
-		}
-	}
-}
-
-void updateGame(sf::Time CurrentTime, sf::Time LastUpdate,
-	sf::Text& hp, sf::VideoMode mode,
-	Player& player, Boss& boss,
-	std::vector<Bullet>& enemyBullets, std::vector<Bullet>& playerBullets,
-	bool& close, float timeModifier) {
-	sf::Time elapsedTime = (CurrentTime - LastUpdate) / timeModifier;
-
-	// Process Bullets
-	if (!playerBullets.empty()) {
-		for (auto& bullet : playerBullets) {
-			bullet.travel(elapsedTime, boss.getPos());
-		}
-	}
-	if (!enemyBullets.empty()) {
-		for (auto& bullet : enemyBullets) {
-			bullet.travel(elapsedTime, boss.getPos());
-		}
-	}
-
-	// Process player
-	player.move(elapsedTime);
-	player.fire(elapsedTime, playerBullets);
-	if (player.detectCollide(enemyBullets))
-		close = true;
-
-	// Process Boss
-	boss.move(elapsedTime, mode);
-	boss.fire(elapsedTime, enemyBullets);
-	if (boss.detectCollide(playerBullets))
-		close = true;
-	hp.setString("HP : " + std::to_string(boss.getHp()));
-
-	// Clear Bullets
-	if (!playerBullets.empty()) {
-		for (int i = 0; i < playerBullets.size(); i++) {
-			if ((playerBullets[i].getHeight() < 0.1f || playerBullets[i].getHeight() > 1080.0f) || !playerBullets[i].getVal())
-				playerBullets.erase(playerBullets.begin() + i);
-		}
-	}
-	if (!enemyBullets.empty()) {
-		for (int i = 0; i < enemyBullets.size(); i++) {
-			if ((enemyBullets[i].getHeight() < 0.1f || enemyBullets[i].getHeight() > 1080.0f))
-				enemyBullets.erase(enemyBullets.begin() + i);
 		}
 	}
 }

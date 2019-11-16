@@ -12,7 +12,7 @@ class State
 {
 public:
 	State(StateID);
-	virtual void update(sf::Time /* elapsedTime */) = 0;
+	virtual void update(sf::Time /* elapsedTime */, bool& /* close */) = 0;
 protected:
 	StateID m_id;
 };
