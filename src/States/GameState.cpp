@@ -14,6 +14,10 @@ GameState::GameState(std::queue<std::pair<StateChange, StateID>>& pendingChanges
 	sf::Text hp("HP : ", font, 30);
 }
 
+void GameState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf::View& view) {
+
+}
+
 void GameState::update(sf::Time elapsedTime, bool& close) {
 	// Process Bullets
 	if (!playerBullets.empty()) {

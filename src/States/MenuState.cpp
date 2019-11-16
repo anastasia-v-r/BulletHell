@@ -6,6 +6,10 @@ MenuState::MenuState(std::queue<std::pair<StateChange, StateID>>& pendingChanges
 
 }
 
+void MenuState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf::View& view) {
+
+}
+
 void MenuState::update(sf::Time elapsedTime, bool& close) {
 
 }

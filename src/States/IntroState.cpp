@@ -5,6 +5,10 @@ IntroState::IntroState(std::queue<std::pair<StateChange, StateID>>& pendingChang
 
 }
 
+void IntroState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf::View& view) {
+
+}
+
 void IntroState::update(sf::Time elapsedTime, bool& close) {
 
 }
