@@ -2,9 +2,9 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "globals.hpp"
-#include "bullet.hpp"
-#include "player.hpp"
-#include "boss.hpp"
+#include "Entities/bullet.hpp"
+#include "Entities/player.hpp"
+#include "Entities/boss.hpp"
 #include <vector>
 #include <queue>
 #include <map>

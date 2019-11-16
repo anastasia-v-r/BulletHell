@@ -1,5 +1,5 @@
 #include "player.hpp"
-#include "globals.hpp"
+#include "../globals.hpp"
 
 void Player::move(sf::Time elapsedTime) {
 	if (keyMap.at("Up"))
