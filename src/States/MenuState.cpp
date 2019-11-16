@@ -7,7 +7,12 @@ MenuState::MenuState(std::queue<std::pair<StateChange, StateID>>& pendingChanges
 }
 
 void MenuState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf::View& view) {
-
+	switch (evnt.type)
+	{
+	case sf::Event::MouseButtonPressed: {
+		sf::Vector2f mousePosF = window.mapPixelToCoords(sf::Mouse::getPosition(window), view);
+		}
+	}
 }
 
 void MenuState::update(sf::Time elapsedTime, bool& close) {

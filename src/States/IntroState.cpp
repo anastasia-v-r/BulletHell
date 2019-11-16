@@ -27,7 +27,8 @@ void IntroState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf
 		if (button.getGlobalBounds().contains(mousePosF)) {
 			pendingChanges.push({ StateChange::ADD, StateID::GAME });
 		}
-	}
+		}
+		break;
 	default:
 		break;
 	}

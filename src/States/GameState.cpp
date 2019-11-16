@@ -22,7 +22,7 @@ void GameState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf:
 		switch (evnt.key.code)
 		{
 		case sf::Keyboard::Escape:
-			pendingChanges.push({StateChange::REMOVE, StateID::INTRO});
+			pendingChanges.push({ StateChange::REMOVE, StateID::INTRO });
 			break;
 		case sf::Keyboard::LShift:
 			timeModifier = 5.0f;
@@ -71,6 +71,9 @@ void GameState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf:
 			break;
 		}
 		break;
+	case sf::Event::MouseButtonPressed: {
+		sf::Vector2f mousePosF = window.mapPixelToCoords(sf::Mouse::getPosition(window), view);
+		}
 	}
 }
 
