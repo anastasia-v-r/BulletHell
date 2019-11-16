@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-enum StateID
+enum struct StateID
 {
 	INTRO,
 	MENU,
