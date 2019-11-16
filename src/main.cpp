@@ -38,7 +38,7 @@ int main() {
 	// StateHolder
 	std::stack<std::unique_ptr<State>> stateStack;
 	std::queue<std::pair<StateChange, StateID>> pendingStackChanges;
-	stateStack.push(std::make_unique<GameState>(pendingStackChanges));
+	stateStack.push(std::make_unique<IntroState>(pendingStackChanges));
 
 	// Misc Vars
 	bool close = false;
@@ -102,6 +102,7 @@ int main() {
 					stateStack.pop();
 				}
 			}
+			pendingStackChanges.pop();
 		}
 	}
 }
