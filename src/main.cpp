@@ -17,9 +17,6 @@
 
 void ResizeView(const sf::RenderWindow& /* window */, sf::View& /* view */);
 
-void processInput(sf::RenderWindow& /* window */, float& /* timeModifier */,
-	bool& /* close */, sf::View& /* camera */);
-
 int main() {
 	// Create Render Window
 	auto realmode = sf::VideoMode::getDesktopMode();
@@ -42,16 +39,31 @@ int main() {
 	std::stack<std::unique_ptr<State>> stateStack;
 	std::queue<std::pair<StateChange, StateID>> pendingStackChanges;
 	stateStack.push(std::make_unique<GameState>(pendingStackChanges));
+
 	// Misc Vars
 	bool close = false;
-	
+	sf::Event evnt;
+
 	// Run While the window is open
 	while (window.isOpen()) {
 		// Process Events
-		processInput(window, timeModifier, close, view);
-		
+		while (window.pollEvent(evnt)) {
+			switch (evnt.type)
+			{
+			case sf::Event::Closed:
+				close = true;
+				break;
+			case sf::Event::Resized:
+				ResizeView(window, view);
+				window.setView(view);
+				break;
+			default:
+				stateStack.top()->input(evnt, close, window, view);
+				break;
+			}
+		}
 		// Update Game
-		stateStack.top()->update((gameClock.getElapsedTime() - lastUpdate) / timeModifier, close);
+		stateStack.top()->update(gameClock.getElapsedTime() - lastUpdate, close);
 		lastUpdate = gameClock.getElapsedTime();
 		
 		// Draw objects
@@ -113,77 +125,9 @@ void ResizeView(const sf::RenderWindow& window, sf::View& view) {
 	}
 }
 
-void processInput(sf::RenderWindow& window, float& timeModifier,
-	bool& close, sf::View& view) {
-	sf::Event evnt;
-	while (window.pollEvent(evnt)) {
-		switch (evnt.type)
-		{
-		case sf::Event::Resized:
-			ResizeView(window, view);
-			window.setView(view);
-			break;
-		case sf::Event::KeyPressed:
-			switch (evnt.key.code)
-			{
-			case sf::Keyboard::Escape:
-				close = true;
-				break;
-			case sf::Keyboard::LShift:
-				timeModifier = 5.0f;
-				break;
-			case sf::Keyboard::Space:
-				GlobalData::keyMap["Space"] = true;
-				break;
-			case sf::Keyboard::W:
-				GlobalData::keyMap["Up"] = true;
-				break;
-			case sf::Keyboard::D:
-				GlobalData::keyMap["Right"] = true;
-				break;
-			case sf::Keyboard::S:
-				GlobalData::keyMap["Down"] = true;
-				break;
-			case sf::Keyboard::A:
-				GlobalData::keyMap["Left"] = true;
-				break;
-			default:
-				break;
-			}
-			break;
-		case sf::Event::KeyReleased:
-			switch (evnt.key.code)
-			{
-			case sf::Keyboard::LShift:
-				timeModifier = 1.0f;
-				break;
-			case sf::Keyboard::Space:
-				GlobalData::keyMap["Space"] = false;
-				break;
-			case sf::Keyboard::W:
-				GlobalData::keyMap["Up"] = false;
-				break;
-			case sf::Keyboard::D:
-				GlobalData::keyMap["Right"] = false;
-				break;
-			case sf::Keyboard::S:
-				GlobalData::keyMap["Down"] = false;
-				break;
-			case sf::Keyboard::A:
-				GlobalData::keyMap["Left"] = false;
-				break;
-			default:
-				break;
-			}
-			break;
-		case sf::Event::MouseButtonPressed: {
-			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-			sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-			mousePosF = window.mapPixelToCoords(mousePos, view);
-		}
-			break;
-		default:
-			break;
-		}
-	}
+
+/* // How to grab mouse input properly
+case sf::Event::MouseButtonPressed: {
+	sf::Vector2f mousePosF = window.mapPixelToCoords(sf::Mouse::getPosition(window), view);
 }
+*/

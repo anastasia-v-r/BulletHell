@@ -8,17 +8,74 @@
 GameState::GameState(std::queue<std::pair<StateChange, StateID>>& pendingChanges)
 	: State(StateID::GAME, pendingChanges)
 	, player(GlobalData::TRUE_MODE)
-	, boss(GlobalData::TRUE_MODE) {
+	, boss(GlobalData::TRUE_MODE)
+	, timeModifier{ 1.0f } {
 	if (!font.loadFromFile("assets/Global/font/OpenSans-Regular.ttf"))
 		std::cout << "Font Failed to load" << std::endl;
 	sf::Text hp("HP : ", font, 30);
 }
 
 void GameState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf::View& view) {
-
+	switch (evnt.type)
+	{
+	case sf::Event::KeyPressed:
+		switch (evnt.key.code)
+		{
+		case sf::Keyboard::Escape:
+			close = true;
+			break;
+		case sf::Keyboard::LShift:
+			timeModifier = 5.0f;
+			break;
+		case sf::Keyboard::Space:
+			GlobalData::keyMap["Space"] = true;
+			break;
+		case sf::Keyboard::W:
+			GlobalData::keyMap["Up"] = true;
+			break;
+		case sf::Keyboard::D:
+			GlobalData::keyMap["Right"] = true;
+			break;
+		case sf::Keyboard::S:
+			GlobalData::keyMap["Down"] = true;
+			break;
+		case sf::Keyboard::A:
+			GlobalData::keyMap["Left"] = true;
+			break;
+		default:
+			break;
+		}
+		break;
+	case sf::Event::KeyReleased:
+		switch (evnt.key.code)
+		{
+		case sf::Keyboard::LShift:
+			timeModifier = 1.0f;
+			break;
+		case sf::Keyboard::Space:
+			GlobalData::keyMap["Space"] = false;
+			break;
+		case sf::Keyboard::W:
+			GlobalData::keyMap["Up"] = false;
+			break;
+		case sf::Keyboard::D:
+			GlobalData::keyMap["Right"] = false;
+			break;
+		case sf::Keyboard::S:
+			GlobalData::keyMap["Down"] = false;
+			break;
+		case sf::Keyboard::A:
+			GlobalData::keyMap["Left"] = false;
+			break;
+		default:
+			break;
+		}
+		break;
+	}
 }
 
 void GameState::update(sf::Time elapsedTime, bool& close) {
+	elapsedTime /= timeModifier;
 	// Process Bullets
 	if (!playerBullets.empty()) {
 		for (auto& bullet : playerBullets) {

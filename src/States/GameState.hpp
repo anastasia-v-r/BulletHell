@@ -24,4 +24,6 @@ private:
 	// Bullet vectors
 	std::vector<Bullet> enemyBullets;
 	std::vector<Bullet> playerBullets;
+	// Time modifier
+	float timeModifier;
 };
