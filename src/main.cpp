@@ -2,6 +2,9 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "globals.hpp"
+#include "States/IntroState.hpp"
+#include "States/MenuState.hpp"
+#include "States/GameState.hpp"
 #include "Entities/bullet.hpp"
 #include "Entities/player.hpp"
 #include "Entities/boss.hpp"
@@ -34,23 +37,11 @@ int main() {
 	auto realmode = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window(realmode, L"弾幕", sf::Style::Default);
 	// Setup View
-	sf::View view(sf::Vector2f(TRUE_WIDTH / 2.0f, TRUE_HEIGHT / 2.0f), sf::Vector2f(TRUE_WIDTH, TRUE_HEIGHT));
+	sf::View view(sf::Vector2f(GlobalData::TRUE_WIDTH / 2.0f, GlobalData::TRUE_HEIGHT / 2.0f), sf::Vector2f(TRUE_WIDTH, TRUE_HEIGHT));
 	ResizeView(window, view);
 	window.setView(view);
 	window.setPosition(sf::Vector2i(1, 0));
 	window.setKeyRepeatEnabled(false);
-	// Player
-	Player player(TRUE_MODE);
-	// Enemy
-	Boss boss(TRUE_MODE);
-	// Enemy Hp
-	sf::Font font;
-	if (!font.loadFromFile("assets/Global/font/OpenSans-Regular.ttf"))
-		std::cout << "Font Failed to load" << std::endl;
-	sf::Text hp("HP : ", font, 30);
-	// Bullet vectors
-	std::vector<Bullet> enemyBullets;
-	std::vector<Bullet> playerBullets;
 	// Setup clocks
 	sf::Clock gameClock;
 	sf::Time lastUpdate = sf::Time::Zero;
@@ -63,7 +54,7 @@ int main() {
 		// Process Events
 		processInput(window, timeModifier, close, view);
 		// Update Game
-		updateGame(gameClock.getElapsedTime(), lastUpdate, hp, TRUE_MODE, player, boss, enemyBullets, playerBullets, close, timeModifier);
+		updateGame(gameClock.getElapsedTime(), lastUpdate, hp, GlobalData::TRUE_MODE, player, boss, enemyBullets, playerBullets, close, timeModifier);
 		lastUpdate = gameClock.getElapsedTime();
 		// Draw objects
 		renderGame(player, boss, enemyBullets, playerBullets, hp, window);
@@ -116,19 +107,19 @@ void processInput(sf::RenderWindow& window, float& timeModifier,
 				timeModifier = 5.0f;
 				break;
 			case sf::Keyboard::Space:
-				keyMap["Space"] = true;
+				GlobalData::keyMap["Space"] = true;
 				break;
 			case sf::Keyboard::W:
-				keyMap["Up"] = true;
+				GlobalData::keyMap["Up"] = true;
 				break;
 			case sf::Keyboard::D:
-				keyMap["Right"] = true;
+				GlobalData::keyMap["Right"] = true;
 				break;
 			case sf::Keyboard::S:
-				keyMap["Down"] = true;
+				GlobalData::keyMap["Down"] = true;
 				break;
 			case sf::Keyboard::A:
-				keyMap["Left"] = true;
+				GlobalData::keyMap["Left"] = true;
 				break;
 			default:
 				break;
@@ -141,19 +132,19 @@ void processInput(sf::RenderWindow& window, float& timeModifier,
 				timeModifier = 1.0f;
 				break;
 			case sf::Keyboard::Space:
-				keyMap["Space"] = false;
+				GlobalData::keyMap["Space"] = false;
 				break;
 			case sf::Keyboard::W:
-				keyMap["Up"] = false;
+				GlobalData::keyMap["Up"] = false;
 				break;
 			case sf::Keyboard::D:
-				keyMap["Right"] = false;
+				GlobalData::keyMap["Right"] = false;
 				break;
 			case sf::Keyboard::S:
-				keyMap["Down"] = false;
+				GlobalData::keyMap["Down"] = false;
 				break;
 			case sf::Keyboard::A:
-				keyMap["Left"] = false;
+				GlobalData::keyMap["Left"] = false;
 				break;
 			default:
 				break;

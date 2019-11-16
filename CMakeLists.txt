@@ -50,6 +50,7 @@ file(COPY ${PROJECT_SOURCE_DIR}/playerData DESTINATION ${CMAKE_BINARY_DIR}/bin)
 # .exe, Append all src files to an env. var.
 FILE(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cpp
 	${PROJECT_SOURCE_DIR}/src/Entities/*.cpp
+	${PROJECT_SOURCE_DIR}/src/States/*.cpp
 )
 
 add_executable(BulletHell ${sources}) # Create executable
