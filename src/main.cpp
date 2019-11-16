@@ -14,19 +14,7 @@
 // Function Declarations *
 //************************
 
-void ResizeView(const sf::RenderWindow& window, sf::View& view) {
-	if ((float)window.getSize().x / (float)window.getSize().y != TRUE_WIDTH / TRUE_WIDTH) {
-		std::cout << "NOT 16:9" << std::endl;
-		float aspectRatio = (float)window.getSize().x / (float)window.getSize().y;
-		if (aspectRatio > TRUE_WIDTH / TRUE_HEIGHT) { // Side bars
-			view.setViewport(sf::FloatRect((1.0f - (TRUE_RATIO / aspectRatio)) / 2.0f, 0.0f, TRUE_RATIO / aspectRatio, 1.0f));
-		} else { // Bars on top and under
-			view.setViewport(sf::FloatRect(0.0f, (1.0f - (aspectRatio / TRUE_RATIO)) / 2.0f, 1.0f, aspectRatio / TRUE_RATIO));
-		}
-	} else {
-		view.setViewport(sf::FloatRect(0.0f, 0.0f, 1.0f, 1.0f));
-	}
-}
+void ResizeView(const sf::RenderWindow& /* window */, sf::View& /* view */);
 
 void processInput(sf::RenderWindow& /* window */, float& /* timeModifier */,
 	bool& /* close */, sf::View& /* camera */);
@@ -102,6 +90,22 @@ int main() {
 //***********************
 // Function Definitions *
 //***********************
+
+void ResizeView(const sf::RenderWindow& window, sf::View& view) {
+	if ((float)window.getSize().x / (float)window.getSize().y != TRUE_WIDTH / TRUE_WIDTH) {
+		std::cout << "NOT 16:9" << std::endl;
+		float aspectRatio = (float)window.getSize().x / (float)window.getSize().y;
+		if (aspectRatio > TRUE_WIDTH / TRUE_HEIGHT) { // Side bars
+			view.setViewport(sf::FloatRect((1.0f - (TRUE_RATIO / aspectRatio)) / 2.0f, 0.0f, TRUE_RATIO / aspectRatio, 1.0f));
+		}
+		else { // Bars on top and under
+			view.setViewport(sf::FloatRect(0.0f, (1.0f - (aspectRatio / TRUE_RATIO)) / 2.0f, 1.0f, aspectRatio / TRUE_RATIO));
+		}
+	}
+	else {
+		view.setViewport(sf::FloatRect(0.0f, 0.0f, 1.0f, 1.0f));
+	}
+}
 
 void processInput(sf::RenderWindow& window, float& timeModifier,
 	bool& close, sf::View& view) {
