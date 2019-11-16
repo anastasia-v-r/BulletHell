@@ -5,9 +5,6 @@
 #include "States/IntroState.hpp"
 #include "States/MenuState.hpp"
 #include "States/GameState.hpp"
-#include "Entities/bullet.hpp"
-#include "Entities/player.hpp"
-#include "Entities/boss.hpp"
 #include <vector>
 #include <queue>
 #include <map>
@@ -21,13 +18,6 @@ void ResizeView(const sf::RenderWindow& /* window */, sf::View& /* view */);
 
 void processInput(sf::RenderWindow& /* window */, float& /* timeModifier */,
 	bool& /* close */, sf::View& /* camera */);
-
-void updateGame(sf::Time /* Current Time */, sf::Time /* Time since last update */,
-	bool& /* close */, float /* timeModifier */);
-
-void renderGame(Player& /* player */, Boss& /* enemy */,
-	std::vector<Bullet>& /*enemyBullets*/, std::vector<Bullet>& /*playerBullets*/,
-	sf::Text& /* hp */, sf::RenderWindow& /* window */);
 
 int main() {
 	// Create Render Window
