@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include <iostream>
-constexpr float Pi = 3.14159265;
+constexpr float Pi = 3.14159265f;
 
 constexpr float deg_to_rad(float angle_deg) {
 	return (angle_deg * Pi) / 180;

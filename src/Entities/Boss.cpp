@@ -43,7 +43,7 @@ bool Boss::detectCollide(std::vector<Bullet>& bullets) {
 		auto [x1, y1] = bullet.getPos();
 		if (bullet.getVal() && std::sqrt(std::pow(y2 - y1, 2) + std::pow(x2 - x1, 2)) < (bRad + bullet.getRadius())) {
 			bullet.invalidate();
-			hp -= bullet.getDmg();
+			hp -= (int)bullet.getDmg();
 			if (hp < (iHp * 0.75f) && hp >= (iHp * 0.50f)) {
 				boss.setFillColor(sf::Color::Yellow);
 			}
