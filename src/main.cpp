@@ -10,6 +10,14 @@
 #include <queue>
 #include <map>
 #include <iostream>
+//*****************
+// Data and Enums *
+//*****************
+
+enum struct StateChange {
+	ADD,
+	REMOVE
+};
 
 //************************
 // Function Declarations *
@@ -24,31 +32,39 @@ int main() {
 	// Create Render Window
 	auto realmode = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window(realmode, L"弾幕", sf::Style::Default);
+
 	// Setup View
 	sf::View view(sf::Vector2f(GlobalData::TRUE_WIDTH / 2.0f, GlobalData::TRUE_HEIGHT / 2.0f), sf::Vector2f(GlobalData::TRUE_WIDTH, GlobalData::TRUE_HEIGHT));
 	ResizeView(window, view);
 	window.setView(view);
 	window.setPosition(sf::Vector2i(1, 0));
 	window.setKeyRepeatEnabled(false);
+	
 	// Setup clocks
 	sf::Clock gameClock;
 	sf::Time lastUpdate = sf::Time::Zero;
 	std::queue<sf::Time> fps;
 	float timeModifier = 1.0f;
+	
 	// StateHolder
 	std::stack<std::unique_ptr<State>> stateStack;
+	std::queue<std::pair<StateChange, StateID>> pendingStackChanges;
 	stateStack.push(std::make_unique<GameState>());
 	// Misc Vars
 	bool close = false;
+	
 	// Run While the window is open
 	while (window.isOpen()) {
 		// Process Events
 		processInput(window, timeModifier, close, view);
+		
 		// Update Game
 		stateStack.top()->update((gameClock.getElapsedTime() - lastUpdate) / timeModifier, close);
 		lastUpdate = gameClock.getElapsedTime();
+		
 		// Draw objects
 		stateStack.top()->draw(window);
+		
 		// Calculate Fps
 		fps.push(gameClock.getElapsedTime());
 		while (fps.front() < (gameClock.getElapsedTime() - (sf::seconds)(1)))
@@ -56,6 +72,33 @@ int main() {
 		window.setTitle(L"『弾幕』 FPS : " + (std::to_wstring(fps.size() / 1)));
 		if (close)
 			window.close();
+		
+		// Process Stack Changes
+		while (!pendingStackChanges.empty()) {
+			switch (pendingStackChanges.front().first)
+			{
+			case StateChange::ADD:
+				switch (pendingStackChanges.front().second)
+				{
+				case StateID::INTRO:
+					stateStack.push(std::make_unique<IntroState>());
+					break;
+				case StateID::MENU:
+					stateStack.push(std::make_unique<MenuState>());
+					break;
+				case StateID::GAME:
+					stateStack.push(std::make_unique<GameState>());
+					break;
+				default:
+					break;
+				}
+				break;
+			case StateChange::REMOVE:
+				while (stateStack.top()->getId() != pendingStackChanges.front().second) {
+					stateStack.pop();
+				}
+			}
+		}
 	}
 }
 //***********************
