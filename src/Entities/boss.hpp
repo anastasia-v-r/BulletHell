@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "bullet.hpp"
+#include "Globals.hpp"
 #include <cmath>
 
 class Boss : public sf::Drawable
