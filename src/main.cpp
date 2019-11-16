@@ -29,15 +29,7 @@ void renderGame(Player& /* player */, Boss& /* enemy */,
 	std::vector<Bullet>& /*enemyBullets*/, std::vector<Bullet>& /*playerBullets*/,
 	sf::Text& /* hp */, sf::RenderWindow& /* window */);
 
-// Playfield for visual testing
-static sf::RectangleShape playfield(sf::Vector2f(1920, 1080)); // TODO: Remove temp playfield once view is setup 
-
-// Test button 
-sf::RectangleShape button(sf::Vector2f(200.0f, 100.0f)); // TODO: Remove temp button once view is setup 
-
 int main() {
-	// Playfield
-	playfield.setFillColor(sf::Color(125, 125, 125, 255)); // TODO: Remove temp playfield once view is setup 
 	// Create Render Window
 	auto realmode = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window(realmode, L"弾幕", sf::Style::Default);
@@ -47,9 +39,6 @@ int main() {
 	window.setView(view);
 	window.setPosition(sf::Vector2i(1, 0));
 	window.setKeyRepeatEnabled(false);
-	// Test button
-	button.setFillColor(sf::Color::Yellow);
-	button.setPosition(sf::Vector2f(TRUE_WIDTH - button.getSize().x, TRUE_HEIGHT - button.getSize().y));
 	// Player
 	Player player(TRUE_MODE);
 	// Enemy
@@ -174,14 +163,6 @@ void processInput(sf::RenderWindow& window, float& timeModifier,
 			sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 			sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 			mousePosF = window.mapPixelToCoords(mousePos, view);
-			if (mousePosF.x > button.getPosition().x&&
-				mousePosF.x < button.getPosition().x + button.getSize().x &&
-				mousePosF.y > button.getPosition().y&&
-				mousePosF.y < button.getPosition().y + button.getSize().y) {
-				sf::Color col = button.getFillColor();
-				col.r += 100.0f;
-				button.setFillColor(col);
-			}
 		}
 			break;
 		default:
@@ -241,11 +222,9 @@ void renderGame(Player& player, Boss& boss,
 	std::vector<Bullet>& enemyBullets, std::vector<Bullet>& playerBullets,
 	sf::Text& hp, sf::RenderWindow& window) {
 	window.clear();
-	window.draw(playfield); // TODO: Remove temp playfield once view is setup 
 	window.draw(player);
 	window.draw(boss);
 	window.draw(hp);
-	window.draw(button);
 	if (!playerBullets.empty())
 		for (const auto& bullet : playerBullets) {
 			window.draw(bullet);
