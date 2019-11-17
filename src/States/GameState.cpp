@@ -20,7 +20,7 @@ void GameState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf:
 		switch (evnt.key.code)
 		{
 		case sf::Keyboard::Escape:
-			pendingChanges.push({ StateChange::REMOVE, StateID::INTRO });
+			pendingChanges.push({ StateChange::REMOVE, StateID::MENU });
 			break;
 		case sf::Keyboard::LShift:
 			timeModifier = 5.0f;
