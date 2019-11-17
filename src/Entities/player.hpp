@@ -20,8 +20,8 @@ public:
 		bul2.loadFromFile("assets/textures/player_bullet_2.png");
 	}
 	// Processors
-	void move(sf::Time /* elapsedTime */);
-	void fire(const sf::Time& /* elapsedTime */, std::vector<Bullet>& /* bullets */);
+	void move(sf::Time /* elapsedTime */, const std::map<std::string, bool>& /* keyMap */);
+	void fire(const sf::Time& /* elapsedTime */, std::vector<Bullet>& /* bullets */, const bool& /* fire */);
 	bool detectCollide(std::vector<Bullet>& /* bullets */);
 	// Getters
 	// Draw

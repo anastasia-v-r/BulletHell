@@ -13,14 +13,25 @@ MenuState::MenuState(std::queue<std::pair<StateChange, StateID>>& pendingChanges
 void MenuState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf::View& view) {
 	switch (evnt.type)
 	{
+	case sf::Event::KeyPressed:
+		switch (evnt.key.code)
+		{
+		case sf::Keyboard::Escape:
+			pendingChanges.push({StateChange::REMOVE, StateID::INTRO});
+			break;
+		default:
+			break;
+		}
+		break;
 	case sf::Event::MouseButtonPressed: {
 		sf::Vector2f mousePosF = window.mapPixelToCoords(sf::Mouse::getPosition(window), view);
 		if (buttons.at("Play").contains(mousePosF)) {
 			pendingChanges.push({StateChange::ADD, StateID::GAME});
 		} else if (buttons.at("Exit").contains(mousePosF)) {
 			close = true;
-		}	
 		}
+		}
+		break;
 	}
 }
 

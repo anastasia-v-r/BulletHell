@@ -1,20 +1,19 @@
 #include "player.hpp"
-#include "../globals.hpp"
 
-void Player::move(sf::Time elapsedTime) {
-	if (GlobalData::keyMap.at("Up"))
+void Player::move(sf::Time elapsedTime, const std::map<std::string, bool>& keyMap) {
+	if (keyMap.at("Up"))
 		player.move(0, -speed * elapsedTime.asSeconds());
-	if (GlobalData::keyMap.at("Right"))
+	if (keyMap.at("Right"))
 		player.move(speed * elapsedTime.asSeconds(), 0);
-	if (GlobalData::keyMap.at("Down"))
+	if (keyMap.at("Down"))
 		player.move(0, speed * elapsedTime.asSeconds());
-	if (GlobalData::keyMap.at("Left"))
+	if (keyMap.at("Left"))
 		player.move(-speed * elapsedTime.asSeconds(), 0);
 }
 
-void Player::fire(const sf::Time& elapsedTime, std::vector<Bullet>& bullets) {
+void Player::fire(const sf::Time& elapsedTime, std::vector<Bullet>& bullets, const bool& fire) {
 	static int bullet = 0;
-	if (GlobalData::keyMap.at("Space")) {
+	if (fire) {
 		if (timeBank.asSeconds() > fireRate) {
 			bullets.push_back(Bullet(sf::Vector2f(player.getPosition().x, player.getPosition().y + player.getRadius()), 0.0f, 1000.0f, 0.0f, 5.0f, 10.0f, bul1)); // Normal bullets
 			bullet += 1;

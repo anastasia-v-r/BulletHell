@@ -36,7 +36,6 @@ int main() {
 	sf::Clock gameClock;
 	sf::Time lastUpdate = sf::Time::Zero;
 	std::queue<sf::Time> fps;
-	float timeModifier = 1.0f;
 	
 	// StateHolder
 	std::stack<std::unique_ptr<State>> stateStack;
@@ -44,7 +43,7 @@ int main() {
 	stateStack.push(std::make_unique<IntroState>(pendingStackChanges));
 
 	// Misc Vars
-	bool close = false;
+	bool close = false; // TODO: in place of close allow pending changes to be able to nuke the program
 	sf::Event evnt;
 
 	// Run While the window is open
