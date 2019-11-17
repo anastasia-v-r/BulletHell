@@ -10,5 +10,4 @@ public:
 private:
 	sf::RectangleShape box;
 	sf::Text text;
-	sf::Font font;
 };

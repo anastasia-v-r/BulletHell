@@ -22,4 +22,6 @@ namespace GlobalData {
 		{"Space", false }
 	};
 
+	// GLOBAL RESOURCES // TODO: Setup a resource manager to hold all of this
+	inline sf::Font font;
 }

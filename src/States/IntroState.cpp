@@ -1,4 +1,5 @@
 #include "IntroState.hpp"
+#include <SFML/Graphics.hpp>
 #include "Globals.hpp"
 #include <iostream>
 
@@ -7,9 +8,7 @@ IntroState::IntroState(std::queue<std::pair<StateChange, StateID>>& pendingChang
 	, button(sf::Vector2f(100.0f, 100.0f)) {
 	button.setPosition(sf::Vector2f(GlobalData::TRUE_WIDTH / 3, GlobalData::TRUE_HEIGHT / 3));
 	button.setFillColor(sf::Color::Yellow);
-	if (!font.loadFromFile("assets/Global/font/OpenSans-Regular.ttf"))
-			std::cout << "Font Failed to load" << std::endl;
-	text = sf::Text("Intro!", font, 30);
+	text = sf::Text("Intro!", GlobalData::font, 30);
 	std::cout << (std::string)text.getString() << std::endl;
 	text.setPosition(sf::Vector2f(GlobalData::TRUE_WIDTH / 2, GlobalData::TRUE_HEIGHT / 2));
 }
