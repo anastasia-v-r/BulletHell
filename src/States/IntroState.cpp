@@ -1,16 +1,15 @@
 #include "IntroState.hpp"
 #include <SFML/Graphics.hpp>
 #include "Globals.hpp"
+#include "Entities/Splash.hpp"
 #include <iostream>
 
 IntroState::IntroState(std::queue<std::pair<StateChange, StateID>>& pendingChanges)
-	: State(StateID::INTRO, pendingChanges)
-	, button(sf::Vector2f(100.0f, 100.0f)) {
-	button.setPosition(sf::Vector2f(GlobalData::TRUE_WIDTH / 3, GlobalData::TRUE_HEIGHT / 3));
-	button.setFillColor(sf::Color::Yellow);
-	text = sf::Text("Intro!", GlobalData::font, 30);
-	std::cout << (std::string)text.getString() << std::endl;
-	text.setPosition(sf::Vector2f(GlobalData::TRUE_WIDTH / 2, GlobalData::TRUE_HEIGHT / 2));
+	: State(StateID::INTRO, pendingChanges) {
+	gameT.loadFromFile("assets/splashScreen/BulletHellSplash.png");
+	companyT.loadFromFile("assets/splashScreen/ValorianSplash.png");
+	splashQueue.push(Splash(companyT));
+	splashQueue.push(Splash(gameT));
 }
 
 void IntroState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf::View& view) {
@@ -21,25 +20,24 @@ void IntroState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf
 			close = true;
 		}
 		break;
-	case sf::Event::MouseButtonPressed: {
-		sf::Vector2f mousePosF = window.mapPixelToCoords(sf::Mouse::getPosition(window), view);
-		if (button.getGlobalBounds().contains(mousePosF)) {
-			pendingChanges.push({ StateChange::ADD, StateID::MENU });
-		}
-		}
-		break;
 	default:
 		break;
 	}
 }
 
 void IntroState::update(sf::Time elapsedTime, bool& close) {
-
+	if (splashQueue.size() != 0) {
+		if (!splashQueue.front().fade(elapsedTime)) {
+			splashQueue.pop();
+		}
+	} else {
+		pendingChanges.push({StateChange::ADD, StateID::MENU});
+	}
 }
 
 void IntroState::draw(sf::RenderWindow& window) {
 	window.clear();
-	window.draw(button);
-	window.draw(text);
+	if (!splashQueue.empty())
+		window.draw(splashQueue.front());
 	window.display();
 }
