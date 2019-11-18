@@ -1,4 +1,4 @@
-#include "state.hpp"
+#include "State.hpp"
 
 State::State(StateID id, std::queue<std::pair<StateChange, StateID>>& pendingChanges)
 	: m_id{ id } 
