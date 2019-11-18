@@ -66,6 +66,8 @@ set_target_properties(BulletHell PROPERTIES
 
 # Include Directories
 target_include_directories(BulletHell PUBLIC ${PROJECT_SOURCE_DIR}/src)
+target_include_directories(BulletHell PUBLIC ${PROJECT_SOURCE_DIR}/src/Entities)
+target_include_directories(BulletHell PUBLIC ${PROJECT_SOURCE_DIR}/src/States)
 
 # Unix System Fixes
 if(UNIX)
