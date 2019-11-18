@@ -1,6 +1,8 @@
 #pragma once
 #include "State.hpp"
+#include "Entities/Splash.hpp"
 #include <SFML/Graphics.hpp>
+#include <queue>
 
 class IntroState : public State
 {
@@ -10,6 +12,7 @@ public:
 	void update(sf::Time /* elapsedTime */, bool& /* close */) override;
 	void draw(sf::RenderWindow& /* window */) override;
 private:
-	sf::RectangleShape button;
-	sf::Text text;
+	std::queue<Splash> splashQueue;
+	sf::Texture gameT;
+	sf::Texture companyT;
 };

@@ -25,4 +25,6 @@ private:
 	std::vector<Bullet> playerBullets;
 	// Time modifier
 	float timeModifier;
+	// Keymap
+	std::map<std::string, bool> keyMap;
 };

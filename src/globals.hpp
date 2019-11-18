@@ -12,16 +12,6 @@ namespace GlobalData {
 	inline const float TRUE_RATIO = TRUE_WIDTH / TRUE_HEIGHT;
 	inline const sf::VideoMode TRUE_MODE(1920U, 1080U, 32U);
 
-	// KEYMAP
-
-	inline std::map<std::string, bool> keyMap = {
-		{"Up", false},
-		{"Right", false},
-		{"Down", false},
-		{"Left", false},
-		{"Space", false }
-	};
-
 	// GLOBAL RESOURCES // TODO: Setup a resource manager to hold all of this
 	inline sf::Font font;
 }

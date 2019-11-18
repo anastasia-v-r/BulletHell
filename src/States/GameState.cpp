@@ -9,7 +9,14 @@ GameState::GameState(std::queue<std::pair<StateChange, StateID>>& pendingChanges
 	: State(StateID::GAME, pendingChanges)
 	, player(GlobalData::TRUE_MODE)
 	, boss(GlobalData::TRUE_MODE)
-	, timeModifier{ 1.0f } {
+	, timeModifier{ 1.0f } 
+	, keyMap {
+		{"Up", false},
+		{"Right", false},
+		{"Down", false},
+		{"Left", false},
+		{"Space", false }
+	  } {
 	hp = sf::Text("HP : ", GlobalData::font, 30);
 }
 
@@ -29,19 +36,19 @@ void GameState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf:
 			timeModifier = 5.0f;
 			break;
 		case sf::Keyboard::Space:
-			GlobalData::keyMap["Space"] = true;
+			this->keyMap["Space"] = true;
 			break;
 		case sf::Keyboard::W:
-			GlobalData::keyMap["Up"] = true;
+			this->keyMap["Up"] = true;
 			break;
 		case sf::Keyboard::D:
-			GlobalData::keyMap["Right"] = true;
+			this->keyMap["Right"] = true;
 			break;
 		case sf::Keyboard::S:
-			GlobalData::keyMap["Down"] = true;
+			this->keyMap["Down"] = true;
 			break;
 		case sf::Keyboard::A:
-			GlobalData::keyMap["Left"] = true;
+			this->keyMap["Left"] = true;
 			break;
 		default:
 			break;
@@ -55,19 +62,19 @@ void GameState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf:
 			timeModifier = 1.0f;
 			break;
 		case sf::Keyboard::Space:
-			GlobalData::keyMap["Space"] = false;
+			this->keyMap["Space"] = false;
 			break;
 		case sf::Keyboard::W:
-			GlobalData::keyMap["Up"] = false;
+			this->keyMap["Up"] = false;
 			break;
 		case sf::Keyboard::D:
-			GlobalData::keyMap["Right"] = false;
+			this->keyMap["Right"] = false;
 			break;
 		case sf::Keyboard::S:
-			GlobalData::keyMap["Down"] = false;
+			this->keyMap["Down"] = false;
 			break;
 		case sf::Keyboard::A:
-			GlobalData::keyMap["Left"] = false;
+			this->keyMap["Left"] = false;
 			break;
 		default:
 			break;
@@ -97,16 +104,16 @@ void GameState::update(sf::Time elapsedTime, bool& close) {
 	}
 
 	// Process player
-	player.move(elapsedTime);
-	player.fire(elapsedTime, playerBullets);
+	player.move(elapsedTime, this->keyMap);
+	player.fire(elapsedTime, playerBullets, this->keyMap.at("Space"));
 	if (player.detectCollide(enemyBullets))
-		close = true;
+		pendingChanges.push({ StateChange::REMOVE, StateID::MENU });
 
 	// Process Boss
 	boss.move(elapsedTime);
 	boss.fire(elapsedTime, enemyBullets);
 	if (boss.detectCollide(playerBullets))
-		close = true;
+		pendingChanges.push({StateChange::REMOVE, StateID::MENU});
 	hp.setString("HP : " + std::to_string(boss.getHp()));
 
 	// Clear Bullets
