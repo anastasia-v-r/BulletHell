@@ -20,7 +20,10 @@ void GameState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf:
 		switch (evnt.key.code)
 		{
 		case sf::Keyboard::Escape:
-			pendingChanges.push({ StateChange::REMOVE, StateID::INTRO });
+			pendingChanges.push({ StateChange::REMOVE, StateID::MENU });
+			break;
+		case sf::Keyboard::BackSpace:
+			timeModifier = 0.0f;
 			break;
 		case sf::Keyboard::LShift:
 			timeModifier = 5.0f;
@@ -48,6 +51,7 @@ void GameState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf:
 		switch (evnt.key.code)
 		{
 		case sf::Keyboard::LShift:
+		case sf::Keyboard::BackSpace:
 			timeModifier = 1.0f;
 			break;
 		case sf::Keyboard::Space:
@@ -76,7 +80,10 @@ void GameState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf:
 }
 
 void GameState::update(sf::Time elapsedTime, bool& close) {
-	elapsedTime /= timeModifier;
+	if (timeModifier != 0.0f)
+		elapsedTime /= timeModifier;
+	else
+		elapsedTime = sf::Time::Zero;
 	// Process Bullets
 	if (!playerBullets.empty()) {
 		for (auto& bullet : playerBullets) {

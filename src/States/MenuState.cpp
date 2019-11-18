@@ -18,7 +18,7 @@ void MenuState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf:
 		if (buttons.at("Play").contains(mousePosF)) {
 			pendingChanges.push({StateChange::ADD, StateID::GAME});
 		} else if (buttons.at("Exit").contains(mousePosF)) {
-			pendingChanges.push({ StateChange::REMOVE, StateID::INTRO });
+			close = true;
 		}	
 		}
 	}
