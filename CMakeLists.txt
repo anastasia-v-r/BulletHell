@@ -42,6 +42,10 @@ else()
 endif()
 
 find_package(nlohmann_json 3.2.0 REQUIRED)
+#if (UNIX)
+#	set(SFML_STATIC_LIBRARIES TRUE)
+#	find_package(SFML 2.5.1 COMPONENTS system window graphics REQUIRED)
+#endif()
 
 # Progam Resource Management
 file(COPY ${PROJECT_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR}/bin)
@@ -66,6 +70,7 @@ target_include_directories(BulletHell PUBLIC ${PROJECT_SOURCE_DIR}/src)
 # Unix System Fixes
 if(UNIX)
 	target_link_libraries(BulletHell m)
+#	target_link_libraries(BulletHell sfml-graphics)
 endif()
 
 # Link all Libraries
