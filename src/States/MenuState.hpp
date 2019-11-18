@@ -1,6 +1,8 @@
 #pragma once
 #include "State.hpp"
+#include "Entities/Button.hpp"
 #include <SFML/Graphics.hpp>
+#include <map>
 
 class MenuState : public State
 {
@@ -10,6 +12,7 @@ public:
 	void update(sf::Time /* elapsedTime */, bool& /* close */) override;
 	void draw(sf::RenderWindow& /* window */) override;
 private:
+	std::map<std::string, Button> buttons;
 	sf::RectangleShape button;
 	sf::Text text;
 	sf::Font font;

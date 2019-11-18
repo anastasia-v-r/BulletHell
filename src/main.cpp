@@ -125,10 +125,3 @@ void ResizeView(const sf::RenderWindow& window, sf::View& view) {
 		view.setViewport(sf::FloatRect(0.0f, 0.0f, 1.0f, 1.0f));
 	}
 }
-
-
-/* // How to grab mouse input properly
-case sf::Event::MouseButtonPressed: {
-	sf::Vector2f mousePosF = window.mapPixelToCoords(sf::Mouse::getPosition(window), view);
-}
-*/

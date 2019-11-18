@@ -25,9 +25,10 @@ void IntroState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf
 	case sf::Event::MouseButtonPressed: {
 		sf::Vector2f mousePosF = window.mapPixelToCoords(sf::Mouse::getPosition(window), view);
 		if (button.getGlobalBounds().contains(mousePosF)) {
-			pendingChanges.push({ StateChange::ADD, StateID::GAME });
+			pendingChanges.push({ StateChange::ADD, StateID::MENU });
 		}
-	}
+		}
+		break;
 	default:
 		break;
 	}
