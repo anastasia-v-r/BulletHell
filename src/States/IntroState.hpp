@@ -12,5 +12,4 @@ public:
 private:
 	sf::RectangleShape button;
 	sf::Text text;
-	sf::Font font;
 };

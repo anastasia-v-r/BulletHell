@@ -19,7 +19,6 @@ private:
 	// Enemy
 	Boss boss;
 	// Enemy Hp
-	sf::Font font;
 	sf::Text hp;
 	// Bullet vectors
 	std::vector<Bullet> enemyBullets;

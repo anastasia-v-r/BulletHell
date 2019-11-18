@@ -18,6 +18,9 @@
 void ResizeView(const sf::RenderWindow& /* window */, sf::View& /* view */);
 
 int main() {
+	// Load font // TODO: Remove in favor of resource manager
+	if (!GlobalData::font.loadFromFile("assets/Global/font/OpenSans-Regular.ttf"))
+		std::cout << "Font Failed to load" << std::endl;
 	// Create Render Window
 	auto realmode = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window(realmode, L"弾幕", sf::Style::Default);
@@ -74,9 +77,10 @@ int main() {
 		while (fps.front() < (gameClock.getElapsedTime() - (sf::seconds)(1)))
 			fps.pop();
 		window.setTitle(L"『弾幕』 FPS : " + (std::to_wstring(fps.size() / 1)));
-		if (close)
+		if (close) {
 			window.close();
-		
+			break;
+		}
 		// Process Stack Changes
 		while (!pendingStackChanges.empty()) {
 			switch (pendingStackChanges.front().first)

@@ -10,9 +10,7 @@ GameState::GameState(std::queue<std::pair<StateChange, StateID>>& pendingChanges
 	, player(GlobalData::TRUE_MODE)
 	, boss(GlobalData::TRUE_MODE)
 	, timeModifier{ 1.0f } {
-	if (!font.loadFromFile("assets/Global/font/OpenSans-Regular.ttf"))
-		std::cout << "Font Failed to load" << std::endl;
-	hp = sf::Text("HP : ", font, 30);
+	hp = sf::Text("HP : ", GlobalData::font, 30);
 }
 
 void GameState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf::View& view) {
