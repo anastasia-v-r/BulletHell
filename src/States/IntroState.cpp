@@ -9,7 +9,7 @@ IntroState::IntroState(std::queue<std::pair<StateChange, StateID>>& pendingChang
 	button.setFillColor(sf::Color::Yellow);
 	if (!font.loadFromFile("assets/Global/font/OpenSans-Regular.ttf"))
 			std::cout << "Font Failed to load" << std::endl;
-	sf::Text text("Intro!", font, 30);
+	text = sf::Text("Intro!", font, 30);
 	std::cout << (std::string)text.getString() << std::endl;
 	text.setPosition(sf::Vector2f(GlobalData::TRUE_WIDTH / 2, GlobalData::TRUE_HEIGHT / 2));
 }
