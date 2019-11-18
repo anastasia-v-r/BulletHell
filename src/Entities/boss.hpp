@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "bullet.hpp"
+#include "Globals.hpp"
 #include <cmath>
 
 class Boss : public sf::Drawable
@@ -20,11 +21,11 @@ public:
 		boss.setOrigin(boss.getRadius(), boss.getRadius());
 	}
 	// Processors
-	void move(const sf::Time& elapsedTime, const sf::VideoMode& mode) {
+	void move(const sf::Time& elapsedTime) {
 		// Keep in place
-		if (boss.getPosition().x > ((mode.width / 3) * 2))
+		if (boss.getPosition().x > ((GlobalData::TRUE_MODE.width / 3) * 2))
 			goRight = false;
-		else if (boss.getPosition().x < ((mode.width / 3)))
+		else if (boss.getPosition().x < ((GlobalData::TRUE_MODE.width / 3)))
 			goRight = true;
 		// Move
 		if (goRight)
