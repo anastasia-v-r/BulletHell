@@ -1,4 +1,4 @@
-#include "bullet.hpp"
+#include "Bullet.hpp"
 #include <SFML/Graphics.hpp>
 
 Bullet::Bullet(sf::Vector2f pos, float dir, float speed, float angVel, float dmg, float size, const sf::Texture& texture)

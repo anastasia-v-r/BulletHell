@@ -1,4 +1,4 @@
-#include "player.hpp"
+#include "Player.hpp"
 
 void Player::move(sf::Time elapsedTime, const std::map<std::string, bool>& keyMap) {
 	if (keyMap.at("Up"))

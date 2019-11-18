@@ -1,6 +1,6 @@
 #include "Splash.hpp"
 #include <SFML/Graphics.hpp>
-#include "globals.hpp"
+#include "Globals.hpp"
 #include <string>
 #include <iostream>
 

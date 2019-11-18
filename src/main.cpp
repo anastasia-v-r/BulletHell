@@ -1,7 +1,7 @@
 ﻿// Includes
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include "globals.hpp"
+#include "Globals.hpp"
 #include "States/IntroState.hpp"
 #include "States/MenuState.hpp"
 #include "States/GameState.hpp"
