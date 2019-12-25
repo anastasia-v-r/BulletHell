@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "Globals.hpp"
+#include "ResourceManager.hpp"
 #include "States/IntroState.hpp"
 #include "States/MenuState.hpp"
 #include "States/GameState.hpp"
@@ -37,6 +38,10 @@ int main() {
 	sf::Time lastUpdate = sf::Time::Zero;
 	std::queue<sf::Time> fps;
 	
+
+	// Resource Manager
+	ResourceManager yeet;
+
 	// StateHolder
 	std::stack<std::unique_ptr<State>> stateStack;
 	std::queue<std::pair<StateChange, StateID>> pendingStackChanges;
