@@ -55,6 +55,7 @@ file(COPY ${PROJECT_SOURCE_DIR}/playerData DESTINATION ${CMAKE_BINARY_DIR}/bin)
 FILE(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cpp
 	${PROJECT_SOURCE_DIR}/src/Entities/*.cpp
 	${PROJECT_SOURCE_DIR}/src/States/*.cpp
+	${PROJECT_SOURCE_DIR}/src/*.tpp
 )
 
 add_executable(BulletHell ${sources}) # Create executable
