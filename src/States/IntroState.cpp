@@ -7,8 +7,8 @@
 
 IntroState::IntroState(std::queue<std::pair<StateChange, StateID>>& pendingChanges)
 	: State(StateID::INTRO, pendingChanges) {
-	splashQueue.push(Splash(ResourceManager::instance().getTexture("1")));
-	splashQueue.push(Splash(ResourceManager::instance().getTexture("2")));
+	splashQueue.push(Splash(ResourceManager::instance().getTexture("StudioSplash")));
+	splashQueue.push(Splash(ResourceManager::instance().getTexture("GameSplash")));
 }
 
 void IntroState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf::View& view) {

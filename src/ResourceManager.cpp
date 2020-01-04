@@ -9,9 +9,9 @@ ResourceManager& ResourceManager::instance() {
 
 ResourceManager::ResourceManager() {
 	game_font.loadFromFile("assets/Global/font/OpenSans-Regular.ttf");
-	textures.insert({ "1", sf::Texture() });
+	textures.insert({ "GameSplash", sf::Texture() });
 	textures.at("1").loadFromFile("assets/splashScreen/BulletHellSplash.png");
-	textures.insert({ "2", sf::Texture() });
+	textures.insert({ "StudioSplash", sf::Texture() });
 	textures.at("2").loadFromFile("assets/splashScreen/ValorianSplash.png");
 	
 }
