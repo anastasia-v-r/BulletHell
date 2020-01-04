@@ -8,15 +8,12 @@ ResourceManager& ResourceManager::instance() {
 }
 
 ResourceManager::ResourceManager() {
-	if (false) {
-		throw std::logic_error("Cannot have more than one resource manager");
-	} else {
-		textures.insert({ "1", sf::Texture() });
-		textures.at("1").loadFromFile("assets/splashScreen/BulletHellSplash.png");
-		textures.insert({ "2", sf::Texture() });
-		textures.at("2").loadFromFile("assets/splashScreen/ValorianSplash.png");
-		// Init stuff
-	}
+	game_font.loadFromFile("assets/Global/font/OpenSans-Regular.ttf");
+	textures.insert({ "1", sf::Texture() });
+	textures.at("1").loadFromFile("assets/splashScreen/BulletHellSplash.png");
+	textures.insert({ "2", sf::Texture() });
+	textures.at("2").loadFromFile("assets/splashScreen/ValorianSplash.png");
+	
 }
 
 sf::Font& ResourceManager::getFont() {
