@@ -1,27 +1,38 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "AssetManager.hpp"
-#include <stack>
+#include <SFML/Audio.hpp>
 #include <vector>
-#include <map>
+#include <unordered_set>
+#include <unordered_map>
 #include <string>
 
 class ResourceManager
 {
 public:
-	ResourceManager() = default;
-	
-	// Direct Access
-	sf::Font& getFont() const;
-	void cleanAssets();
+	// Access
+	static ResourceManager& instance();
 
-	// Asset Loading
-	void loadTexture();
-	void loadSfx();
-	void loadMusic();
-public: 
-	AssetManager<sf::Texture> textures;
+	// Accessors
+	sf::Font& getFont();
+	sf::Texture& getTexture(const std::string id);
+	sf::SoundBuffer& getSound(const std::string id);
+
+	// Memory Operations
+	void loadState(const std::string assetList);
+	void unloadState();
+
 private:
-	sf::Font font;
+	ResourceManager();
+
+private:
+	std::vector<std::unordered_set<std::string>> assetKeys; // used for tracking what assets where loaded by a state
+	std::unordered_map<std::string, sf::Texture> textures;
+	std::unordered_map<std::string, sf::SoundBuffer> sounds;
+	sf::Music current_song;
+	sf::Font game_font;
+
+public:
+	ResourceManager(ResourceManager const&) = delete;
+	void operator=(ResourceManager const&) = delete;
 
 };
