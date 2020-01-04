@@ -42,8 +42,8 @@ void ResourceManager::unloadState() {
 					return true;
 			}
 			return false;
-			})();
-			if (!exists) // Remove resource if it doesn't exist anywhere else
-				textures.erase(key);
+		})();
+		if (!exists) // Remove resource if it doesn't exist anywhere else
+			textures.erase(key);
 	}
 }
