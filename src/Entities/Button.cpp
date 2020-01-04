@@ -1,12 +1,12 @@
 #include "Button.hpp"
-#include "Globals.hpp"
+#include "ResourceManager.hpp"
 #include <iostream>
 
 Button::Button(std::string text, sf::Vector2f size, sf::Vector2f pos, sf::Color color)
 	: box(size) {
 	this->box.setPosition(pos);
 	this->box.setFillColor(color);
-	this->text = sf::Text(text, GlobalData::font, 30U);
+	this->text = sf::Text(text, ResourceManager::instance().getFont(), 30U);
 	this->text.setPosition(pos);
 }
 

@@ -1,5 +1,6 @@
 #include "GameState.hpp"
 #include "Globals.hpp"
+#include "ResourceManager.hpp"
 #include "Entities/Player.hpp"
 #include "Entities/Boss.hpp"
 #include "Entities/Bullet.hpp"
@@ -17,7 +18,7 @@ GameState::GameState(std::queue<std::pair<StateChange, StateID>>& pendingChanges
 		{"Left", false},
 		{"Space", false }
 	  } {
-	hp = sf::Text("HP : ", GlobalData::font, 30);
+	hp = sf::Text("HP : ", ResourceManager::instance().getFont(), 30);
 }
 
 void GameState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf::View& view) {
