@@ -21,6 +21,8 @@ void IntroState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf
 	case sf::Event::KeyPressed:
 		if (evnt.key.code == sf::Keyboard::Escape) {
 			close = true;
+		} else if (evnt.key.code == sf::Keyboard::Enter) {
+			splashQueue.pop();
 		}
 		break;
 	default:
