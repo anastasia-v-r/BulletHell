@@ -18,7 +18,7 @@ public:
 	sf::SoundBuffer& getSound(const std::string id);
 
 	// Memory Operations
-	void loadState(const std::string assetList);
+	void loadState(const std::vector<std::pair<std::string, std::string>> assetlist);
 	void unloadState();
 
 private:
@@ -28,6 +28,7 @@ private:
 	std::vector<std::unordered_set<std::string>> assetKeys; // used for tracking what assets where loaded by a state
 	std::unordered_map<std::string, sf::Texture> textures;
 	std::unordered_map<std::string, sf::SoundBuffer> sounds;
+
 	sf::Music current_song;
 	sf::Font game_font;
 

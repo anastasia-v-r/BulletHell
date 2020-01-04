@@ -28,8 +28,15 @@ sf::SoundBuffer& ResourceManager::getSound(const std::string id) {
 	return sounds[id];
 }
 
-void ResourceManager::loadState(const std::string assetList) {
-
+void ResourceManager::loadState(const std::vector<std::pair<std::string, std::string>> assetlist) {
+	assetKeys.push_back(std::unordered_set<std::string>());
+	for (const auto& asset : assetlist) {
+		if (textures.find(asset.first) != textures.end())
+			throw std::logic_error("Two textures cannot have the same name");
+		textures.insert({ asset.first, sf::Texture() });
+		textures.at(asset.first).loadFromFile(asset.second);
+		assetKeys[assetKeys.size() - 1].insert(asset.first);
+	}
 }
 
 void ResourceManager::unloadState() {
