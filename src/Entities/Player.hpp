@@ -16,8 +16,6 @@ public:
 		player.setPosition(mode.width / 2.0f, mode.height / 2.0f);
 		player.setFillColor(sf::Color::Green);
 		player.setOrigin(player.getRadius(), player.getRadius());
-		bul1.loadFromFile("assets/textures/player_bullet_1.png");
-		bul2.loadFromFile("assets/textures/player_bullet_2.png");
 	}
 	// Processors
 	void move(sf::Time /* elapsedTime */, const std::map<std::string, bool>& /* keyMap */);
@@ -34,7 +32,5 @@ private:
 	float speed;
 	sf::Time timeBank;
 	float fireRate;
-	sf::Texture bul1;
-	sf::Texture bul2;
 };
 

@@ -1,4 +1,6 @@
 #include "Player.hpp"
+#include "Bullet.hpp"
+#include "ResourceManager.hpp"
 
 void Player::move(sf::Time elapsedTime, const std::map<std::string, bool>& keyMap) {
 	if (keyMap.at("Up"))
@@ -15,10 +17,10 @@ void Player::fire(const sf::Time& elapsedTime, std::vector<Bullet>& bullets, con
 	static int bullet = 0;
 	if (fire) {
 		if (timeBank.asSeconds() > fireRate) {
-			bullets.push_back(Bullet(sf::Vector2f(player.getPosition().x, player.getPosition().y + player.getRadius()), 0.0f, 1000.0f, 0.0f, 5.0f, 10.0f, bul1)); // Normal bullets
+			bullets.push_back(Bullet(sf::Vector2f(player.getPosition().x, player.getPosition().y + player.getRadius()), 0.0f, 1000.0f, 0.0f, 5.0f, 10.0f, ResourceManager::instance().getTexture("PlayerBullet1"))); // Normal bullets
 			bullet += 1;
 			if (bullet == 4) {
-				bullets.push_back(Bullet(sf::Vector2f(player.getPosition().x, player.getPosition().y + player.getRadius()), 1000.0f, 5.0f, 25.0f, bul2, true));
+				bullets.push_back(Bullet(sf::Vector2f(player.getPosition().x, player.getPosition().y + player.getRadius()), 1000.0f, 5.0f, 25.0f, ResourceManager::instance().getTexture("PlayerBullet2"), true));
 				bullet = 0;
 			}
 			timeBank -= (sf::seconds)(fireRate);
