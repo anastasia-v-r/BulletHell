@@ -2,14 +2,13 @@
 #include <SFML/Graphics.hpp>
 #include "Globals.hpp"
 #include "Entities/Splash.hpp"
+#include "ResourceManager.hpp"
 #include <iostream>
 
 IntroState::IntroState(std::queue<std::pair<StateChange, StateID>>& pendingChanges)
 	: State(StateID::INTRO, pendingChanges) {
-	gameT.loadFromFile("assets/splashScreen/BulletHellSplash.png");
-	companyT.loadFromFile("assets/splashScreen/ValorianSplash.png");
-	splashQueue.push(Splash(companyT));
-	splashQueue.push(Splash(gameT));
+	splashQueue.push(Splash(ResourceManager::instance().getTexture("1")));
+	splashQueue.push(Splash(ResourceManager::instance().getTexture("2")));
 }
 
 void IntroState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf::View& view) {

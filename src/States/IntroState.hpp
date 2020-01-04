@@ -1,6 +1,7 @@
 #pragma once
 #include "State.hpp"
 #include "Entities/Splash.hpp"
+#include "ResourceManager.hpp"
 #include <SFML/Graphics.hpp>
 #include <queue>
 
