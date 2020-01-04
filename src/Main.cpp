@@ -62,6 +62,7 @@ int main() {
 				break;
 			}
 		}
+
 		// Update Game
 		stateStack.top()->update(gameClock.getElapsedTime() - lastUpdate, close);
 		lastUpdate = gameClock.getElapsedTime();
@@ -78,6 +79,7 @@ int main() {
 			window.close();
 			break;
 		}
+
 		// Process Stack Changes
 		while (!pendingStackChanges.empty()) {
 			switch (pendingStackChanges.front().first)
@@ -121,8 +123,7 @@ void ResizeView(const sf::RenderWindow& window, sf::View& view) {
 		else { // Bars on top and under
 			view.setViewport(sf::FloatRect(0.0f, (1.0f - (aspectRatio / GlobalData::TRUE_RATIO)) / 2.0f, 1.0f, aspectRatio / GlobalData::TRUE_RATIO));
 		}
-	}
-	else {
+	} else {
 		view.setViewport(sf::FloatRect(0.0f, 0.0f, 1.0f, 1.0f));
 	}
 }
