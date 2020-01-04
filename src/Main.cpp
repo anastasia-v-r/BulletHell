@@ -37,10 +37,6 @@ int main() {
 	sf::Clock gameClock;
 	sf::Time lastUpdate = sf::Time::Zero;
 	std::queue<sf::Time> fps;
-	
-
-	// Resource Manager
-	ResourceManager yeet;
 
 	// StateHolder
 	std::stack<std::unique_ptr<State>> stateStack;
