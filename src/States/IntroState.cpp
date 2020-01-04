@@ -7,6 +7,10 @@
 
 IntroState::IntroState(std::queue<std::pair<StateChange, StateID>>& pendingChanges)
 	: State(StateID::INTRO, pendingChanges) {
+	ResourceManager::instance().loadState({ 
+		{"GameSplash", "assets/splashScreen/BulletHellSplash.png"}, 
+		{"StudioSplash", "assets/splashScreen/ValorianSplash.png"} 
+	});
 	splashQueue.push(Splash(ResourceManager::instance().getTexture("StudioSplash")));
 	splashQueue.push(Splash(ResourceManager::instance().getTexture("GameSplash")));
 }
