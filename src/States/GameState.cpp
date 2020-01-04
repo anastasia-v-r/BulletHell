@@ -18,6 +18,10 @@ GameState::GameState(std::queue<std::pair<StateChange, StateID>>& pendingChanges
 		{"Left", false},
 		{"Space", false }
 	  } {
+	ResourceManager::instance().loadState({
+		{"BossBullet1", "assets/textures/boss_bullet_1.png"},
+		{"BossBullet2", "assets/textures/boss_bullet_2.png"}
+	});
 	hp = sf::Text("HP : ", ResourceManager::instance().getFont(), 30);
 }
 

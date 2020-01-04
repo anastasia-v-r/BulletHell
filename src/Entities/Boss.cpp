@@ -1,5 +1,6 @@
 #include "Boss.hpp"
 #include "Bullet.hpp"
+#include "ResourceManager.hpp"
 
 void Boss::move(const sf::Time& elapsedTime) {
 	// Keep in place
@@ -24,11 +25,11 @@ void Boss::fire(const sf::Time& elapsedTime, std::vector<Bullet>& bullets) {
 			angVel = -40.0f;
 		else
 			angVel = 40.0f;
-		bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius(), boss.getRadius()), 135.0f, speed, angVel, dmg, size, bul1));
-		bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius() / 2, boss.getRadius()), 157.5f, speed, angVel, dmg, size, bul2));
-		bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(0.0f, boss.getRadius()), 180.0f, speed, angVel, dmg, size, bul1));
-		bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(-boss.getRadius() / 2, boss.getRadius()), 202.5f, speed, angVel, dmg, size, bul2));
-		bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(-boss.getRadius(), boss.getRadius()), 225.0f, speed, angVel, dmg, size, bul1));
+		bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius(), boss.getRadius()), 135.0f, speed, angVel, dmg, size, ResourceManager::instance().getTexture("BossBullet1")));
+		bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(boss.getRadius() / 2, boss.getRadius()), 157.5f, speed, angVel, dmg, size, ResourceManager::instance().getTexture("BossBullet2")));
+		bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(0.0f, boss.getRadius()), 180.0f, speed, angVel, dmg, size, ResourceManager::instance().getTexture("BossBullet1")));
+		bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(-boss.getRadius() / 2, boss.getRadius()), 202.5f, speed, angVel, dmg, size, ResourceManager::instance().getTexture("BossBullet2")));
+		bullets.push_back(Bullet(boss.getPosition() + sf::Vector2f(-boss.getRadius(), boss.getRadius()), 225.0f, speed, angVel, dmg, size, ResourceManager::instance().getTexture("BossBullet1")));
 		timeBank -= (sf::seconds)(fireRate);
 	}
 	else {

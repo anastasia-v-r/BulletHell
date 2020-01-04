@@ -15,8 +15,6 @@ public:
 		, goRight{ true } 
 		, fireRate{ 1.0f / 4.0f } 
 		, timeBank{ sf::Time::Zero } {
-		bul1.loadFromFile("assets/textures/boss_bullet_1.png");
-		bul2.loadFromFile("assets/textures/boss_bullet_2.png");
 		boss.setPosition(mode.width / 2.0f, 0.0f);
 		boss.setOrigin(boss.getRadius(), boss.getRadius());
 	}
@@ -37,6 +35,4 @@ private:
 	bool goRight;
 	sf::Time timeBank;
 	float fireRate;
-	sf::Texture bul1;
-	sf::Texture bul2;
 };
