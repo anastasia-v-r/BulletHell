@@ -1,10 +1,15 @@
 #include "MenuState.hpp"
 #include "Entities/Button.hpp"
 #include "Globals.hpp"
+#include "ResourceManager.hpp"
 
 MenuState::MenuState(std::queue<std::pair<StateChange, StateID>>& pendingChanges)
 	: State(StateID::MENU, pendingChanges)
-	, button(sf::Vector2f(100.0f, 100.0f)) {
+	, background(sf::Vector2f({GlobalData::TRUE_WIDTH, GlobalData::TRUE_HEIGHT})) {
+	ResourceManager::instance().loadState({
+		{"Background", "assets/mainMenu/menuBackground.png"}
+	});
+	background.setTexture(&ResourceManager::instance().getTexture("Background"));
 	buttons.insert({ "Play", Button("Play!", sf::Vector2f(100.0f, 75.0f), {GlobalData::TRUE_WIDTH / 2, GlobalData::TRUE_HEIGHT / 5 * 2}, sf::Color::Red) });
 	buttons.insert({ "Settings", Button("Settings", sf::Vector2f(100.0f, 75.0f), {GlobalData::TRUE_WIDTH / 2, GlobalData::TRUE_HEIGHT / 5 * 3}, sf::Color::Blue) });
 	buttons.insert({ "Exit", Button("Exit", sf::Vector2f(100.0f, 75.0f), {GlobalData::TRUE_WIDTH / 2, GlobalData::TRUE_HEIGHT / 5 * 4}, sf::Color::Green) });
@@ -41,6 +46,7 @@ void MenuState::update(sf::Time elapsedTime, bool& close) {
 
 void MenuState::draw(sf::RenderWindow& window) {
 	window.clear();
+	window.draw(background);
 	for (const auto& button : buttons) {
 		window.draw(button.second);
 	}

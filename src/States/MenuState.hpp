@@ -13,6 +13,6 @@ public:
 	void draw(sf::RenderWindow& /* window */) override;
 private:
 	std::map<std::string, Button> buttons;
-	sf::RectangleShape button;
+	sf::RectangleShape background;
 	sf::Text text;
 };
