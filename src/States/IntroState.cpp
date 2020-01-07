@@ -15,12 +15,12 @@ IntroState::IntroState(std::queue<std::pair<StateChange, StateID>>& pendingChang
 	splashQueue.push(Splash(ResourceManager::instance().getTexture("GameSplash")));
 }
 
-void IntroState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf::View& view) {
+void IntroState::input(sf::Event evnt, sf::RenderWindow& window, sf::View& view) {
 	switch (evnt.type)
 	{
 	case sf::Event::KeyPressed:
 		if (evnt.key.code == sf::Keyboard::Escape) {
-			close = true;
+			pendingChanges.push({ StateChange::WIPE, StateID::INTRO });
 		} else if (evnt.key.code == sf::Keyboard::Enter) {
 			splashQueue.pop();
 		}
@@ -30,7 +30,7 @@ void IntroState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf
 	}
 }
 
-void IntroState::update(sf::Time elapsedTime, bool& close) {
+void IntroState::update(sf::Time elapsedTime) {
 	if (splashQueue.size() != 0) {
 		if (!splashQueue.front().fade(elapsedTime)) {
 			splashQueue.pop();

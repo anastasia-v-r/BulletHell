@@ -11,16 +11,17 @@ enum struct StateID
 
 enum struct StateChange {
 	ADD,
-	REMOVE
+	REMOVE,
+	WIPE
 };
 
 class State
 {
 public:
-	State(StateID, std::queue<std::pair<StateChange, StateID>>& /* pendingChanges */);
-	virtual void input(sf::Event /* events */, bool& /* close */, sf::RenderWindow& /* window */, sf::View& /* view */) = 0;
-	virtual void update(sf::Time /* elapsedTime */, bool& /* close */) = 0;
-	virtual void draw(sf::RenderWindow& /* window */) = 0;
+	State(StateID, std::queue<std::pair<StateChange, StateID>>& pendingChanges);
+	virtual void input(sf::Event events , sf::RenderWindow& window, sf::View& view) = 0;
+	virtual void update(sf::Time elapsedTime) = 0;
+	virtual void draw(sf::RenderWindow& window) = 0;
 	inline StateID getId() const { return m_id; };
 protected:
 	StateID m_id;

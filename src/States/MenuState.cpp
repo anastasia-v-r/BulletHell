@@ -15,7 +15,7 @@ MenuState::MenuState(std::queue<std::pair<StateChange, StateID>>& pendingChanges
 	buttons.insert({ "Exit", Button("Exit", sf::Vector2f(100.0f, 75.0f), {GlobalData::TRUE_WIDTH / 2, GlobalData::TRUE_HEIGHT / 5 * 4}, sf::Color::Green) });
 }
 
-void MenuState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf::View& view) {
+void MenuState::input(sf::Event evnt, sf::RenderWindow& window, sf::View& view) {
 	switch (evnt.type)
 	{
 	case sf::Event::KeyPressed:
@@ -33,14 +33,14 @@ void MenuState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf:
 		if (buttons.at("Play").contains(mousePosF)) {
 			pendingChanges.push({StateChange::ADD, StateID::GAME});
 		} else if (buttons.at("Exit").contains(mousePosF)) {
-			close = true;
+			pendingChanges.push({ StateChange::WIPE, StateID::INTRO });
 		}
 		}
 		break;
 	}
 }
 
-void MenuState::update(sf::Time elapsedTime, bool& close) {
+void MenuState::update(sf::Time elapsedTime) {
 
 }
 

@@ -41,7 +41,6 @@ int main() {
 	stateStack.push(std::make_unique<IntroState>(pendingStackChanges));
 
 	// Misc Vars
-	bool close = false; // TODO: in place of close allow pending changes to be able to nuke the program
 	sf::Event evnt;
 
 	// Run While the window is open
@@ -51,20 +50,20 @@ int main() {
 			switch (evnt.type)
 			{
 			case sf::Event::Closed:
-				close = true;
+				pendingStackChanges.push({ StateChange::WIPE, StateID::INTRO });
 				break;
 			case sf::Event::Resized:
 				ResizeView(window, view);
 				window.setView(view);
 				break;
 			default:
-				stateStack.top()->input(evnt, close, window, view);
+				stateStack.top()->input(evnt, window, view);
 				break;
 			}
 		}
 
 		// Update Game
-		stateStack.top()->update(gameClock.getElapsedTime() - lastUpdate, close);
+		stateStack.top()->update(gameClock.getElapsedTime() - lastUpdate);
 		lastUpdate = gameClock.getElapsedTime();
 		
 		// Draw objects
@@ -75,10 +74,6 @@ int main() {
 		while (fps.front() < (gameClock.getElapsedTime() - (sf::seconds)(1)))
 			fps.pop();
 		window.setTitle(L"『弾幕』 FPS : " + (std::to_wstring(fps.size() / 1)));
-		if (close) {
-			window.close();
-			break;
-		}
 
 		// Process Stack Changes
 		while (!pendingStackChanges.empty()) {

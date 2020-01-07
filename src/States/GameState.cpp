@@ -27,7 +27,7 @@ GameState::GameState(std::queue<std::pair<StateChange, StateID>>& pendingChanges
 	hp = sf::Text("HP : ", ResourceManager::instance().getFont(), 30);
 }
 
-void GameState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf::View& view) {
+void GameState::input(sf::Event evnt, sf::RenderWindow& window, sf::View& view) {
 	switch (evnt.type)
 	{
 	case sf::Event::KeyPressed:
@@ -93,7 +93,7 @@ void GameState::input(sf::Event evnt, bool& close, sf::RenderWindow& window, sf:
 	}
 }
 
-void GameState::update(sf::Time elapsedTime, bool& close) {
+void GameState::update(sf::Time elapsedTime) {
 	if (timeModifier != 0.0f)
 		elapsedTime /= timeModifier;
 	else
