@@ -15,5 +15,4 @@ public:
 private:
 	std::map<std::string, Button> buttons;
 	sf::RectangleShape background;
-	sf::Text text;
 };
