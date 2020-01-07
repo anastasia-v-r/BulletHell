@@ -10,9 +10,10 @@ MenuState::MenuState(std::queue<std::pair<StateChange, StateID>>& pendingChanges
 		{"Background", "assets/mainMenu/menuBackground.png"}
 	});
 	background.setTexture(&ResourceManager::instance().getTexture("Background"));
-	buttons.insert({ "Play", Button("Play!", sf::Vector2f(100.0f, 75.0f), {GlobalData::TRUE_WIDTH / 2, GlobalData::TRUE_HEIGHT / 5 * 2}, sf::Color::Red) });
-	buttons.insert({ "Settings", Button("Settings", sf::Vector2f(100.0f, 75.0f), {GlobalData::TRUE_WIDTH / 2, GlobalData::TRUE_HEIGHT / 5 * 3}, sf::Color::Blue) });
-	buttons.insert({ "Exit", Button("Exit", sf::Vector2f(100.0f, 75.0f), {GlobalData::TRUE_WIDTH / 2, GlobalData::TRUE_HEIGHT / 5 * 4}, sf::Color::Green) });
+	buttons.insert({ "Play", Button("Play!", sf::Vector2f(100.0f, 75.0f), {GlobalData::TRUE_WIDTH / 2, GlobalData::TRUE_HEIGHT / 6 * 2}, sf::Color::Red) });
+	buttons.insert({ "Settings", Button("Settings", sf::Vector2f(100.0f, 75.0f), {GlobalData::TRUE_WIDTH / 2, GlobalData::TRUE_HEIGHT / 6 * 3}, sf::Color::Blue) });
+	buttons.insert({ "Profile", Button("Profile", sf::Vector2f(100.0f, 75.0f), {GlobalData::TRUE_WIDTH / 2, GlobalData::TRUE_HEIGHT / 6 * 4}, sf::Color::Yellow) });
+	buttons.insert({ "Exit", Button("Exit", sf::Vector2f(100.0f, 75.0f), {GlobalData::TRUE_WIDTH / 2, GlobalData::TRUE_HEIGHT / 6 * 5}, sf::Color::Green) });
 }
 
 void MenuState::input(sf::Event evnt, sf::RenderWindow& window, sf::View& view) {
@@ -34,6 +35,8 @@ void MenuState::input(sf::Event evnt, sf::RenderWindow& window, sf::View& view) 
 			pendingChanges.push({ StateChange::ADD, StateID::GAME });
 		} else if (buttons.at("Settings").contains(mousePosF)) {
 			pendingChanges.push({ StateChange::ADD, StateID::SETTING });
+		} else if (buttons.at("Profile").contains(mousePosF)) {
+			pendingChanges.push({ StateChange::ADD, StateID::PROFILE });
 		} else if (buttons.at("Exit").contains(mousePosF)) {
 			pendingChanges.push({ StateChange::WIPE, StateID::INTRO });
 		}

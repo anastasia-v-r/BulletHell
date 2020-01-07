@@ -7,6 +7,7 @@ enum struct StateID
 	INTRO,
 	MENU,
 	SETTING,
+	PROFILE,
 	GAME
 };
 

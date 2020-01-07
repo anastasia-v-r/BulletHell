@@ -6,6 +6,7 @@
 #include "States/IntroState.hpp"
 #include "States/MenuState.hpp"
 #include "States/SettingState.hpp"
+#include "States/ProfileState.hpp"
 #include "States/GameState.hpp"
 #include <stack>
 #include <vector>
@@ -91,6 +92,9 @@ int main() {
 					break;
 				case StateID::SETTING:
 					stateStack.push(std::make_unique<SettingState>(pendingStackChanges));
+					break;
+				case StateID::PROFILE:
+					stateStack.push(std::make_unique<ProfileState>(pendingStackChanges));
 					break;
 				case StateID::GAME:
 					stateStack.push(std::make_unique<GameState>(pendingStackChanges));
