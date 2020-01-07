@@ -31,7 +31,9 @@ void MenuState::input(sf::Event evnt, sf::RenderWindow& window, sf::View& view) 
 	case sf::Event::MouseButtonPressed: {
 		sf::Vector2f mousePosF = window.mapPixelToCoords(sf::Mouse::getPosition(window), view);
 		if (buttons.at("Play").contains(mousePosF)) {
-			pendingChanges.push({StateChange::ADD, StateID::GAME});
+			pendingChanges.push({ StateChange::ADD, StateID::GAME });
+		} else if (buttons.at("Settings").contains(mousePosF)) {
+			pendingChanges.push({ StateChange::ADD, StateID::SETTING });
 		} else if (buttons.at("Exit").contains(mousePosF)) {
 			pendingChanges.push({ StateChange::WIPE, StateID::INTRO });
 		}

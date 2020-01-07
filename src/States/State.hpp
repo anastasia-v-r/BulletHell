@@ -6,6 +6,7 @@ enum struct StateID
 {
 	INTRO,
 	MENU,
+	SETTING,
 	GAME
 };
 

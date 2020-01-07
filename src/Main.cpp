@@ -5,6 +5,7 @@
 #include "ResourceManager.hpp"
 #include "States/IntroState.hpp"
 #include "States/MenuState.hpp"
+#include "States/SettingState.hpp"
 #include "States/GameState.hpp"
 #include <stack>
 #include <vector>
@@ -88,6 +89,9 @@ int main() {
 				case StateID::MENU:
 					stateStack.push(std::make_unique<MenuState>(pendingStackChanges));
 					break;
+				case StateID::SETTING:
+					stateStack.push(std::make_unique<SettingState>(pendingStackChanges));
+					break;
 				case StateID::GAME:
 					stateStack.push(std::make_unique<GameState>(pendingStackChanges));
 					break;
@@ -99,11 +103,13 @@ int main() {
 				while (stateStack.top()->getId() != pendingStackChanges.front().second) {
 					stateStack.pop();
 				}
+				break;
 			case StateChange::WIPE:
 				while (!stateStack.empty()) {
 					stateStack.pop();
 				}
 				window.close();
+				break;
 			}
 			pendingStackChanges.pop();
 		}
