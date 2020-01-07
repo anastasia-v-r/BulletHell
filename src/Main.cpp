@@ -16,7 +16,7 @@
 // Function Declarations *
 //************************
 
-void ResizeView(const sf::RenderWindow& /* window */, sf::View& /* view */);
+void ResizeView(const sf::RenderWindow& window, sf::View& view);
 
 int main() {
 	// Create Render Window
