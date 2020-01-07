@@ -104,10 +104,16 @@ int main() {
 				while (stateStack.top()->getId() != pendingStackChanges.front().second) {
 					stateStack.pop();
 				}
+			case StateChange::WIPE:
+				while (!stateStack.empty()) {
+					stateStack.pop();
+				}
+				window.close();
 			}
 			pendingStackChanges.pop();
 		}
 	}
+	// Data Saving code
 }
 //***********************
 // Function Definitions *
