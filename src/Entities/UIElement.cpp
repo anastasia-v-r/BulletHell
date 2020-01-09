@@ -1,20 +1,17 @@
 #include "UIElement.hpp"
-#include <variant>
-#include "UIManager.hpp"
 
-UIElement::UIElement(UIManager* parent) {
-	this->parent = parent;
+UIElement::UIElement()
+	: parent{ nullptr } {
+
 }
 
-UIElement::UIElement(UIElement* parent) {
-	this->parent = parent;
+void UIElement::setParent(UIElement& parent) {
+	this->parent = &parent;
 }
 
-std::variant<UIElement*, UIManager*>& UIElement::getParent()
+UIElement& UIElement::getParent()
 {
-	return parent;
-}
-
-void UIElement::draw(sf::RenderTarget& window, sf::RenderStates states) const {
-
+	if (parent == nullptr)
+		throw std::logic_error("Cannot access a parent-less object");
+	return *parent;
 }
