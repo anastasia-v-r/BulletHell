@@ -1,9 +1,10 @@
 #pragma once
 #include "State.hpp"
-#include "Entities/Button.hpp"
 #include <SFML/Graphics.hpp>
 #include <map>
 #include <stack>
+#include "UIManager.hpp"
+#include "Entities/Button.hpp"
 
 class MenuState : public State
 {
@@ -13,6 +14,6 @@ public:
 	void update(sf::Time elapsedTime) override;
 	void draw(sf::RenderWindow& window) override;
 private:
-	std::map<std::string, Button> buttons;
 	sf::RectangleShape background;
+	UIManager m_UIMng;
 };
