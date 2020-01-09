@@ -13,6 +13,10 @@ void UIManager::removeElement(const std::string& id) {
 	m_Elements.erase(id);
 }
 
+UIElement& UIManager::getElement(const std::string& id) {
+	return *m_Elements.at(id);
+}
+
 void UIManager::draw(sf::RenderTarget& window, sf::RenderStates states) const {
 	for (const auto& element : m_Elements) {
 		window.draw(*element.second);
