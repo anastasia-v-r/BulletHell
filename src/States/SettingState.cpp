@@ -7,7 +7,10 @@
 SettingState::SettingState(std::queue<std::pair<StateChange, StateID>>& pendingChanges)
 	: State(StateID::SETTING, pendingChanges)
 	, background(sf::Vector2f({ GlobalData::TRUE_WIDTH, GlobalData::TRUE_HEIGHT })) {
-	buttons.insert({"Exit", Button("Exit", sf::Vector2f(100.0f, 75.0f), {GlobalData::TRUE_WIDTH / 2, GlobalData::TRUE_HEIGHT / 5 * 2}, sf::Color::Red) });
+	ResourceManager::instance().loadState({
+
+	});
+	m_UIMng.addElement({"Exit", new Button("Exit", sf::Vector2f(100.0f, 75.0f), {GlobalData::TRUE_WIDTH / 2, GlobalData::TRUE_HEIGHT / 5 * 2}, sf::Color::Red) });
 }
 
 void SettingState::input(sf::Event evnt, sf::RenderWindow& window, sf::View& view) {
@@ -25,7 +28,7 @@ void SettingState::input(sf::Event evnt, sf::RenderWindow& window, sf::View& vie
 		break;
 	case sf::Event::MouseButtonPressed: {
 		sf::Vector2f mousePosF = window.mapPixelToCoords(sf::Mouse::getPosition(window), view);
-		if (buttons.at("Exit").contains(mousePosF)) {
+		if (m_UIMng.getElement("Exit").contains(mousePosF)) {
 			pendingChanges.push({ StateChange::REMOVE, StateID::MENU });
 		}
 		}
@@ -40,8 +43,6 @@ void SettingState::update(sf::Time elapsedTime) {
 void SettingState::draw(sf::RenderWindow& window) {
 	window.clear();
 	window.draw(background);
-	for (const auto& button : buttons) {
-		window.draw(button.second);
-	}
+	window.draw(m_UIMng);
 	window.display();
 }

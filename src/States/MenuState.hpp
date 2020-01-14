@@ -15,5 +15,4 @@ public:
 	void draw(sf::RenderWindow& window) override;
 private:
 	sf::RectangleShape background;
-	UIManager m_UIMng;
 };

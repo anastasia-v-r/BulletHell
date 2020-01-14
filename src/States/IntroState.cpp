@@ -11,7 +11,7 @@ IntroState::IntroState(std::queue<std::pair<StateChange, StateID>>& pendingChang
 		{"GameSplash", "assets/splashScreen/BulletHellSplash.png"}, 
 		{"StudioSplash", "assets/splashScreen/ValorianSplash.png"} 
 	});
-	splashQueue.push(Splash(ResourceManager::instance().getTexture("StudioSplash")));
+	splashQueue.push(Splash(ResourceManager::instance().getTexture("StudioSplash"))); // Move to UIManager
 	splashQueue.push(Splash(ResourceManager::instance().getTexture("GameSplash")));
 }
 
@@ -42,6 +42,7 @@ void IntroState::update(sf::Time elapsedTime) {
 
 void IntroState::draw(sf::RenderWindow& window) {
 	window.clear();
+	window.draw(m_UIMng);
 	if (!splashQueue.empty())
 		window.draw(splashQueue.front());
 	window.display();

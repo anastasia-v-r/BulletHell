@@ -107,10 +107,12 @@ int main() {
 				while (stateStack.top()->getId() != pendingStackChanges.front().second) {
 					stateStack.pop();
 				}
+				ResourceManager::instance().unloadState();
 				break;
 			case StateChange::WIPE:
 				while (!stateStack.empty()) {
 					stateStack.pop();
+					ResourceManager::instance().unloadState();
 				}
 				window.close();
 				break;

@@ -151,5 +151,6 @@ void GameState::draw(sf::RenderWindow& window) {
 		for (const auto& bullet : enemyBullets) {
 			window.draw(bullet);
 		}
+	window.draw(m_UIMng);
 	window.display();
 }

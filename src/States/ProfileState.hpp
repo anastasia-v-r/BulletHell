@@ -13,6 +13,5 @@ public:
 	void update(sf::Time elapsedTime) override;
 	void draw(sf::RenderWindow& window) override;
 private:
-	std::map<std::string, Button> buttons;
 	sf::RectangleShape background;
 };

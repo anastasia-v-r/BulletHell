@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <queue>
+#include "UIManager.hpp"
 
 enum struct StateID
 {
@@ -28,4 +29,5 @@ public:
 protected:
 	StateID m_id;
 	std::queue<std::pair<StateChange, StateID>>& pendingChanges;
+	UIManager m_UIMng;
 };

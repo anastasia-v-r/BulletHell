@@ -9,7 +9,7 @@ MenuState::MenuState(std::queue<std::pair<StateChange, StateID>>& pendingChanges
 	ResourceManager::instance().loadState({
 		{"Background", "assets/mainMenu/menuBackground.png"}
 	});
-	background.setTexture(&ResourceManager::instance().getTexture("Background"));
+	background.setTexture(&ResourceManager::instance().getTexture("Background")); // TODO : Move to UIElement subcontainer
 	m_UIMng.addElement({ "Play", new Button("Play!", sf::Vector2f(100.0f, 75.0f), {GlobalData::TRUE_WIDTH / 2, GlobalData::TRUE_HEIGHT / 6 * 2}, sf::Color::Red) });
 	m_UIMng.addElement({ "Settings", new Button("Settings", sf::Vector2f(100.0f, 75.0f), {GlobalData::TRUE_WIDTH / 2, GlobalData::TRUE_HEIGHT / 6 * 3}, sf::Color::Blue) });
 	m_UIMng.addElement({ "Profile", new Button("Profile", sf::Vector2f(100.0f, 75.0f), {GlobalData::TRUE_WIDTH / 2, GlobalData::TRUE_HEIGHT / 6 * 4}, sf::Color::Yellow) });
